@@ -1,0 +1,145 @@
+# aws cloudformation create-stack --stack-name "database-stack" --template-body file://./cloudformation/database.template.yaml
+# aws cloudformation update-stack --stack-name "database-stack" --template-body file://./cloudformation/database.template.yaml
+
+Description: Database stack
+
+Parameters:
+  NetworkStackName:
+    Type: String
+    Default: "network-stack"
+
+  MasterUsername:
+    Type: String
+    Default: "workshop"
+
+  MasterUserPassword:
+    Type: String
+    Default: "workshop123"
+
+  DBName:
+    Type: String
+    Default: "workshopdb"
+  
+  DBPort:
+    Type: String
+    Default: "3306"  
+
+Resources:
+  DatabaseSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security Group for Database"
+      VpcId:
+        Fn::ImportValue:
+          !Sub "${NetworkStackName}-VPC"
+      Tags:
+        - Key: Name
+          Value: !Sub '${AWS::StackName}-DatabaseSecurityGroup'
+
+  DatabaseIngress:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: !Ref 'DatabaseSecurityGroup'
+      IpProtocol: 'tcp'
+      FromPort: !Ref 'DBPort' 
+      ToPort: !Ref 'DBPort'
+      CidrIp: '0.0.0.0/0'
+
+
+  DatabaseSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet Group for RDS
+      SubnetIds:
+        - Fn::ImportValue:
+            !Sub "${NetworkStackName}-PrivateSubnet0"
+        - Fn::ImportValue:
+            !Sub "${NetworkStackName}-PrivateSubnet1"
+        - Fn::ImportValue:
+            !Sub "${NetworkStackName}-PrivateSubnet2"
+
+  DatabaseCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      Engine: aurora-mysql
+      EngineMode: serverless
+      MasterUsername: !Ref "MasterUsername"
+      MasterUserPassword: !Ref "MasterUserPassword"
+      DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
+      DatabaseName: !Ref "DBName"
+      EnableHttpEndpoint: true
+      VpcSecurityGroupIds:
+        - !Ref "DatabaseSecurityGroup"
+      Port: !Ref "DBPort"
+
+  DBMasterUsernameSSM:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '${AWS::StackName}-DBMasterUsername'
+      Type: String
+      Value: !Ref "MasterUsername"
+      Description: SSM Parameter DBMasterUsername.
+      Tags:
+        Stack: !Ref AWS::StackName
+
+  DBMasterPasswordSSM:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '${AWS::StackName}-DBMasterPassword'
+      Type: String
+      Value: !Ref "MasterUserPassword"
+      Description: SSM Parameter DBMasterUsername.
+      Tags:
+        Stack: !Ref AWS::StackName
+
+  DBEndpointSSM:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '${AWS::StackName}-DBEndpoint'
+      Type: String
+      Value: !GetAtt DatabaseCluster.Endpoint.Address
+      Description: SSM Parameter DBEndpoint.
+      Tags:
+        Stack: !Ref AWS::StackName
+
+  DBPortSSM:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '${AWS::StackName}-DBPort'
+      Type: String
+      Value: !Ref "DBPort"
+      Description: SSM Parameter DBPort.
+      Tags:
+        Stack: !Ref AWS::StackName
+
+  JDBCURLSSM:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Sub '${AWS::StackName}-JDBCURL'
+      Type: String
+      Value: !Sub "jdbc:mysql://${DatabaseCluster.Endpoint.Address}:${DBPort}/${DBName}"
+      Description: SSM Parameter DBPort.
+      Tags:
+        Stack: !Ref AWS::StackName
+
+Outputs:
+  WorkshopRDS:
+    Description: WorkshopRDS
+    Value: !Ref DatabaseCluster
+
+  DbEndpoint:
+    Description: Database Address
+    Value: !GetAtt DatabaseCluster.Endpoint.Address
+  
+  DBPort:
+    Description: Database Port
+    Value: !Ref DBPort
+  
+  DBName:
+    Description: Database Name
+    Value: !Ref DBName
+
+  WorkshopRDSSecurityGroup:
+    Description:   WorkshopRDS Security Group
+    Value: !Ref DatabaseSecurityGroup
+
