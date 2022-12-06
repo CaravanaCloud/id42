@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'dart:html';
+import 'package:flutter/material.dart';
+import 'package:google_maps/google_maps.dart' hide Icon;
+import 'dart:ui' as ui;
 
 void main() {
   runApp(const MyApp());
@@ -61,8 +65,57 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget getMap() {
+    String htmlId = "7";
+
+    // ignore: undefined_prefixed_name
+    ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
+      final myLatlng = LatLng(1.3521, 103.8198);
+
+      final mapOptions = MapOptions()
+        ..zoomControlOptions = (ZoomControlOptions()..position = ControlPosition.LEFT_BOTTOM)
+        ..streetViewControlOptions = (StreetViewControlOptions()..position = ControlPosition.LEFT_BOTTOM)
+        ..zoom = 11
+        ..center = LatLng(41.385063, 2.173404);
+
+      final elem = DivElement()
+        ..id = htmlId
+        ..style.width = "100%"
+        ..style.height = "100%"
+        ..style.border = 'none';
+
+      final map = GMap(elem, mapOptions);
+
+      Marker(MarkerOptions()
+        ..position = myLatlng
+        ..map = map
+        ..title = 'Hello World!'
+      );
+
+      return elem;
+    });
+
+    return HtmlElementView(viewType: htmlId);
+  }
+
+  void noop(){}
+
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: getMap(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => noop(),
+          tooltip: 'Increment Counter',
+          child: const Icon(Icons.add),
+        )
+        )
+      );
+  }
+
+
+  Widget build_old(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
