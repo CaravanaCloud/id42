@@ -48,7 +48,7 @@ public class Id42CdkStack extends Stack {
                 .build();
 
         var webappOrigin = S3Origin.Builder.create(bucket)
-            .build();
+                .build();
         var defaultBehavior = BehaviorOptions.builder()
                 .origin(webappOrigin)
             .build();
@@ -56,6 +56,7 @@ public class Id42CdkStack extends Stack {
             .defaultBehavior(defaultBehavior)
                 .certificate(certificate)
                 .domainNames(domainNames)
+                .defaultRootObject("index.html")
             .build();
     
     }
