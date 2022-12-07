@@ -70,18 +70,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return FlutterMap(
       options: MapOptions(
         center: LatLng(41.3874, 2.1686),
-        zoom: 9.2,
+        zoom: 12,
       ),
       nonRotatedChildren: [
         AttributionWidget.defaultWidget(
-          source: 'OpenStreetMap contributors',
+          source: "OpenStreetMap contributors",
           onSourceTapped: null,
         ),
       ],
       children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.app',
+          userAgentPackageName: 'id42.cc',
         ),
       ],
     );
