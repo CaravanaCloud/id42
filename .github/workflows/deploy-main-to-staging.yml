@@ -17,6 +17,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.3.9'
+          channel: 'stable'
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -24,3 +29,6 @@ jobs:
         run: cdk deploy --context envName=staging
         working-directory: id42_cdk
 
+      - name: Build Flutter webapp
+        run: flutter build web --release
+        working-directory: id42_app
