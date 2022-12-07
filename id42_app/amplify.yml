@@ -1,0 +1,14 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        build:
+          commands: 
+            - flutter build web --release
+      artifacts:
+        baseDirectory: build/web/
+        files:
+          - '**/*'
+      cache:
+        paths: []
+    appRoot: id42_app
