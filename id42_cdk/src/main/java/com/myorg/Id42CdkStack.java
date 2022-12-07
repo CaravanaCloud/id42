@@ -4,6 +4,7 @@ import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.Distribution;
 import software.amazon.awscdk.services.cloudfront.origins.S3Origin;
+import software.amazon.awscdk.services.iam.PolicyStatement;
 import software.amazon.awscdk.services.s3.Bucket;
 import software.constructs.Construct;
 import software.amazon.awscdk.Stack;
@@ -28,6 +29,14 @@ public class Id42CdkStack extends Stack {
 
         var bucket = Bucket.Builder.create(this, "WebAppBucket")
             .build();
+
+        var allowPublic = PolicyStatement.Builder.create()
+                .actions(List.of("s3:GetObject"))
+                .resources(List.of(bucket.getBucketArn() + "/*"))
+                .build();
+
+        bucket.addToResourcePolicy(allowPublic);
+
         var webappOrigin = S3Origin.Builder.create(bucket)
             .build();
         var defaultBehavior = BehaviorOptions.builder()

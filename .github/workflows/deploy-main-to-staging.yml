@@ -28,10 +28,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Build Flutter webapp
+        run: flutter build web --release
+        working-directory: id42_app
+
       - name: Deploy CDK infrastructure
         run: cdk deploy --context envName=staging
         working-directory: id42_cdk
 
-      - name: Build Flutter webapp
+
+
+      - name: Upload to S3
         run: flutter build web --release
         working-directory: id42_app
+
