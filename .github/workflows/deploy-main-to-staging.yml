@@ -28,6 +28,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: pwd
+        run: pwd
+      - name: find
+        run: find .
+
       - name: Deploy CDK infrastructure
         run: cdk deploy --context envName=staging
         working-directory: id42_cdk
