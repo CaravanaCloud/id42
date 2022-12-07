@@ -9,5 +9,18 @@ jobs:
   all-steps:
     runs-on: ubuntu-latest
     steps:
-      - name: Say it
-        run: echo "Hello World"
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          #TODO: Replace with IAM Role https://github.com/aws-actions/configure-aws-credentials
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy CDK infrastructure
+        run: cdk deploy --context envName=staging
+        working-directory: id42_cdk
+
