@@ -17,6 +17,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
 
+      - name: Install CDK and Gatsby
+        run: npm install -g aws-cdk
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.3.9'
