@@ -1,0 +1,25 @@
+image:
+  file: .gitpod.Dockerfile
+tasks:
+  - name: say hello
+    command: echo hello
+    
+ports:
+  - port: 5900
+    onOpen: ignore
+    # vnc
+  - port: 6080
+    onOpen: open-preview
+    # flutter
+  - port: 8080
+    onOpen: ignore
+  - port: 5037
+    onOpen: ignore
+  - port: 9100-9101
+    onOpen: ignore
+  - port: 40000-50000
+    onOpen: ignore
+
+vscode:
+  extensions:
+    - dart-code.flutter
