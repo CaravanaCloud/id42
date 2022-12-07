@@ -42,6 +42,7 @@ public class Id42CdkStack extends Stack {
         var deployApp = BucketDeployment.Builder.create(this, "WebAppDeployment")
                 .sources(webappSources)
                 .destinationBucket(bucket)
+                .prune(true)
                 .build();
 
         var webappOrigin = S3Origin.Builder.create(bucket)
