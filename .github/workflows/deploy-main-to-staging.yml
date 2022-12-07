@@ -1,0 +1,13 @@
+name: deploy-main-to-staging
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  all-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say it
+        run: echo "Hello World"
