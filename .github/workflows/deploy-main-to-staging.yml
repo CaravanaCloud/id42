@@ -33,7 +33,7 @@ jobs:
         working-directory: id42_app
 
       - name: Deploy CDK infrastructure
-        run: cdk deploy --context envName=staging
+        run: cdk deploy --context envName=staging --require-approval=never
         working-directory: id42_cdk
 
 
