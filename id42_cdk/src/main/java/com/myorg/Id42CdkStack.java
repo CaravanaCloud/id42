@@ -1,11 +1,14 @@
 package com.myorg;
 
+import software.amazon.awscdk.services.apigateway.Deployment;
 import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.Distribution;
 import software.amazon.awscdk.services.cloudfront.origins.S3Origin;
 import software.amazon.awscdk.services.iam.PolicyStatement;
 import software.amazon.awscdk.services.s3.Bucket;
+import software.amazon.awscdk.services.s3.deployment.BucketDeployment;
+import software.amazon.awscdk.services.s3.deployment.Source;
 import software.constructs.Construct;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
@@ -26,7 +29,6 @@ public class Id42CdkStack extends Stack {
         var domainNames = List.of("*.id42.cc","id42.cc");
         var certificate = Certificate.fromCertificateArn(this, "WebAppCertificate", DEFAULT_CERTIFICANTE_ARN);
 
-
         var bucket = Bucket.Builder.create(this, "WebAppBucket")
             .build();
 
@@ -34,15 +36,19 @@ public class Id42CdkStack extends Stack {
                 .actions(List.of("s3:GetObject"))
                 .resources(List.of(bucket.getBucketArn() + "/*"))
                 .build();
-
         bucket.addToResourcePolicy(allowPublic);
+
+        var webappSources = List.of(Source.asset("../id42_app/build/web"));
+        var deployApp = BucketDeployment.Builder.create(this, "WebAppDeployment")
+                .sources(webappSources)
+                .destinationBucket(bucket)
+                .build();
 
         var webappOrigin = S3Origin.Builder.create(bucket)
             .build();
         var defaultBehavior = BehaviorOptions.builder()
                 .origin(webappOrigin)
             .build();
-
         var distro = Distribution.Builder.create(this, "WebAppDistro")
             .defaultBehavior(defaultBehavior)
                 .certificate(certificate)
