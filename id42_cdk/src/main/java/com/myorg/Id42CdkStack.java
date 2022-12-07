@@ -5,6 +5,7 @@ import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.Distribution;
 import software.amazon.awscdk.services.cloudfront.origins.S3Origin;
+import software.amazon.awscdk.services.iam.AnyPrincipal;
 import software.amazon.awscdk.services.iam.PolicyStatement;
 import software.amazon.awscdk.services.s3.Bucket;
 import software.amazon.awscdk.services.s3.deployment.BucketDeployment;
@@ -35,6 +36,7 @@ public class Id42CdkStack extends Stack {
         var allowPublic = PolicyStatement.Builder.create()
                 .actions(List.of("s3:GetObject"))
                 .resources(List.of(bucket.getBucketArn() + "/*"))
+                .principals(List.of(new AnyPrincipal()))
                 .build();
         bucket.addToResourcePolicy(allowPublic);
 
