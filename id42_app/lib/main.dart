@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 
@@ -87,7 +88,25 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void noop(){}
+  //TODO: Avoid hard-coding client id
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: '183177550623-csndf21r6gf7ttbfjpmv4o47dnvn819g.apps.googleusercontent.com',
+    scopes: [
+      'email'
+    ],
+  );
+
+  void noop(){
+    _handleSignIn();
+  }
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
