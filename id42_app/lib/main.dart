@@ -4,8 +4,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
-
 void main() {
   runApp(const MyApp());
 }
@@ -115,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: getMap(),
         floatingActionButton: FloatingActionButton(
           onPressed: () => noop(),
-          tooltip: 'Increment Counter',
+          tooltip: 'Criar Entrega',
           child: const Icon(Icons.add),
         )
         )
