@@ -113,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: getMap(),
         floatingActionButton: FloatingActionButton(
           onPressed: () => noop(),
-          tooltip: 'Criar Entrega',
+          tooltip: 'Request delivery',
           child: const Icon(Icons.add),
         )
         )
