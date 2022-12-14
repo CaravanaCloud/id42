@@ -9,8 +9,10 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 @Entity
 public class DeliveryItem extends PanacheEntity {
+    /*
     @ManyToOne
     Product product;
 
     Fragility fragility;
+ */
 }
