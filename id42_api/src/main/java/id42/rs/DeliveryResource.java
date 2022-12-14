@@ -20,13 +20,13 @@ import io.quarkus.runtime.StartupEvent;
 
 @Path("/deliveries")
 public class DeliveryResource {
-    @Inject
-    EntityManager em;
 
     @Transactional
     public void onStart(@Observes StartupEvent ev){
-        em.persist(Delivery.of("Teste live1!",LocalDateTime.now()));
-        em.persist(Delivery.of("Teste live2!",LocalDateTime.now()));
+        Delivery.of("Teste live1!",LocalDateTime.now()).persist();
+        Delivery.of("Teste live2!",LocalDateTime.now()).persist();
+        Delivery.of("Teste live3!",LocalDateTime.now()).persist();
+
     }
 
     //TODO: request new delivery
@@ -35,9 +35,7 @@ public class DeliveryResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Delivery> getDeliveries(){
-        var result = em.createQuery("select d from Delivery d", 
-        Delivery.class).getResultList();
-        return result;
+        return Delivery.listAll();
     }
 
     @POST
