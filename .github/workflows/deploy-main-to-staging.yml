@@ -32,6 +32,10 @@ jobs:
         run: flutter build web --release
         working-directory: id42_app
 
+      - name: Build API package
+        run: mvn clean verify
+        working-directory: id42_api
+
       - name: Deploy CDK infrastructure
         run: cdk deploy --context envName=staging --require-approval=never
         working-directory: id42_cdk

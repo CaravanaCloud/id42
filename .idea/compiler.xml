@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="id42-api" />
+        <module name="id42_cdk" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="id42-api" target="11" />
+      <module name="id42_cdk" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

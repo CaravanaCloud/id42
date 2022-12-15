@@ -73,11 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void noop()  {
-    // _handleSignIn();
-    // _navigateToDeliveryRequest();
-    print("Fetching delivery");
-    final futureDelivery = fetchDelivery();
-    futureDelivery.then((delivery) => print(delivery.toString()));
+     _handleSignIn();
+     // _navigateToDeliveryRequest();
+    //print("Fetching delivery");
+    //final futureDelivery = fetchDelivery();
+    //futureDelivery.then((delivery) => print(delivery.toString()));
   }
 
 

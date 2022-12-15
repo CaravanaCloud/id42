@@ -4,6 +4,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/id42_api/pom.xml" />
+        <option value="$PROJECT_DIR$/id42_cdk/pom.xml" />
       </list>
     </option>
   </component>
