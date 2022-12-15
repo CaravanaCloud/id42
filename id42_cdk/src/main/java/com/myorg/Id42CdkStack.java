@@ -1,17 +1,16 @@
 package com.myorg;
 
 import software.amazon.awscdk.CfnOutput;
+import software.amazon.awscdk.SecretValue;
 import software.amazon.awscdk.services.apigateway.Deployment;
 import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.Distribution;
 import software.amazon.awscdk.services.cloudfront.origins.S3Origin;
-import software.amazon.awscdk.services.ec2.DefaultInstanceTenancy;
-import software.amazon.awscdk.services.ec2.SubnetConfiguration;
-import software.amazon.awscdk.services.ec2.SubnetType;
-import software.amazon.awscdk.services.ec2.Vpc;
+import software.amazon.awscdk.services.ec2.*;
 import software.amazon.awscdk.services.iam.AnyPrincipal;
 import software.amazon.awscdk.services.iam.PolicyStatement;
+import software.amazon.awscdk.services.rds.*;
 import software.amazon.awscdk.services.s3.Bucket;
 import software.amazon.awscdk.services.s3.deployment.BucketDeployment;
 import software.amazon.awscdk.services.s3.deployment.Source;
@@ -48,6 +47,54 @@ public class Id42CdkStack extends Stack {
                 .defaultInstanceTenancy(DefaultInstanceTenancy.DEFAULT)
                 .enableDnsHostnames(true)
                 .enableDnsSupport(true)
+                .build();
+
+        var webSG = SecurityGroup.Builder.create(this, "id42-web-sg")
+                .vpc(vpc)
+                .allowAllOutbound(true)
+                .build();
+
+        //TODO: Restrict this traffic to the correct port
+        webSG.addIngressRule(Peer.anyIpv4(), Port.allTcp(), "Allow HTTP from the world");
+
+        var privateNets = SubnetSelection
+                .builder()
+                .subnets(vpc.getPrivateSubnets())
+                .build();
+
+        var subnetGroup = SubnetGroup.Builder.create(this, "id42-subnet-group")
+                .vpc(vpc)
+                .description("Subnet group for id42")
+                .vpcSubnets(privateNets)
+                .build();
+
+        var mysql8 = DatabaseInstanceEngine.mysql(
+                MySqlInstanceEngineProps.builder()
+                        .version(MysqlEngineVersion.VER_8_0)
+                        .build()
+        );
+
+        var dbSG = SecurityGroup.Builder.create(this, "id42-db-sg")
+                .vpc(vpc)
+                .allowAllOutbound(true)
+                .build();
+
+        dbSG.addIngressRule(Peer.anyIpv4(), Port.tcp(3306), "Allow MySQL IN");
+
+        //TODO: Use parameter store
+        var creds = Credentials
+                .fromPassword("admin", SecretValue.unsafePlainText("Masterkey123"));
+
+        var db = DatabaseInstance.Builder.create(this, "id42-db")
+                .vpc(vpc)
+                .subnetGroup(subnetGroup)
+                .securityGroups(List.of(dbSG))
+                .engine(mysql8)
+                .instanceType(InstanceType.of(InstanceClass.BURSTABLE3, InstanceSize.MICRO))
+                .credentials(creds)
+                .multiAz(true)
+                .databaseName("id42db")
+                .publiclyAccessible(false)
                 .build();
 
         var outVpcId = CfnOutput.Builder.create(this, "pbnk-out-vpcId")
