@@ -40,10 +40,12 @@ public class Id42CdkStack extends Stack {
                 .subnetType(SubnetType.PRIVATE_ISOLATED)
                 .build();
 
+        var addr = IpAddresses.cidr("10.0.0.0/16");
+
         var vpc = Vpc.Builder.create(this, "id42-vpc")
                 .maxAzs(3)
                 .subnetConfiguration(List.of(subnets))
-                .cidr("10.0.0.0/16")
+                .ipAddresses(addr)
                 .defaultInstanceTenancy(DefaultInstanceTenancy.DEFAULT)
                 .enableDnsHostnames(true)
                 .enableDnsSupport(true)
@@ -68,11 +70,6 @@ public class Id42CdkStack extends Stack {
                 .vpcSubnets(privateNets)
                 .build();
 
-        var mysql8 = DatabaseInstanceEngine.mysql(
-                MySqlInstanceEngineProps.builder()
-                        .version(MysqlEngineVersion.VER_8_0)
-                        .build()
-        );
 
         var dbSG = SecurityGroup.Builder.create(this, "id42-db-sg")
                 .vpc(vpc)
@@ -85,17 +82,21 @@ public class Id42CdkStack extends Stack {
         var creds = Credentials
                 .fromPassword("admin", SecretValue.unsafePlainText("Masterkey123"));
 
-        var db = DatabaseInstance.Builder.create(this, "id42-db")
+        var auroraProps = AuroraMysqlClusterEngineProps
+                .builder()
+                .version(AuroraMysqlEngineVersion.VER_2_10_3)
+                .build();
+        var auroraEngine = DatabaseClusterEngine.auroraMysql(auroraProps);
+
+        var db = ServerlessCluster.Builder.create(this, "id42-db")
+                .engine(auroraEngine)
                 .vpc(vpc)
                 .subnetGroup(subnetGroup)
                 .securityGroups(List.of(dbSG))
-                .engine(mysql8)
-                .instanceType(InstanceType.of(InstanceClass.BURSTABLE3, InstanceSize.MICRO))
                 .credentials(creds)
-                .multiAz(true)
-                .databaseName("id42db")
-                .publiclyAccessible(false)
+                .enableDataApi(true)
                 .build();
+
 
         var outVpcId = CfnOutput.Builder.create(this, "pbnk-out-vpcId")
                 .value(vpc.getVpcId())
