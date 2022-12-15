@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.aayushatharva.brotli4j:brotli4j:1.8.0">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aayushatharva/brotli4j/brotli4j/1.8.0/brotli4j-1.8.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aayushatharva/brotli4j/brotli4j/1.8.0/brotli4j-1.8.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/aayushatharva/brotli4j/brotli4j/1.8.0/brotli4j-1.8.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

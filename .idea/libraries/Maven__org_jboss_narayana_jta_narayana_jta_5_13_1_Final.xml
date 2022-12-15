@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.jboss.narayana.jta:narayana-jta:5.13.1.Final">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/narayana/jta/narayana-jta/5.13.1.Final/narayana-jta-5.13.1.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/narayana/jta/narayana-jta/5.13.1.Final/narayana-jta-5.13.1.Final-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jboss/narayana/jta/narayana-jta/5.13.1.Final/narayana-jta-5.13.1.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
