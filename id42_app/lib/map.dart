@@ -121,9 +121,11 @@ class _MapUIState extends State<MapUI> {
     );
   }
 
-  static const API_KEY = String.fromEnvironment('API_URL');
+  static final ENV_URL = String.fromEnvironment('API_URL');
+  static final DEFAULT_API = 'http://localhost:8182';
+  static final API_URL = ENV_URL.isEmpty ? DEFAULT_API : ENV_URL;
 
   String apiUrl(String s) {
-    return "http://localhost:8182" + s;
+    return  API_URL + s;
   }
 }
