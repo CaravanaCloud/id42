@@ -40,7 +40,11 @@ dependencies:
   latlong2: ^0.8.1
   google_sign_in: ^5.4.2
   http: ^0.13.5
-  flutter_chat_ui: ^0.1.0
+  flutter_chat_ui: ^1.6.6
+  file_picker: ^5.2.4
+  image_picker: ^0.8.6
+  mime: ^1.0.3
+  open_filex: ^4.3.2
 
 dev_dependencies:
   flutter_test:
