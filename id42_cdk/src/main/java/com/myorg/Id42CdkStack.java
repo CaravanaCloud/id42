@@ -137,6 +137,9 @@ public class Id42CdkStack extends Stack {
                 .domainNames(domainNames)
                 .defaultRootObject("index.html")
             .build();
-    
+
+        var distroId = CfnOutput.Builder.create(this, "WebAppDistroId")
+                .value(distro.getDistributionId())
+                .build();
     }
 }

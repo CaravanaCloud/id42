@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0cad95de-6894-41c4-9e5a-6e0aa7cd926f" name="Changes" comment="Fixed CDK db subnet group and added database cluster">
-      <change afterPath="$PROJECT_DIR$/id42_app/build.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/id42_cdk/src/main/java/com/myorg/Id42CdkStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/id42_cdk/src/main/java/com/myorg/Id42CdkStack.java" afterDir="false" />
     </list>
@@ -77,7 +76,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671146071553</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fixed CDK db subnet group and added database cluster">
+      <created>1671224852288</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1671224852288</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
