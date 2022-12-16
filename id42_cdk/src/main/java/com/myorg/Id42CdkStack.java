@@ -49,6 +49,7 @@ public class Id42CdkStack extends Stack {
                 .defaultInstanceTenancy(DefaultInstanceTenancy.DEFAULT)
                 .enableDnsHostnames(true)
                 .enableDnsSupport(true)
+                .natGateways(0)
                 .build();
 
         var webSG = SecurityGroup.Builder.create(this, "id42-web-sg")
@@ -59,9 +60,12 @@ public class Id42CdkStack extends Stack {
         //TODO: Restrict this traffic to the correct port
         webSG.addIngressRule(Peer.anyIpv4(), Port.allTcp(), "Allow HTTP from the world");
 
+        var privateSubnets = vpc.getPrivateSubnets();
+
         var privateNets = SubnetSelection
                 .builder()
-                .subnets(vpc.getPrivateSubnets())
+                .subnetType(SubnetType.PRIVATE_ISOLATED)
+                .onePerAz(true)
                 .build();
 
         var subnetGroup = SubnetGroup.Builder.create(this, "id42-subnet-group")
