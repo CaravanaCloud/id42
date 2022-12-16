@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:id42_app/config.dart';
 import 'package:id42_app/dto/delivery.dart';
 import 'package:id42_app/request_delivery.dart';
 import 'package:latlong2/latlong.dart';
@@ -51,8 +52,8 @@ class _MapUIState extends State<MapUI> {
   }
 
   //TODO: Avoid hard-coding client id
-  GoogleSignIn _googleSignIn = GoogleSignIn(
-    clientId: '183177550623-csndf21r6gf7ttbfjpmv4o47dnvn819g.apps.googleusercontent.com',
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: googleClientId(),
     scopes: [
       'email'
     ],
@@ -67,9 +68,11 @@ class _MapUIState extends State<MapUI> {
 
   void noop()  {
     if (anonymous) {
+      print("opening sign in");
      _handleSignIn();
      anonymous = false;
     } else {
+      print("printing delivery");
       printDelivery();
     }
      // _navigateToDeliveryRequest();
@@ -83,7 +86,7 @@ class _MapUIState extends State<MapUI> {
 
 
   Future<Delivery> fetchDelivery() async {
-    final url = apiUrl('/api/deliveries/1');
+    final url = apiPath('/api/deliveries/1');
     final response = await http
         .get(Uri.parse(url));
     final statusCode = response.statusCode;
@@ -109,23 +112,7 @@ class _MapUIState extends State<MapUI> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            body: getMap(),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => noop(),
-              tooltip: 'Request delivery 20221612-121752',
-              child: const Icon(Icons.add),
-            )
-        )
-    );
+    return getMap();
   }
 
-  static final ENV_URL = String.fromEnvironment('API_URL');
-  static final DEFAULT_API = 'http://localhost:8182';
-  static final API_URL = ENV_URL.isEmpty ? DEFAULT_API : ENV_URL;
-
-  String apiUrl(String s) {
-    return  API_URL + s;
-  }
 }
