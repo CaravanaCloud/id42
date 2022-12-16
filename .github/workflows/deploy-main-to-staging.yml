@@ -33,7 +33,9 @@ jobs:
         working-directory: id42_app
 
       - name: Build API package
-        run: mvn clean verify
+        run: mvn -B clean verify
+        env:
+          MAVEN_OPTS:"-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
         working-directory: id42_api
 
       - name: Deploy CDK infrastructure
