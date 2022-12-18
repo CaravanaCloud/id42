@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/id42_api/id42-api.iml" filepath="$PROJECT_DIR$/id42_api/id42-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/id42_bot/id42_bot.iml" filepath="$PROJECT_DIR$/id42_bot/id42_bot.iml" />
       <module fileurl="file://$PROJECT_DIR$/id42_cdk/id42_cdk.iml" filepath="$PROJECT_DIR$/id42_cdk/id42_cdk.iml" />
     </modules>
   </component>
