@@ -50,18 +50,19 @@ public class BotApplicationStack extends Stack {
                 .build();
 
         var jarName ="id42_bot-1.0.0-SNAPSHOT-runner.jar";
-        var path = "../id42_bot/target/"+jarName;
+        var path = "../id42_bot/target";
         var jar = List.of(Source.asset(path));
 
         this.bucket = Bucket.Builder.create(this, "BotBucket")
                 .build();
 
-        var deployOnApp = BucketDeployment.Builder.create(this, "BotJarDeploymentOnApp")
+        if(StackConfig.deployToS3.getBoolean()) {
+            var deployOnApp = BucketDeployment.Builder.create(this, "BotAppDeploy")
                     .sources(jar)
                     .destinationBucket(bucket)
                     .prune(true)
                     .build();
-
+        }
     }
 
     public Bucket bucket() {

@@ -31,12 +31,13 @@ public class BotEnvironmentStack extends Stack {
         var bucket = botApp.bucket();
         var jarName ="id42_bot-1.0.0-SNAPSHOT-runner.jar";
 
-
-        var deployBot = BucketDeployment.Builder.create(this, "BotJarDeploymentOnEnv")
-                    .sources(jar)
-                    .destinationBucket(bucket)
-                    .prune(true)
-                    .build();
+        if(StackConfig.deployToS3.getBoolean()){
+            var deployBot = BucketDeployment.Builder.create(this, "BotEnvDeploy")
+                        .sources(jar)
+                        .destinationBucket(bucket)
+                        .prune(true)
+                        .build();
+        }
 
         var srcBundle = CfnApplicationVersion.SourceBundleProperty.builder()
                 .s3Bucket(botApp.bucket().getBucketName())
@@ -53,7 +54,7 @@ public class BotEnvironmentStack extends Stack {
         var instanceType = CfnEnvironment.OptionSettingProperty.builder()
                 .namespace("aws:autoscaling:launchconfiguration")
                 .optionName("InstanceType")
-                .value("t3.medium")
+                .value(StackConfig.instanceType.getString())
                 .build();
 
         var instanceProfileOpt = option(
@@ -100,11 +101,11 @@ public class BotEnvironmentStack extends Stack {
 
         var jdbcURL = option("aws:elasticbeanstalk:application:environment",
                 "BOT_USERNAME",
-                StackConfig.botUsername.getString());
+                StackConfig.bot_username.getString());
         //TODO: local env vars not being picked up, move to SMM parameter store anyway
         var botToken = option("aws:elasticbeanstalk:application:environment",
                 "BOT_TOKEN",
-                StackConfig.botToken.getString());
+                StackConfig.bot_token.getString());
 
 
         var opts = List.of(
