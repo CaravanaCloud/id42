@@ -14,8 +14,10 @@ public class DatabaseStack extends Stack {
         this(scope, id, null, null);
     }
 
-    public DatabaseStack(final Construct scope, final String id, final StackProps props,
-                         NetworkStack network) {
+    public DatabaseStack(final Construct scope,
+                         final String id,
+                         final StackProps props,
+                         final NetworkStack network) {
         super(scope, id, props);
         var vpc = network.vpc();
         var privateSubnets = network.privateSubnets();
