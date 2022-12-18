@@ -56,7 +56,7 @@ public class BotApplicationStack extends Stack {
         this.bucket = Bucket.Builder.create(this, "BotBucket")
                 .build();
 
-        var deployOnApp = BucketDeployment.Builder.create(this, "BotJarDeploymentOnEnv")
+        var deployOnApp = BucketDeployment.Builder.create(this, "BotJarDeploymentOnApp")
                     .sources(jar)
                     .destinationBucket(bucket)
                     .prune(true)
