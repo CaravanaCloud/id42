@@ -1,9 +1,6 @@
 package id42;
 
-import software.amazon.awscdk.CfnOutput;
-import software.amazon.awscdk.SecretValue;
-import software.amazon.awscdk.Stack;
-import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.ec2.Peer;
 import software.amazon.awscdk.services.ec2.Port;
 import software.amazon.awscdk.services.ec2.SecurityGroup;
@@ -47,6 +44,11 @@ public class DatabaseStack extends Stack {
                 .build();
         var auroraEngine = DatabaseClusterEngine.auroraMysql(auroraProps);
 
+        var scaling = ServerlessScalingOptions.builder()
+                .minCapacity(AuroraCapacityUnit.ACU_1)
+                .minCapacity(AuroraCapacityUnit.ACU_2)
+                .build();
+
         var db = ServerlessCluster.Builder.create(this, "id42-db")
                 .engine(auroraEngine)
                 .vpc(vpc)
@@ -54,13 +56,12 @@ public class DatabaseStack extends Stack {
                 .securityGroups(List.of(dbSG))
                 .credentials(creds)
                 .enableDataApi(true)
+                .scaling(scaling)
                 .build();
 
-
-        var outVpcId = CfnOutput.Builder.create(this, "pbnk-out-vpcId")
-                .value(vpc.getVpcId())
+        var outDbArn = CfnOutput.Builder.create(this, "id42-rds-cluster-arn")
+                .value(db.getClusterArn())
                 .build();
-
     }
 
 }

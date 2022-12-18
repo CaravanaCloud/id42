@@ -32,17 +32,5 @@ public class Id42Stack extends Stack {
                      final DatabaseStack database,
                      final APIStack api) {
         super(scope, id, props);
-        //TODO: Load from context https://docs.aws.amazon.com/cdk/v2/guide/context.html
-
-        // Rede
-        var vpc = network.vpc();
-        var privateNets = network.privateSubnets();
-
-
-        // Web
-
-        var distroId = CfnOutput.Builder.create(this, "WebAppDistroId")
-                .value(api.distribution().getDistributionId())
-                .build();
     }
 }
