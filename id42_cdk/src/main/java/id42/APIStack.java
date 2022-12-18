@@ -1,5 +1,6 @@
 package id42;
 
+import software.amazon.awscdk.CfnOutput;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.certificatemanager.Certificate;
@@ -59,6 +60,10 @@ public class APIStack extends Stack {
                 .certificate(certificate)
                 .domainNames(domainNames)
                 .defaultRootObject("index.html")
+                .build();
+
+        var distroId = CfnOutput.Builder.create(this, "WebAppDistroId")
+                .value(distribution().getDistributionId())
                 .build();
     }
 
