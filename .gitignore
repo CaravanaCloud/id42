@@ -24,4 +24,9 @@ hs_err_pid*
 
 .envrc
 
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 .idea/libraries
