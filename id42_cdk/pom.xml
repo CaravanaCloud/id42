@@ -32,7 +32,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>com.myorg.Id42CdkApp</mainClass>
+                    <mainClass>id42.Id42CdkApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
