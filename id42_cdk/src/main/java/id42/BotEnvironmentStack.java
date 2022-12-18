@@ -31,11 +31,12 @@ public class BotEnvironmentStack extends Stack {
         var bucket = botApp.bucket();
         var jarName ="id42_bot-1.0.0-SNAPSHOT-runner.jar";
 
+
         var deployBot = BucketDeployment.Builder.create(this, "BotJarDeploymentOnEnv")
-                .sources(jar)
-                .destinationBucket(bucket)
-                .prune(true)
-                .build();
+                    .sources(jar)
+                    .destinationBucket(bucket)
+                    .prune(true)
+                    .build();
 
         var srcBundle = CfnApplicationVersion.SourceBundleProperty.builder()
                 .s3Bucket(botApp.bucket().getBucketName())
@@ -100,8 +101,8 @@ public class BotEnvironmentStack extends Stack {
         var jdbcURL = option("aws:elasticbeanstalk:application:environment",
                 "BOT_USERNAME",
                 StackConfig.botUsername.getString());
-
-        var jdbcUsername = option("aws:elasticbeanstalk:application:environment",
+        //TODO: local env vars not being picked up, move to SMM parameter store anyway
+        var botToken = option("aws:elasticbeanstalk:application:environment",
                 "BOT_TOKEN",
                 StackConfig.botToken.getString());
 
@@ -113,22 +114,25 @@ public class BotEnvironmentStack extends Stack {
                 subnetsOpt,
                 publicIpsOpt,
                 jdbcURL,
-                jdbcUsername,
+                botToken,
                 webSGOpt,
                 lbType);
 
         var ebEnvName = "id42-eb-env-"+stamp;
-        var ebEnv = CfnEnvironment.Builder
-                .create(this, "pbnk-eb-env")
-                .applicationName(ebEnvName)
-                .applicationName(botApp.application().getApplicationName())
-                .versionLabel(appVersion.getRef())
-                .optionSettings(opts)
-                .solutionStackName("64bit Amazon Linux 2 v3.4.2 running Corretto 17")
-                .build();
 
-        ebEnv.addDependsOn(botApp.application());
-        ebEnv.addDependsOn(botApp.instanceProfile());
+
+            var ebEnv = CfnEnvironment.Builder
+                    .create(this, "id42-eb-env")
+                    .applicationName(ebEnvName)
+                    .applicationName(botApp.application().getApplicationName())
+                    .versionLabel(appVersion.getRef())
+                    .optionSettings(opts)
+                    .solutionStackName("64bit Amazon Linux 2 v3.4.2 running Corretto 17")
+                    .build();
+
+            ebEnv.addDependsOn(botApp.application());
+            ebEnv.addDependsOn(botApp.instanceProfile());
+
     }
 
     private CfnEnvironment.OptionSettingProperty option(String namespace,
