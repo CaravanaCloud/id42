@@ -41,5 +41,8 @@ jobs:
       - name: Deploy CDK infrastructure
         run: cdk deploy --context envName=staging --require-approval=never
         working-directory: id42_cdk
+        env:
+          ID42_BOT_TOKEN: ${{ secrets.ID42_BOT_TOKEN }}
+          ID42_BOT_USERNAME: ${{ secrets.ID42_BOT_USERNAME }}
 
 
