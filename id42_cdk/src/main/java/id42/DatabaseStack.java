@@ -38,7 +38,8 @@ public class DatabaseStack extends Stack {
 
         //TODO: Use parameter store
         var creds = Credentials
-                .fromPassword("admin", SecretValue.unsafePlainText("Masterkey123"));
+                .fromPassword(StackConfig.db_root_username.getString(),
+                        SecretValue.unsafePlainText(StackConfig.db_root_password.getString()));
 
         var auroraProps = AuroraMysqlClusterEngineProps
                 .builder()
@@ -54,6 +55,7 @@ public class DatabaseStack extends Stack {
         var db = ServerlessCluster.Builder.create(this, "id42-db")
                 .engine(auroraEngine)
                 .vpc(vpc)
+                .defaultDatabaseName(StackConfig.db_name.getString())
                 .subnetGroup(subnetGroup)
                 .securityGroups(List.of(dbSG))
                 .credentials(creds)

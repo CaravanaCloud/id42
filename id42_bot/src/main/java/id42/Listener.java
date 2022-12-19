@@ -1,5 +1,9 @@
 package id42;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import id42.service.TelegramService;
+import org.slf4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -15,6 +19,12 @@ public class Listener extends TelegramLongPollingBot {
     @Inject
     BotConfig config;
 
+    @Inject
+    Logger log;
+
+    @Inject
+    TelegramService telegramService;
+
     @Override
     public String getBotUsername() {
         return config.username();
@@ -27,9 +37,24 @@ public class Listener extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update);
+        log.debug("-- update --");
+        var json = toJson(update);
+        log.debug(json);
+        telegramService.ingest(json);
         var msg = message(update);
         if (msg != null) ingest(msg);
+    }
+
+    @Inject
+    ObjectMapper mapper;
+    private String toJson(Update update) {
+        String json = null;
+        try {
+            json = mapper.writeValueAsString(update);
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage(), e);
+        }
+        return json;
     }
 
     public void sendText(Long who, String what){

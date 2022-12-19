@@ -39,7 +39,7 @@
     <dependency>
       <groupId>id42</groupId>
       <artifactId>id42-core</artifactId>
-      <version>1.8.0</version>
+      <version>1.8.1</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

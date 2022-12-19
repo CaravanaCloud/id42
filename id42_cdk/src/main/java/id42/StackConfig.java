@@ -10,7 +10,11 @@ public enum StackConfig {
     bot_token(null),
 
     deployToS3("false"),
-    instanceType("t3.nano");
+    instanceType("t3.nano"),
+    db_root_username("admin"),
+    db_root_password("Masterke123"),
+    db_name("id42db");
+
     private static final String PREFIX = "ID42_";
 
     private final String defaultValue;
