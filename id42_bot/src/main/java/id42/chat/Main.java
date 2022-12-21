@@ -1,4 +1,4 @@
-package id42;
+package id42.chat;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.annotations.QuarkusMain;

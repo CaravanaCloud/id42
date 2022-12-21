@@ -1,4 +1,4 @@
-package id42;
+package id42.chat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,10 +37,12 @@ public class Listener extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        log.debug("-- update --");
+        log.info("Update received.");
         var json = toJson(update);
-        log.debug(json);
+        log.info("JSON update");
+        log.info(json);
         telegramService.ingest(json);
+        log.info("Message ingested by service.");
         var msg = message(update);
         if (msg != null) ingest(msg);
     }
@@ -76,17 +78,17 @@ public class Listener extends TelegramLongPollingBot {
     }
 
     private void ingest(Message msg) {
-        var user = msg.getFrom();
-        System.out.println(user.getFirstName() + " wrote " + msg.getText());
+        log.info("Ingesting message by bot.");
         var isCmd = msg.isCommand();
-        System.out.println("isCmd = " + isCmd);
+        log.info("isCmd = {}", isCmd);
         if(isCmd){
             var cmd = of(msg);
             cmd.accept(msg);
         }
     }
 
-
+    @Inject
+    HAL hal;
 
     public void replyFrom(Message msg, String s) {
         var user = msg.getFrom();
@@ -106,13 +108,22 @@ public class Listener extends TelegramLongPollingBot {
     }
 
     public Consumer<Message> of(Message msg){
-        var text = msg.getText();
-        var command = text.split("@")[0];
-        return switch (command){
+        var input = Input.of(msg);
+        log.info("text: {}", msg.getText());
+        log.info("command: {}", input.command());
+        log.info("prompt: {}", input.prompt());
+        return switch (input.command()){
+            case "/ask" -> this::ask;
             case "/salve" -> this::salve;
             default -> this::ok;
         };
 
+    }
+
+    private void ask(Message message) {
+        var input = Input.of(message);
+        var response = hal.ask(input);
+        replyChat(message, response);
     }
 
     private void ok(Message message) {

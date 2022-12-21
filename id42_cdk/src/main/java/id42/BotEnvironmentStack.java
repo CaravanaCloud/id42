@@ -127,7 +127,10 @@ public class BotEnvironmentStack extends Stack {
                 botUser,
                 botToken,
                 webSGOpt,
-                lbType);
+                lbType,
+                jdbcUser,
+                jdbcPass,
+                jdbcUrl);
 
         var ebEnvName = "id42-eb-env-"+stamp;
 

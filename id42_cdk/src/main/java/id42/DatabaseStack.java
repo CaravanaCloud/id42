@@ -72,7 +72,7 @@ public class DatabaseStack extends Stack {
                 .value(this.cluster.getClusterArn())
                 .build();
 
-        var instanceEndpointAddress = this.cluster.getClusterEndpoint();
+        var instanceEndpointAddress = this.cluster.getClusterEndpoint().getHostname();
         var instanceEndpointPort = "3306";
         var databaseOpts="?useSSL=false";
         this.jdbcUrl = "jdbc:mysql://" + instanceEndpointAddress
