@@ -12,13 +12,13 @@ public record Input(String command,
 
     public static Input of(String text) {
         if (text == null) return null;
-        var textTokens = text.split("@");
-        var command = textTokens[0];
-        var prompt = new String[]{};
-        if (textTokens.length > 1) {
-            prompt = new String[textTokens.length - 1];
-            System.arraycopy(textTokens, 1, prompt, 0, prompt.length);
-        }
-        return new Input(command, prompt);
+        var rootSize = text.indexOf(' ');
+        if (rootSize == -1) rootSize = text.length();
+        var root = text.substring(0, rootSize);
+        var prompt = text.substring(rootSize);
+        var rootTokens = root.split("@");
+        var command = rootTokens[0];
+        var prompts = new String[]{prompt};
+        return new Input(command, prompts);
     }
 }
