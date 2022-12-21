@@ -1,4 +1,4 @@
-package id42;
+package id42.chat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

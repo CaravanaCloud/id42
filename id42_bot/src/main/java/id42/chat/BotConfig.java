@@ -1,4 +1,4 @@
-package id42;
+package id42.chat;
 
 import io.smallrye.config.ConfigMapping;
 
