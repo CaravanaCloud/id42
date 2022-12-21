@@ -11,6 +11,7 @@ import java.util.List;
 public class NetworkStack extends Stack {
     private final SubnetSelection privateNets;
     private final Vpc vpc;
+    private SubnetSelection publicNets;
 
     public NetworkStack(final Construct scope, final String id) {
         this(scope, id, null);
@@ -28,6 +29,7 @@ public class NetworkStack extends Stack {
                 .cidrMask(24)
                 .name("id42-subnet-pub")
                 .subnetType(SubnetType.PUBLIC)
+                .mapPublicIpOnLaunch(true)
                 .build();
 
         var addr = IpAddresses.cidr("10.0.0.0/16");
@@ -52,11 +54,16 @@ public class NetworkStack extends Stack {
         //TODO: Restrict this traffic to the correct port
         webSG.addIngressRule(Peer.anyIpv4(), Port.allTcp(), "Allow HTTP from the world");
 
-        var privateSubnets = vpc.getPrivateSubnets();
 
         this.privateNets = SubnetSelection
                 .builder()
                 .subnetType(SubnetType.PRIVATE_ISOLATED)
+                .onePerAz(true)
+                .build();
+
+        this.publicNets = SubnetSelection
+                .builder()
+                .subnetType(SubnetType.PUBLIC)
                 .onePerAz(true)
                 .build();
 
@@ -72,5 +79,9 @@ public class NetworkStack extends Stack {
 
     public Vpc vpc() {
         return vpc;
+    }
+
+    public SubnetSelection publicSubnets() {
+        return publicNets;
     }
 }

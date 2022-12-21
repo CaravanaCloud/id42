@@ -16,13 +16,14 @@ import java.util.stream.Collectors;
 
 public class BotEnvironmentStack extends Stack {
     public BotEnvironmentStack(final Construct scope, final String id) {
-        this(scope, id, null, null, null);
+        this(scope, id, null, null, null, null);
     }
 
     public BotEnvironmentStack(final Construct scope,
                                final String id,
                                final StackProps props,
                                final NetworkStack network,
+                               final DatabaseStack database,
                                final BotApplicationStack botApp) {
         super(scope, id, props);
         var stamp = System.currentTimeMillis();
@@ -99,7 +100,7 @@ public class BotEnvironmentStack extends Stack {
                 "EnvironmentType",
                 "SingleInstance");
 
-        var jdbcURL = option("aws:elasticbeanstalk:application:environment",
+        var botUser = option("aws:elasticbeanstalk:application:environment",
                 "BOT_USERNAME",
                 StackConfig.bot_username.getString());
         //TODO: local env vars not being picked up, move to SMM parameter store anyway
@@ -107,6 +108,15 @@ public class BotEnvironmentStack extends Stack {
                 "BOT_TOKEN",
                 StackConfig.bot_token.getString());
 
+        var jdbcUser = option("aws:elasticbeanstalk:application:environment",
+                "QUARKUS_DATASOURCE_USERNAME",
+                database.getRootUsername());
+        var jdbcPass = option("aws:elasticbeanstalk:application:environment",
+                "QUARKUS_DATASOURCE_PASSWORD",
+                database.getRootPassword());
+        var jdbcUrl = option("aws:elasticbeanstalk:application:environment",
+                "QUARKUS_DATASOURCE_JDBC_URL",
+                database.jdbcUrl());
 
         var opts = List.of(
                 instanceType,
@@ -114,7 +124,7 @@ public class BotEnvironmentStack extends Stack {
                 vpcOpt,
                 subnetsOpt,
                 publicIpsOpt,
-                jdbcURL,
+                botUser,
                 botToken,
                 webSGOpt,
                 lbType);
@@ -122,7 +132,7 @@ public class BotEnvironmentStack extends Stack {
         var ebEnvName = "id42-eb-env-"+stamp;
 
 
-            var ebEnv = CfnEnvironment.Builder
+        var ebEnv = CfnEnvironment.Builder
                     .create(this, "id42-eb-env")
                     .applicationName(ebEnvName)
                     .applicationName(botApp.application().getApplicationName())
