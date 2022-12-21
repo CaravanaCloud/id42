@@ -38,13 +38,18 @@ public class Listener extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         log.info("Update received.");
-        var json = toJson(update);
-        log.info("JSON update");
-        log.info(json);
-        telegramService.ingest(json);
-        log.info("Message ingested by service.");
-        var msg = message(update);
-        if (msg != null) ingest(msg);
+        try{
+            var json = toJson(update);
+            log.info("JSON update");
+            log.info(json);
+            telegramService.ingest(json);
+            log.info("Message ingested by service.");
+            var msg = message(update);
+            if (msg != null) ingest(msg);
+            log.info("Update completed.");
+        }catch (Exception e){
+            log.error("Error processing update.", e);
+        }
     }
 
     @Inject
@@ -109,9 +114,11 @@ public class Listener extends TelegramLongPollingBot {
 
     public Consumer<Message> of(Message msg){
         var input = Input.of(msg);
-        log.info("text: {}", msg.getText());
-        log.info("command: {}", input.command());
-        log.info("prompt: {}", input.prompt());
+        var command = input.command().trim();
+        var prompt = input.prompt();
+        log.info("text: [{}]", msg.getText());
+        log.info("command: [{}]", command);
+        log.info("prompt: [{}][{}]", prompt.length, prompt );
         return switch (input.command()){
             case "/ask" -> this::ask;
             case "/salve" -> this::salve;

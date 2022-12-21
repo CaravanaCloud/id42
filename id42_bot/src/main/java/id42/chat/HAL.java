@@ -12,6 +12,6 @@ public class HAL {
     }
 
     public String ask(Input input) {
-        return "I'm sorry. I'm afraid I can't do that.";
+        return "OK, thanks for asking...";
     }
 }
