@@ -21,10 +21,10 @@ public class BotApplicationStack extends Stack {
     private final Bucket bucket;
 
     public BotApplicationStack(final Construct scope, final String id) {
-        this(scope, id, null);
+        this(scope, id, null, null);
     }
 
-    public BotApplicationStack(final Construct scope, final String id, final StackProps props) {
+    public BotApplicationStack(final Construct scope, final String id, final StackProps props, final DatabaseStack database) {
         super(scope, id, props);
         this.application = CfnApplication.Builder.create(this, "id42-bot-application")
                 .applicationName("id42-bot")
@@ -41,7 +41,7 @@ public class BotApplicationStack extends Stack {
                 .build();
 
         var stamp = System.currentTimeMillis();
-        var instanceProfileName = "id42-eb-iprofile-"+stamp;
+        var instanceProfileName = "id42-eb-iprofile";
 
         this.instanceProfile = CfnInstanceProfile.Builder.create(this,
                         "id42-eb-iprofile")
@@ -63,6 +63,7 @@ public class BotApplicationStack extends Stack {
                     .prune(true)
                     .build();
         }
+        //TODO: application.addDependsOn(database.cluster());
     }
 
     public Bucket bucket() {

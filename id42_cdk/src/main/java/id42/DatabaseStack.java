@@ -10,6 +10,9 @@ import software.constructs.Construct;
 import java.util.List;
 
 public class DatabaseStack extends Stack {
+    private final String jdbcUrl;
+    private final ServerlessCluster cluster;
+
     public DatabaseStack(final Construct scope, final String id) {
         this(scope, id, null, null);
     }
@@ -38,12 +41,13 @@ public class DatabaseStack extends Stack {
 
         //TODO: Use parameter store
         var creds = Credentials
-                .fromPassword(StackConfig.db_root_username.getString(),
-                        SecretValue.unsafePlainText(StackConfig.db_root_password.getString()));
+                .fromPassword(getRootUsername(),
+                        SecretValue.unsafePlainText(getRootPassword()));
 
         var auroraProps = AuroraMysqlClusterEngineProps
                 .builder()
-                .version(AuroraMysqlEngineVersion.VER_2_10_3)
+                //.version(AuroraMysqlEngineVersion.VER_2_10_3)
+                .version(AuroraMysqlEngineVersion.VER_2_08_3)
                 .build();
         var auroraEngine = DatabaseClusterEngine.auroraMysql(auroraProps);
 
@@ -52,10 +56,11 @@ public class DatabaseStack extends Stack {
                 .minCapacity(AuroraCapacityUnit.ACU_2)
                 .build();
 
-        var db = ServerlessCluster.Builder.create(this, "id42-db")
+        var dbName=StackConfig.db_name.getString();
+        this.cluster = ServerlessCluster.Builder.create(this, "id42-db")
                 .engine(auroraEngine)
                 .vpc(vpc)
-                .defaultDatabaseName(StackConfig.db_name.getString())
+                .defaultDatabaseName(dbName)
                 .subnetGroup(subnetGroup)
                 .securityGroups(List.of(dbSG))
                 .credentials(creds)
@@ -64,8 +69,37 @@ public class DatabaseStack extends Stack {
                 .build();
 
         var outDbArn = CfnOutput.Builder.create(this, "id42-rds-cluster-arn")
-                .value(db.getClusterArn())
+                .value(this.cluster.getClusterArn())
+                .build();
+
+        var instanceEndpointAddress = this.cluster.getClusterEndpoint();
+        var instanceEndpointPort = "3306";
+        var databaseOpts="?useSSL=false";
+        this.jdbcUrl = "jdbc:mysql://" + instanceEndpointAddress
+                + ":"
+                + instanceEndpointPort
+                + "/"
+                + dbName
+                + databaseOpts;
+
+        CfnOutput.Builder.create(this, "id42-rds-jdbc-url")
+                .value(this.jdbcUrl)
                 .build();
     }
 
+    public String jdbcUrl() {
+        return jdbcUrl;
+    }
+
+    public String getRootUsername(){
+        return StackConfig.db_root_username.getString();
+    }
+
+    public String getRootPassword(){
+        return StackConfig.db_root_password.getString();
+    }
+
+    public ServerlessCluster cluster() {
+        return this.cluster;
+    }
 }

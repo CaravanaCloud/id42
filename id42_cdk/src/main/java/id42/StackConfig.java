@@ -12,7 +12,7 @@ public enum StackConfig {
     deployToS3("false"),
     instanceType("t3.nano"),
     db_root_username("admin"),
-    db_root_password("Masterke123"),
+    db_root_password("Masterkey123"),
     db_name("id42db");
 
     private static final String PREFIX = "ID42_";

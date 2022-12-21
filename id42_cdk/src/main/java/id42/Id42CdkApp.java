@@ -10,8 +10,9 @@ public class Id42CdkApp {
         var network = new NetworkStack(app, "Id42NetworkStack", props);
         var database = new DatabaseStack(app, "Id42DatabaseStack", props, network);
         var api = new APIStack(app, "Id42APIStack", props, network, database);
-        var botApp = new BotApplicationStack(app, "Id42BotAppStack", props);
-        var botEnv = new BotEnvironmentStack(app, "Id42BotEnvironmentStack", props,  network, botApp);
+        var botApp = new BotApplicationStack(app, "Id42BotAppStack", props, database);
+        var botEnv = new BotEnvironmentStack(app, "Id42BotEnvironmentStack", props,  network, database, botApp);
+        var bastion = new BastionStack(app, "Id42BastionStack", props, network);
         //new Id42Stack(app, "Id42CdkStack", props, network, database,api);
         app.synth();
     }
