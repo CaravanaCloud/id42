@@ -2,6 +2,7 @@ package id42.chat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import id42.chat.intent.Intents;
 import id42.service.TelegramService;
 import org.slf4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -95,6 +96,9 @@ public class Listener extends TelegramLongPollingBot {
     @Inject
     HAL hal;
 
+    @Inject
+    Intents intents;
+
     public void replyFrom(Message msg, String s) {
         var user = msg.getFrom();
         var userId = user.getId();
@@ -118,19 +122,22 @@ public class Listener extends TelegramLongPollingBot {
         var prompt = input.prompt();
         log.info("text: [{}]", msg.getText());
         log.info("command: [{}]", command);
-        log.info("prompt: [{}][{}]", prompt.length, prompt );
+        log.info("prompt: [{}][{}]", prompt, prompt );
         return switch (input.command()){
             case "/ask" -> this::ask;
             case "/salve" -> this::salve;
             default -> this::ok;
         };
-
     }
 
     private void ask(Message message) {
         var input = Input.of(message);
         var response = hal.ask(input);
         replyChat(message, response);
+    }
+
+    private void misunderstood(Message message) {
+        replyChat(message, "Sorry, i didn't understand that.");
     }
 
     private void ok(Message message) {
