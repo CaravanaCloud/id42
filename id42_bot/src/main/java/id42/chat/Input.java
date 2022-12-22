@@ -3,7 +3,7 @@ package id42.chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 public record Input(String command,
-                    String[] prompt) {
+                    String prompt) {
 
     public static Input of(Message msg) {
         var text = msg.getText();
@@ -18,7 +18,6 @@ public record Input(String command,
         var prompt = text.substring(rootSize);
         var rootTokens = root.split("@");
         var command = rootTokens[0];
-        var prompts = new String[]{prompt};
-        return new Input(command, prompts);
+        return new Input(command, prompt);
     }
 }
