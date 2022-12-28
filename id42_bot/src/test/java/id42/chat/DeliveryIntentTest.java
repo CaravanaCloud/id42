@@ -1,12 +1,13 @@
 package id42.chat;
 
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 
+import static id42.chat.Outcome.Type.OK;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @QuarkusTest
@@ -26,9 +27,12 @@ public class DeliveryIntentTest {
                                 
                 7:30 - Entrega Erico & Benjamina a Muntaner 123
                 """;
-        var outcome = hal.ask(prompt);
-        debug(prompt, outcome);
-        assertFalse(outcome.isBlank());
+        var input = Input.of(prompt);
+        var outcome = hal.ask(input);
+        var message = outcome.message();
+        debug(prompt, message);
+        assertFalse(message.isBlank());
+        assertEquals(OK, outcome.type());
     }
 
     private void debug(String prompt, String outcome) {

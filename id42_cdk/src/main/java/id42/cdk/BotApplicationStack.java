@@ -1,4 +1,4 @@
-package id42;
+package id42.cdk;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
@@ -35,7 +35,7 @@ public class BotApplicationStack extends Stack {
                 "AdministratorAccess",
                 "arn:aws:iam::aws:policy/AdministratorAccess");
 
-        this.role = Role.Builder.create(this, "id42-bot-role")
+        this.role = Role.Builder.create(this, "id42-bot-eb-role")
                 .assumedBy(ServicePrincipal.Builder.create("ec2.amazonaws.com").build())
                 .managedPolicies(List.of(adminPolicy))
                 .build();
@@ -56,14 +56,6 @@ public class BotApplicationStack extends Stack {
         this.bucket = Bucket.Builder.create(this, "BotBucket")
                 .build();
 
-        if(StackConfig.deployToS3.getBoolean()) {
-            var deployOnApp = BucketDeployment.Builder.create(this, "BotAppDeploy")
-                    .sources(jar)
-                    .destinationBucket(bucket)
-                    .prune(true)
-                    .build();
-        }
-        //TODO: application.addDependsOn(database.cluster());
     }
 
     public Bucket bucket() {

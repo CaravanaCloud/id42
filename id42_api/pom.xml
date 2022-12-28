@@ -3,8 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>id42</groupId>
-  <artifactId>id42-api</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <artifactId>id42_api</artifactId>
+  <version>${revision}</version>
+  <description>RESTful API module</description>
+  <parent>
+    <groupId>id42</groupId>
+    <artifactId>id42</artifactId>
+    <version>${revision}</version>
+  </parent>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.release>11</maven.compiler.release>
@@ -38,8 +44,8 @@
     </dependency>
     <dependency>
       <groupId>id42</groupId>
-      <artifactId>id42-core</artifactId>
-      <version>1.8.1</version>
+      <artifactId>id42_core</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

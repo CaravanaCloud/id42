@@ -16,7 +16,7 @@
       <module name="id42-api" target="11" />
       <module name="id42-core" target="11" />
       <module name="id42_bot" target="17" />
-      <module name="id42_cdk" target="11" />
+      <module name="id42_cdk" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

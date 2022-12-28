@@ -1,4 +1,4 @@
-package id42;
+package id42.cdk;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class BotEnvironmentStack extends Stack {
     public BotEnvironmentStack(final Construct scope, final String id) {
-        this(scope, id, null, null, null, null);
+        this(scope, id, null, null, null, null, null);
     }
 
     public BotEnvironmentStack(final Construct scope,
@@ -24,17 +24,21 @@ public class BotEnvironmentStack extends Stack {
                                final StackProps props,
                                final NetworkStack network,
                                final DatabaseStack database,
-                               final BotApplicationStack botApp) {
+                               final BotApplicationStack botApp,
+                               final BotLexStack lex) {
         super(scope, id, props);
         var stamp = System.currentTimeMillis();
         var path = "../id42_bot/target";
-        var jar = List.of(Source.asset(path));
+        var sources = List.of(Source.asset(path));
         var bucket = botApp.bucket();
-        var jarName ="id42_bot-1.0.0-SNAPSHOT-runner.jar";
+        var version = "1.9.0";
+        var versionName = "id42_bot-"+version;
+        var jarName = versionName+"-runner.jar";
 
         if(StackConfig.deployToS3.getBoolean()){
-            var deployBot = BucketDeployment.Builder.create(this, "BotEnvDeploy")
-                        .sources(jar)
+            System.out.println("*** Deploying to S3 ***");
+            var deployBot = BucketDeployment.Builder.create(this, "id42-bot-s3-deployment")
+                        .sources(sources)
                         .destinationBucket(bucket)
                         .prune(true)
                         .build();
@@ -45,7 +49,6 @@ public class BotEnvironmentStack extends Stack {
                 .s3Key(jarName)
                 .build();
 
-        var versionName = "v"+stamp;
         var appVersion = CfnApplicationVersion.Builder.create(this, "id42-bot-version")
                 .applicationName(botApp.application().getApplicationName())
                 .sourceBundle(srcBundle)
@@ -117,6 +120,12 @@ public class BotEnvironmentStack extends Stack {
         var jdbcUrl = option("aws:elasticbeanstalk:application:environment",
                 "QUARKUS_DATASOURCE_JDBC_URL",
                 database.jdbcUrl());
+        var botId = option("aws:elasticbeanstalk:application:environment",
+                "BOT_LEXBOTID",
+                lex.botId());
+        var botAlias = option("aws:elasticbeanstalk:application:environment",
+                "BOT_LEXBOTALIAS",
+                lex.botAlias());
 
         var opts = List.of(
                 instanceType,
@@ -130,7 +139,9 @@ public class BotEnvironmentStack extends Stack {
                 lbType,
                 jdbcUser,
                 jdbcPass,
-                jdbcUrl);
+                jdbcUrl,
+                botId,
+                botAlias);
 
         var ebEnvName = "id42-eb-env-"+stamp;
 

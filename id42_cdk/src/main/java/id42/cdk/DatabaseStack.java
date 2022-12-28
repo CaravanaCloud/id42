@@ -1,4 +1,4 @@
-package id42;
+package id42.cdk;
 
 import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.ec2.Peer;
