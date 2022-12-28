@@ -6,6 +6,7 @@ import software.amazon.awscdk.services.ec2.Peer;
 import software.amazon.awscdk.services.ec2.Port;
 import software.amazon.awscdk.services.ec2.SecurityGroup;
 import software.amazon.awscdk.services.elasticbeanstalk.CfnApplicationVersion;
+import software.amazon.awscdk.services.elasticbeanstalk.CfnApplicationVersionProps;
 import software.amazon.awscdk.services.elasticbeanstalk.CfnEnvironment;
 import software.amazon.awscdk.services.s3.deployment.BucketDeployment;
 import software.amazon.awscdk.services.s3.deployment.Source;
@@ -54,6 +55,8 @@ public class BotEnvironmentStack extends Stack {
                 .sourceBundle(srcBundle)
                 .description(versionName)
                 .build();
+
+
 
         var instanceType = CfnEnvironment.OptionSettingProperty.builder()
                 .namespace("aws:autoscaling:launchconfiguration")
@@ -121,10 +124,10 @@ public class BotEnvironmentStack extends Stack {
                 "QUARKUS_DATASOURCE_JDBC_URL",
                 database.jdbcUrl());
         var botId = option("aws:elasticbeanstalk:application:environment",
-                "BOT_LEXBOTID",
+                "BOT_LEX_BOT_ID",
                 lex.botId());
         var botAlias = option("aws:elasticbeanstalk:application:environment",
-                "BOT_LEXBOTALIAS",
+                "BOT_LEX_BOT_ALIAS_ID",
                 lex.botAlias());
 
         var opts = List.of(
