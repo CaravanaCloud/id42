@@ -27,8 +27,11 @@ public class LEX {
             var recognizeTextRequest = getRecognizeTextRequest(sessionId, userInput);
             var recognizeTextResponse = lex.recognizeText(recognizeTextRequest);
             var responseText = new StringBuilder();
-            var sessionState = recognizeTextResponse.sessionState().toString();
-            responseText.append("["+sessionState+"] ");
+            var sessionState = recognizeTextResponse.sessionState();
+            var intent = sessionState.intent();
+            var intentState = intent.state();
+
+            responseText.append("["+intentState+"] ");
             System.out.println("User : " + userInput);
             recognizeTextResponse.messages().forEach(message -> {
                 System.out.println("Bot : " + message.content());
