@@ -66,7 +66,8 @@ public class BotLexStack extends Stack {
                 .build();
 
         alias.addDependency(bot);
-        this.botAlias = alias.getRef();
+        this.botAlias = alias.getAttrBotAliasId();
+
         var aliasIdOut = CfnOutput.Builder.create(this, "id42-lex-bot-alias-id")
                 .value(this.botAlias)
                 .build();
