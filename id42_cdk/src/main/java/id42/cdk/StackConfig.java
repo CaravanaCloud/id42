@@ -1,4 +1,4 @@
-package id42;
+package id42.cdk;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,11 +9,18 @@ public enum StackConfig {
     bot_username("id42_dev_bot"),
     bot_token(null),
 
-    deployToS3("false"),
+    lex_botid(null),
+
+    lex_botalias(null),
+    deployToS3("true"),
     instanceType("t3.nano"),
     db_root_username("admin"),
     db_root_password("Masterkey123"),
-    db_name("id42db");
+    db_name("id42db"),
+
+    nlu_threshold("0.5"),
+
+    bot_max_retries("3");
 
     private static final String PREFIX = "ID42_";
 
@@ -36,5 +43,13 @@ public enum StackConfig {
 
     public boolean getBoolean(){
         return Boolean.parseBoolean(getString());
+    }
+
+    public double getDouble(){
+        return Double.parseDouble(getString());
+    }
+
+    public double getInteger(){
+        return Integer.parseInt(getString());
     }
 }

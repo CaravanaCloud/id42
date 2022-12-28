@@ -4,7 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>id42</groupId>
   <artifactId>id42_bot</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>${revision}</version>
+  <description>Chat bot module</description>
+  <parent>
+      <groupId>id42</groupId>
+      <artifactId>id42</artifactId>
+      <version>${revision}</version>
+    </parent>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.release>17</maven.compiler.release>
@@ -57,8 +63,20 @@
     </dependency>
     <dependency>
       <groupId>id42</groupId>
-      <artifactId>id42-core</artifactId>
-      <version>1.8.2</version>
+      <artifactId>id42_core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!--
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>lexmodelsv2</artifactId>
+      <version>2.19.4</version>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>lexruntimev2</artifactId>
+      <version>2.19.4</version>
     </dependency>
   </dependencies>
   <build>

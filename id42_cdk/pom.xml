@@ -2,15 +2,14 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
          xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.myorg</groupId>
+    <groupId>id42</groupId>
     <artifactId>id42_cdk</artifactId>
-    <version>0.1</version>
-
+    <version>1.9.0</version>
+    <description>Infrastructure module</description>
     <properties>
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cdk.version>2.53.0</cdk.version>
+        <cdk.version>2.56.0</cdk.version>
         <constructs.version>[10.0.0,11.0.0)</constructs.version>
         <junit.version>5.7.1</junit.version>
     </properties>
@@ -32,7 +31,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <mainClass>id42.Id42CdkApp</mainClass>
+                    <mainClass>id42.cdk.Id42CdkApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -51,6 +50,7 @@
             <artifactId>constructs</artifactId>
             <version>${constructs.version}</version>
         </dependency>
+
 
         <dependency>
           <groupId>org.junit.jupiter</groupId>

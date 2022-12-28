@@ -2,7 +2,6 @@ package id42.chat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import id42.chat.intent.Intents;
 import id42.service.TelegramService;
 import org.slf4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -26,14 +25,21 @@ public class Listener extends TelegramLongPollingBot {
     @Inject
     TelegramService telegramService;
 
+    @Inject
+    HAL hal;
+
+    @Inject
+    LEX lex;
+
+
     @Override
     public String getBotUsername() {
-        return config.username();
+        return config.username().orElse(null);
     }
 
     @Override
     public String getBotToken() {
-        return config.token();
+        return config.token().orElse(null);
     }
 
     @Override
@@ -66,6 +72,14 @@ public class Listener extends TelegramLongPollingBot {
     }
 
     public void sendText(Long who, String what){
+        if (who == null) {
+            log.warn("Destination not set for message");
+            return;
+        }
+        if (what == null || what.isBlank()) {
+            log.warn("Attempting to send empty message.");
+            return;
+        }
         var sm = SendMessage.builder()
                 .chatId(who.toString())
                 .text(what).build();
@@ -93,11 +107,7 @@ public class Listener extends TelegramLongPollingBot {
         }
     }
 
-    @Inject
-    HAL hal;
 
-    @Inject
-    Intents intents;
 
     public void replyFrom(Message msg, String s) {
         var user = msg.getFrom();
@@ -132,8 +142,14 @@ public class Listener extends TelegramLongPollingBot {
 
     private void ask(Message message) {
         var input = Input.of(message);
-        var response = hal.ask(input);
-        replyChat(message, response);
+        var text = input.prompt().text();
+        var response = (Outcome) null;
+        if (text.startsWith(HAL.WAKEWORD)){
+            response = hal.ask(input);
+        } else {
+            response = lex.ask(input);
+        }
+        replyChat(message, response.message());
     }
 
     private void misunderstood(Message message) {

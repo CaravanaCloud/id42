@@ -12,8 +12,15 @@ public class HALTest {
     HAL hal;
 
     @Test
-    public void testAsk() {
+    public void testAskAnything() {
         var response = hal.ask("How are you doing?");
+        Assertions.assertNotNull(response);
+        Assertions.assertTrue(!response.isEmpty());
+    }
+
+    @Test
+    public void testAskSetDeliveryContact() {
+        var response = hal.ask("...set delivery contact Fujiro Nakombi");
         Assertions.assertNotNull(response);
         Assertions.assertTrue(!response.isEmpty());
     }

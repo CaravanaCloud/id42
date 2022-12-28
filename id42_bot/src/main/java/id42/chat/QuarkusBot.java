@@ -9,7 +9,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import javax.inject.Inject;
 
 public class QuarkusBot implements QuarkusApplication {
-    private static final String VERSION= "0.0.1";
+    private static final String VERSION= "1.9";
     @Inject
     Listener listener;
 
@@ -21,8 +21,9 @@ public class QuarkusBot implements QuarkusApplication {
     @Override
     public int run(String... args) throws Exception {
         log.info("Starting id42 bot ");
-        log.info("Telegram user: {}", config.username());
-        log.debug("version {}", VERSION);
+        log.debug("version: {}", VERSION);
+        log.info("Telegram user: {}", config.username().orElse("?"));
+
         var botsApi = new TelegramBotsApi(DefaultBotSession.class);
         botsApi.registerBot(listener);
         log.info("Listener registered, waiting for exit.");

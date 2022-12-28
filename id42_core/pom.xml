@@ -3,8 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>id42</groupId>
-    <artifactId>id42-core</artifactId>
-    <version>1.8.2</version>
+    <artifactId>id42_core</artifactId>
+    <version>${revision}</version>
+    <packaging>jar</packaging>
+    <description>Entities and services shared across modules.</description>
+    <parent>
+        <groupId>id42</groupId>
+        <artifactId>id42</artifactId>
+        <version>${revision}</version>
+    </parent>
     <properties>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <maven.compiler.release>11</maven.compiler.release>

@@ -1,5 +1,7 @@
 package id42.entity;
 
+import id42.service.LocationService;
+import id42.Strings;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
@@ -12,6 +14,13 @@ public class Delivery extends PanacheEntity {
     LocalDateTime scheduledTime;
     LocalDateTime pickupTime;
     LocalDateTime deliveryTime;
+
+    public static Delivery of(String pickupTime, String pickupLocation, String pickupContact) {
+        var createT = LocalDateTime.now();
+        var pickupT = Strings.parseTime(pickupTime);
+        var location = LocationService.of(pickupLocation);
+        return new Delivery();
+    }
 
     public String getDescription() {
         return description;

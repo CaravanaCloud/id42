@@ -11,5 +11,11 @@ public class Location extends PanacheEntity {
     String address;
     String complement;
     String observation;
+    String text;
 
+    public static Location of(String text) {
+        var loc = new Location();
+        loc.text = text;
+        return loc;
+    }
 }
