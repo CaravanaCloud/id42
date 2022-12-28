@@ -27,12 +27,18 @@ public class LEX {
             var recognizeTextRequest = getRecognizeTextRequest(sessionId, userInput);
             var recognizeTextResponse = lex.recognizeText(recognizeTextRequest);
             var responseText = new StringBuilder();
+            var sessionState = recognizeTextResponse.sessionState().toString();
+            responseText.append("["+sessionState+"] ");
             System.out.println("User : " + userInput);
             recognizeTextResponse.messages().forEach(message -> {
                 System.out.println("Bot : " + message.content());
                 responseText.append(message.content() + "\n");
             });
-            return Outcome.ok(responseText.toString());
+            var responseStr = responseText.toString();
+            if (responseStr.isBlank()){
+                responseStr += "Ok.";
+            }
+            return Outcome.ok(responseStr);
         }catch (Exception e){
             e.printStackTrace();
             return Outcome.fail("Ops, something went wrong (%s)".formatted(e.getMessage()));
