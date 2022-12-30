@@ -1,5 +1,6 @@
 package id42.cdk;
 
+import id42.cdk.config.StaticConfig;
 import software.amazon.awscdk.CfnOutput;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
@@ -29,9 +30,9 @@ public class APIStack extends Stack {
                     final NetworkStack network,
                     final DatabaseStack database) {
         super(scope, id, props);
-        var domainNames = StackConfig.domainNames.getList();
+        var domainNames = StaticConfig.domainNames.getList();
 
-        var certificate = Certificate.fromCertificateArn(this, "WebAppCertificate", StackConfig.certificateARN.getString());
+        var certificate = Certificate.fromCertificateArn(this, "WebAppCertificate", StaticConfig.certificateARN.getString());
 
         var bucket = Bucket.Builder.create(this, "WebAppBucket")
                 .build();
@@ -44,11 +45,13 @@ public class APIStack extends Stack {
         bucket.addToResourcePolicy(allowPublic);
 
         var webappSources = List.of(Source.asset("../id42_app/build/web"));
-        var deployApp = BucketDeployment.Builder.create(this, "WebAppDeployment")
-                .sources(webappSources)
-                .destinationBucket(bucket)
-                .prune(true)
-                .build();
+        if(StaticConfig.deployToS3.getBoolean()) {
+            var deployApp = BucketDeployment.Builder.create(this, "WebAppDeployment")
+                    .sources(webappSources)
+                    .destinationBucket(bucket)
+                    .prune(true)
+                    .build();
+        }
 
         var webappOrigin = S3Origin.Builder.create(bucket)
                 .build();

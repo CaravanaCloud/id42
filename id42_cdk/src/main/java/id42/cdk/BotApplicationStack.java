@@ -1,5 +1,6 @@
 package id42.cdk;
 
+import software.amazon.awscdk.CfnOutput;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.elasticbeanstalk.CfnApplication;
@@ -54,6 +55,10 @@ public class BotApplicationStack extends Stack {
         var jar = List.of(Source.asset(path));
 
         this.bucket = Bucket.Builder.create(this, "BotBucket")
+                .build();
+
+        CfnOutput.Builder.create(this, "BotBucketName")
+                .value(bucket.getBucketName())
                 .build();
 
     }

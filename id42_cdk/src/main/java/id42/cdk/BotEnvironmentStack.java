@@ -1,12 +1,12 @@
 package id42.cdk;
 
+import id42.cdk.config.StaticConfig;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.ec2.Peer;
 import software.amazon.awscdk.services.ec2.Port;
 import software.amazon.awscdk.services.ec2.SecurityGroup;
 import software.amazon.awscdk.services.elasticbeanstalk.CfnApplicationVersion;
-import software.amazon.awscdk.services.elasticbeanstalk.CfnApplicationVersionProps;
 import software.amazon.awscdk.services.elasticbeanstalk.CfnEnvironment;
 import software.amazon.awscdk.services.s3.deployment.BucketDeployment;
 import software.amazon.awscdk.services.s3.deployment.Source;
@@ -36,7 +36,7 @@ public class BotEnvironmentStack extends Stack {
         var versionName = "id42_bot-"+version;
         var jarName = versionName+"-runner.jar";
 
-        if(StackConfig.deployToS3.getBoolean()){
+        if(StaticConfig.deployToS3.getBoolean()){
             System.out.println("*** Deploying to S3 ***");
             var deployBot = BucketDeployment.Builder.create(this, "id42-bot-s3-deployment")
                         .sources(sources)
@@ -61,7 +61,7 @@ public class BotEnvironmentStack extends Stack {
         var instanceType = CfnEnvironment.OptionSettingProperty.builder()
                 .namespace("aws:autoscaling:launchconfiguration")
                 .optionName("InstanceType")
-                .value(StackConfig.instanceType.getString())
+                .value(StaticConfig.instanceType.getString())
                 .build();
 
         var instanceProfileOpt = option(
@@ -108,11 +108,11 @@ public class BotEnvironmentStack extends Stack {
 
         var botUser = option("aws:elasticbeanstalk:application:environment",
                 "BOT_USERNAME",
-                StackConfig.bot_username.getString());
+                StaticConfig.bot_username.getString());
         //TODO: local env vars not being picked up, move to SMM parameter store anyway
         var botToken = option("aws:elasticbeanstalk:application:environment",
                 "BOT_TOKEN",
-                StackConfig.bot_token.getString());
+                StaticConfig.bot_token.getString());
 
         var jdbcUser = option("aws:elasticbeanstalk:application:environment",
                 "QUARKUS_DATASOURCE_USERNAME",

@@ -1,12 +1,14 @@
 package id42.chat;
 
+import id42.chat.bot.HAL;
+import id42.chat.bot.Input;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 
-import static id42.chat.Outcome.Type.OK;
+import static id42.chat.bot.Outcome.Type.READY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -32,7 +34,7 @@ public class DeliveryIntentTest {
         var message = outcome.message();
         debug(prompt, message);
         assertFalse(message.isBlank());
-        assertEquals(OK, outcome.type());
+        assertEquals(READY, outcome.type());
     }
 
     private void debug(String prompt, String outcome) {

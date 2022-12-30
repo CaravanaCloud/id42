@@ -1,5 +1,6 @@
 package id42.chat;
 
+import id42.chat.bot.Input;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 

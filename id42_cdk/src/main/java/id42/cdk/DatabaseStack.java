@@ -1,5 +1,6 @@
 package id42.cdk;
 
+import id42.cdk.config.StaticConfig;
 import software.amazon.awscdk.*;
 import software.amazon.awscdk.services.ec2.Peer;
 import software.amazon.awscdk.services.ec2.Port;
@@ -56,7 +57,7 @@ public class DatabaseStack extends Stack {
                 .minCapacity(AuroraCapacityUnit.ACU_2)
                 .build();
 
-        var dbName=StackConfig.db_name.getString();
+        var dbName= StaticConfig.db_name.getString();
         this.cluster = ServerlessCluster.Builder.create(this, "id42-db")
                 .engine(auroraEngine)
                 .vpc(vpc)
@@ -92,11 +93,11 @@ public class DatabaseStack extends Stack {
     }
 
     public String getRootUsername(){
-        return StackConfig.db_root_username.getString();
+        return StaticConfig.db_root_username.getString();
     }
 
     public String getRootPassword(){
-        return StackConfig.db_root_password.getString();
+        return StaticConfig.db_root_password.getString();
     }
 
     public ServerlessCluster cluster() {
