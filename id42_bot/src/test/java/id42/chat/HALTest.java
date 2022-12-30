@@ -1,11 +1,12 @@
 package id42.chat;
 
+import id42.chat.bot.HAL;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+
 @QuarkusTest
 public class HALTest {
     @Inject

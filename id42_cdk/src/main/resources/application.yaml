@@ -1,0 +1,18 @@
+chat:
+  name: id42 Chat CDK
+  locales:
+    - code: es_ES
+#      slotTypes:
+#        - name: "pickupLocation"
+#          description: "pickupLocation slot type for spanish"
+#          resolutionStrategy: "REQUIRED"
+#          values:
+#            - value: "entrega"
+#              synonyms:
+#                - "recogido"
+#
+#      intents:
+#        - name: "RequestDeliveryES"
+#          utterances:
+#            - "Programar una entrega"
+#            - "Agendar una entrega"
