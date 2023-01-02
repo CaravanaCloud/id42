@@ -61,7 +61,7 @@ public class ID42Chat {
                 "¿Que dia da semana seria?",
                 0);
 
-        var deliveryNotes = chats.slot("deliveryNotes",
+        var deliveryNotesSlot = chats.slot("deliveryNotes",
                 "Notas para el rider",
                 "AMAZON.AlphaNumeric",
                 "Optional",
@@ -75,7 +75,7 @@ public class ID42Chat {
                 "pickupContact", pickupContactSlot,
                 "dropLocation", dropLocationSlot,
                 "weekDay", weekdaySlot,
-                "deliveryNotes", deliveryNotes
+                "deliveryNotes", deliveryNotesSlot
         );
 
         var requestDeliveryESSlots = List.of(
@@ -83,7 +83,9 @@ public class ID42Chat {
                 pickupTimeSlot,
                 pickupLocationSlot,
                 pickupContactSlot,
-                weekdaySlot);
+                weekdaySlot,
+                deliveryNotesSlot,
+                dropLocationSlot);
 
         addRequestDeliveryESIntent(es, slotsMap);
         // Check Delivery Intent

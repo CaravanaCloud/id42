@@ -1,20 +1,21 @@
 package id42.chat;
 
 import id42.chat.bot.LEX;
+import id42.chat.bot.Listener;
 import id42.chat.bot.Outcome;
 import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
 import static id42.chat.bot.Outcome.Type.PARTIAL;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 public class RequestDeliveryESTest extends ChatTest {
     @Inject
-    LEX lex;
+    Listener listener;
 
     @Test
     public void testCase0() {
@@ -72,6 +73,30 @@ public class RequestDeliveryESTest extends ChatTest {
     }
 
     @Test
+    public void testCase4() {
+        var prompt = "programar entrega "
+        + "\nCliente: Eric & Benjamín"
+        + "\nPunto: Pastiseria Baixes"
+        + "\nEntrega: Muntaner 331"
+        + "\nDia: 2 de enero 2023"
+        + "\nHora: 18:00";
+        var outcome = ask(prompt);
+        //TODO: Build list deliveries intent
+        var slots = outcome.slots();
+        var pickupContact = slots.get("pickupContact");
+        var pickupLocation = slots.get("pickupLocation");
+        var dropLocation = slots.get("dropLocation");
+        var pickupDate = slots.get("pickupDate");
+        var pickupTime = slots.get("pickupTime");
+        assertNotNull(outcome);
+        assertFalse(pickupContact.isBlank());
+        assertFalse(pickupLocation.isBlank());
+        assertFalse(dropLocation.isBlank());
+        assertFalse(pickupDate.isBlank());
+        assertFalse(pickupTime.isBlank());
+    }
+
+    @Test
     public void testCaseN() {
         var outcome = ask("?");
         assertNotNull(outcome);
@@ -80,7 +105,7 @@ public class RequestDeliveryESTest extends ChatTest {
 
 
     protected Outcome ask(String prompt) {
-        return lex.ask(input(prompt));
+        return listener.ingest(identity(), "/ask "+prompt);
     }
 
 }

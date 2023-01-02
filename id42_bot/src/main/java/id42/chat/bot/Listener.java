@@ -41,6 +41,9 @@ public class Listener extends TelegramLongPollingBot {
     @Inject
     ObjectMapper mapper;
 
+    @Inject
+    SlotOverrides slots;
+
     @Override
     public String getBotUsername() {
         return config.username().orElse(null);
@@ -109,10 +112,10 @@ public class Listener extends TelegramLongPollingBot {
         var isCmd = msg.isCommand();
         if(isCmd){
             log.debug("Processing command message");
-            var input = Input.of(msg);
-            var outcome = ingest(input);
-            var text = outcome.message();
-            replyChat(msg, text);
+            var inText = msg.getText();
+            var outcome = ingest(null, inText);
+            var outText = outcome.message();
+            replyChat(msg, outText);
             return outcome;
         }else {
             log.debug("Message is not a command, skipping");
@@ -143,7 +146,7 @@ public class Listener extends TelegramLongPollingBot {
     }
 
     private Function<Input, Outcome> of(Input input) {
-        var command = input.command().trim();
+        var command = input.command();
         var prompt = input.prompt();
         log.info("command: [{}]", command);
         log.info("prompt: [{}][{}]", prompt, prompt );
@@ -185,6 +188,7 @@ public class Listener extends TelegramLongPollingBot {
             log.trace("Asking LEX");
             response = lex.ask(input);
         }
+
         return response;
     }
 
@@ -207,9 +211,10 @@ public class Listener extends TelegramLongPollingBot {
         log.debug("Outcome received: {}", outcome);
     }
 
-    public Outcome ingest(Identity identity, String s) {
-        if (s == null || s.isBlank()) return Outcome.empty();
-        var input = Input.of(identity, s);
+    public Outcome ingest(Identity identity, String text) {
+        if (text == null || text.isBlank()) return Outcome.empty();
+        var inputText = slots.transform(text);
+        var input = Input.of(identity, inputText);
         return ingest(input);
     }
 }
