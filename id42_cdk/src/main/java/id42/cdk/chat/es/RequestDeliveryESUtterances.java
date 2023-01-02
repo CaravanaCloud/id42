@@ -18,7 +18,13 @@ public class RequestDeliveryESUtterances {
             "Agendar la entrega para {weekDay} {pickupDate} {pickupTime} desde {pickupLocation} a {dropLocation}",
             "Programa entrega para {weekDay} {pickupDate} {pickupTime} - de {pickupLocation} a {dropLocation} nota que {deliveryNote}",
             "Fijar la entrega para {weekDay} {pickupDate} {pickupTime} - desde {pickupLocation} a {dropLocation} sepa que {deliveryNote}",
-            "Programa entrega para {weekDay} {pickupDate} {pickupTime} de {pickupLocation} a {dropLocation} mira, {deliveryNote}"
+            "Programa entrega para {weekDay} {pickupDate} {pickupTime} de {pickupLocation} a {dropLocation} mira, {deliveryNote}",
+            "Entrega para "
+                + "\nCliente: {pickupContact}"
+                + "\nPunto: {pickupLocation}"
+                + "\nEntrega: {dropLocation}"
+                + "\nDia: {pickupDate}"
+                + "\nHora: {pickupTime}"
     );
     public static List<String> values() {
         return VALUES;
