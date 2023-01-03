@@ -10,17 +10,29 @@ import java.util.regex.Pattern;
 public class SlotOverridesES {
     static final Map<String, String> clocks = new HashMap<>(){{
         put("🕙", "10:00");
+        put("🕥", "10:30");
         put("🕚", "11:00");
+        put("🕦", "11:30");
         put("🕛", "12:00");
+        put("🕧", "12:30");
         put("🕐", "13:00");
+        put("🕜", "13:30");
         put("🕑", "14:00");
+        put("🕝", "14:30");
         put("🕒", "15:00");
+        put("🕞", "15:30");
         put("🕓", "16:00");
+        put("🕟", "16:30");
         put("🕔", "17:00");
+        put("🕠", "17:30");
         put("🕕", "18:00");
+        put("🕡", "18:30");
         put("🕖", "19:00");
+        put("🕢", "19:30");
         put("🕗", "20:00");
+        put("🕣", "20:30");
         put("🕘", "21:00");
+        put("🕤", "21:00");
     }};
 
     static final List<SlotOverride> overrides = List.of(
@@ -30,7 +42,7 @@ public class SlotOverridesES {
                     "[Hh]ora:[\\s+](\\S*)",
                     SlotOverridesES::parseTime),
             SlotOverride.of("pickupTime",
-                    "(🕐|🕑|🕒|🕓|🕔|🕕|🕖|🕗|🕘|🕙|🕚|🕛)",
+                    "(🕛|🕧|🕐|🕜|🕑|🕝|🕒|🕞|🕓|🕟|🕔|🕠|🕕|🕡|🕖|🕢|🕗|🕣|🕘|🕤|🕙|🕥|🕚|🕦)",
                     SlotOverridesES::parseTime)
             );
 
