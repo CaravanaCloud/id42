@@ -61,7 +61,7 @@ public class ID42Chat {
                 "¿Que dia da semana seria?",
                 0);
 
-        var deliveryNotesSlot = chats.slot("deliveryNotes",
+        var deliveryNotesSlot = chats.slot("deliveryNote",
                 "Notas para el rider",
                 "AMAZON.AlphaNumeric",
                 "Optional",
@@ -75,7 +75,7 @@ public class ID42Chat {
                 "pickupContact", pickupContactSlot,
                 "dropLocation", dropLocationSlot,
                 "weekDay", weekdaySlot,
-                "deliveryNotes", deliveryNotesSlot
+                "deliveryNote", deliveryNotesSlot
         );
 
         var requestDeliveryESSlots = List.of(
@@ -99,9 +99,10 @@ public class ID42Chat {
                 ChatSlotPriority.of("pickupDate",20),
                 ChatSlotPriority.of("pickupTime",20),
                 ChatSlotPriority.of("pickupLocation",20),
-                ChatSlotPriority.of("dropLocation",10),
-                ChatSlotPriority.of("pickupContact",30),
-                ChatSlotPriority.of("weekDay",30)
+                ChatSlotPriority.of("pickupContact",20),
+                ChatSlotPriority.of("dropLocation",30),
+                ChatSlotPriority.of("deliveryNote",40),
+                ChatSlotPriority.of("weekDay",50)
         );
         requestDeliveryES.slotPriorities(slotPriorities);
         // Request Delivery Intent - Utterances
@@ -109,8 +110,5 @@ public class ID42Chat {
                 RequestDeliveryESUtterances.values().toArray(String[]::new));
     }
 
-    public static void main(String[] args) {
-            var chats = of();
-            System.out.println(chats);
-        }
+
 }

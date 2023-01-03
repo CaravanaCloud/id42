@@ -1,29 +1,23 @@
 package id42.chat.bot;
 
 import id42.Identity;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.Arrays;
-import java.util.UUID;
 
-public record Input(String sessionId,
-                    String command,
-                    Prompt prompt) {
+public class Input {
+    private final Identity identity;
+    private final String sessionId;
+    private final String text;
+    String command;
+    String prompt;
 
-    public static Input of(Message msg) {
-        var text = msg.getText();
-        var sessionId = msg.getChatId().toString();
-        return of(sessionId, text);
-    }
-
-    public static Input of(String text) {
-        return of(UUID.randomUUID().toString(), text);
-    }
-
-    public static Input of(String sessionId, String text) {
-        if (text == null) return null;
+    public Input(Identity identity,
+                 String sessionId,
+                 String text) {
+        this.identity = identity;
+        this.sessionId = sessionId;
+        this.text = text;
         String prompt = null;
-        String command = null;
         var tokens = text.split(" ");
         if (tokens.length > 0) {
             var head = tokens[0];
@@ -38,18 +32,29 @@ public record Input(String sessionId,
                 prompt = String.join(" ", prompts);
             }
         }
-        var inputPrompt = Prompt.of(prompt);
-        return new Input(sessionId, command, inputPrompt);
+    }
+
+    public static Input of(Identity identity,
+                           String sessionId,
+                           String text) {
+        if (text == null) return null;
+        return new Input(identity, sessionId, text);
     }
 
 
-    public static Input of(Identity identity, String message) {
-        //TODO: Add identity field / consider replacing sessioon id with session identity
-        return of(message);
+    public String sessionId() {
+        return sessionId;
     }
 
-    @Override
+    public String text() {
+        return text;
+    }
+
     public String command() {
-        return command.toLowerCase();
+        return command != null ? command : "";
+    }
+
+    public String prompt() {
+        return prompt;
     }
 }

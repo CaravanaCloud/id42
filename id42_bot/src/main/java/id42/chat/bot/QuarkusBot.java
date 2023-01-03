@@ -23,7 +23,9 @@ public class QuarkusBot implements QuarkusApplication {
         log.info("Starting id42 bot ");
         log.debug("version: {}", VERSION);
         log.info("Telegram user: {}", config.username().orElse("?"));
-
+        log.info("Lex id/alias: {}/{}",
+                config.lexBotId(),
+                config.lexBotAliasId());
         var botsApi = new TelegramBotsApi(DefaultBotSession.class);
         botsApi.registerBot(listener);
         log.info("Listener registered, waiting for exit.");

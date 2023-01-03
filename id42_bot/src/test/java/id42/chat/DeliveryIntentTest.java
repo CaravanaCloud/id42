@@ -1,10 +1,11 @@
 package id42.chat;
 
-import id42.chat.bot.HAL;
 import id42.chat.bot.Input;
+import id42.chat.bot.Listener;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import javax.inject.Inject;
 
@@ -13,10 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @QuarkusTest
-public class DeliveryIntentTest {
-    @Inject
-    HAL hal;
-
+public class DeliveryIntentTest extends ChatTest {
     @Inject
     Logger log;
 
@@ -29,8 +27,7 @@ public class DeliveryIntentTest {
                                 
                 7:30 - Entrega Erico & Benjamina a Muntaner 123
                 """;
-        var input = Input.of(prompt);
-        var outcome = hal.ask(input);
+        var outcome = ask(prompt);
         var message = outcome.message();
         debug(prompt, message);
         assertFalse(message.isBlank());

@@ -23,6 +23,8 @@ public class SlotTypesES {
                 ChatValueSelectionSetting.of("TOP_RESOLUTION"),
                 List.of("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"));
 
-        return List.of(locationSlotType, contactSlotType, weekdaySlotType);
+        return List.of(locationSlotType,
+                contactSlotType,
+                weekdaySlotType);
     }
 }
