@@ -1,5 +1,7 @@
 package id42.chat.bot;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -32,30 +34,23 @@ public class SlotOverride{
         return new SlotOverride(slotName, slotPattern, transform);
     }
 
-    public String transform(String text) {
+    public SlotTransform transform(String text, Map<String, String> slots){
+        var newSlots = new HashMap<String, String>();
         var matcher = pattern.matcher(text);
         var found = matcher.find();
-        if(found) {
-            for (int i = 0; i <= matcher.groupCount(); i++) {
-                System.out.println("Group " + i
-                        + ": "
-                        + matcher.group(i)
-                        + " (start: "
-                        + matcher.start(i)
-                        + ", end: "
-                        + matcher.end(i)
-                        + ")");
-            }
+        if(found && matcher.groupCount() > 0) {
             var value = matcher.group(1);
             var start = matcher.start(1);
             var end = matcher.end(1);
-            var newValue = transform == null ? value : transform.apply(value);
+            var newValue = transform == null ?
+                    value :
+                    transform.apply(value);
             var prefix = text.substring(0, start);
             var skip = value.length();
-            var suffix = text.substring(start+skip, text.length());
+            var suffix = text.substring(start+skip);
             var result = prefix + newValue + suffix;
-            return result;
+            return SlotTransform.of(result, Map.of(slotName, newValue));
         }
-        return text;
+        return SlotTransform.of(text, Map.of());
     }
 }

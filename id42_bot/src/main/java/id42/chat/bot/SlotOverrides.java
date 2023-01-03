@@ -1,15 +1,21 @@
 package id42.chat.bot;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.HashMap;
 import java.util.List;
 
 @ApplicationScoped
 public class SlotOverrides {
     List<SlotOverride> overrides = SlotOverridesES.overrides();
-    public String transform(String text) {
+
+    //TODO: Also return captured slot values after transform
+    public SlotTransform transform(String text) {
+        var slots = new HashMap<String, String>();
         for(SlotOverride override: overrides) {
-            text = override.transform(text);
+            var transform = override.transform(text, slots);
+            text = transform.outputText();
+            slots.putAll(transform.slots());
         }
-        return text;
+        return SlotTransform.of(text, slots);
     }
 }
