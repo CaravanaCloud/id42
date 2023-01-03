@@ -36,7 +36,6 @@ public class LocationSlotTypeES {
             "Muy Buenas, Primero Primera y Casa Sagnier",
             "Catering Eva",
             "Calle Sepúlveda 134",
-            "Calle Roselló 134",
             "Calle Corsega 134",
             "Calle Roselló 134",
             "Calle del Mar, 12",

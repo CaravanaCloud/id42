@@ -6,8 +6,8 @@ public class RequestDeliveryESUtterances {
     private static final List<String> VALUES = List.of(
             "Programa una entrega",
             "Programar un pedido",
-            "Programar entrega para {weekday}",
-            "Programar entrega para {weekday} a las {pickupTime}",
+            "Programar entrega para {weekDay}",
+            "Programar entrega para {weekDay} a las {pickupTime}",
             "Organizar la entrega de {pickupLocation} a {dropLocation}",
             "Necesito un rider",
             "Necesito un recogido",

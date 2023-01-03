@@ -34,9 +34,6 @@ public class Listener extends TelegramLongPollingBot {
     TelegramService telegramService;
 
     @Inject
-    HAL hal;
-
-    @Inject
     LEX lex;
 
     @Inject
@@ -111,17 +108,30 @@ public class Listener extends TelegramLongPollingBot {
     private Outcome ingest(Message msg) {
         log.info("Ingesting message by bot: {}", msg);
         var isCmd = msg.isCommand();
-        if(isCmd){
-            log.debug("Processing command message");
-            var inText = msg.getText();
-            var outcome = ingest(null, inText);
-            var outText = outcome.message();
-            replyChat(msg, outText);
-            return outcome;
-        }else {
-            log.debug("Message is not a command, skipping");
+        log.debug("Is this a command? {}", isCmd);
+        var sessionId = ""+msg.getChatId();
+        var inText = msg.getText();
+        var identity = TelegramIdentity.of(msg.getFrom());
+        var outcome = ingest(identity, sessionId, inText);
+        var outText = outcome.message();
+        replyChat(msg, outText);
+        replySlots(msg, outcome);
+        return outcome;
+    }
+
+    private void replySlots(Message msg, Outcome outcome) {
+        var buf = new StringBuilder();
+        buf.append("--- slots ---\n");
+        for (var out: outcome.slots().entrySet()) {
+            var key = out.getKey();
+            var val = out.getValue();
+            buf.append(key)
+                    .append(": ")
+                    .append(val)
+                    .append("\n");
         }
-        return null;
+        var outText = buf.toString();
+        replyChat(msg, outText);
     }
 
     private void triggerOutcome(Outcome outcome) {
@@ -152,9 +162,8 @@ public class Listener extends TelegramLongPollingBot {
         log.info("command: [{}]", command);
         log.info("prompt: [{}][{}]", prompt, prompt );
         return switch (input.command()) {
-            case "/ask" -> this::ask;
             case "/salve" -> this::salve;
-            default -> this::sorry;
+            default -> this::ask;
         };
     }
 
@@ -170,26 +179,11 @@ public class Listener extends TelegramLongPollingBot {
         return Outcome.fail("Sorry, i didn't get that...");
     }
 
-    private Outcome ask(Message message) {
-        var input = Input.of(message);
-        var output = ask(input);
-        replyChat(message, output.message());
-        return output;
-    }
-
     private Outcome ask(Input input) {
-        var text = input.prompt().text();
-        var response = (Outcome) null;
-        var toHal = text.isBlank() ||
-                text.startsWith(HAL.WAKEWORD);
-        if (toHal){
-            log.trace("Asking HAL");
-            response = hal.ask(input);
-        } else {
-            log.trace("Asking LEX");
-            response = lex.ask(input);
-        }
-
+        var text = input.prompt();
+        var sessionId = input.sessionId();
+        log.trace("Asking lex@{}: [{}]", sessionId, text);
+        var response = lex.ask(input);
         return response;
     }
 
@@ -212,10 +206,14 @@ public class Listener extends TelegramLongPollingBot {
         log.debug("Outcome received: {}", outcome);
     }
 
-    public Outcome ingest(Identity identity, String text) {
+    public Outcome ingest(Identity identity,
+                          String sessionId,
+                          String text) {
         if (text == null || text.isBlank()) return Outcome.empty();
         var transform = slots.transform(text);
-        var input = Input.of(identity, transform.outputText());
+        var input = Input.of(identity,
+                sessionId,
+                transform.outputText());
         var outcome = ingest(input);
         var outSlots = outcome.slots();
         var txSlots = transform.slots();

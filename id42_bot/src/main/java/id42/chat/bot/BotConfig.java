@@ -23,4 +23,7 @@ public interface BotConfig {
     String lexBotAliasId();
 
     String lexBotId();
+
+    @WithDefault("false")
+    boolean debugMode();
 }
