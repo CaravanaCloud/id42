@@ -15,6 +15,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -213,8 +214,20 @@ public class Listener extends TelegramLongPollingBot {
 
     public Outcome ingest(Identity identity, String text) {
         if (text == null || text.isBlank()) return Outcome.empty();
-        var inputText = slots.transform(text);
-        var input = Input.of(identity, inputText);
-        return ingest(input);
+        var transform = slots.transform(text);
+        var input = Input.of(identity, transform.outputText());
+        var outcome = ingest(input);
+        var outSlots = outcome.slots();
+        var txSlots = transform.slots();
+        var merged = mergeMaps(outSlots, txSlots);
+        return outcome.withSlots(merged);
+    }
+
+    private HashMap<String, String> mergeMaps(Map<String, String> outSlots,
+                                              Map<String, String> txSlots) {
+        var merged = new HashMap<String, String>();
+        merged.putAll(outSlots);
+        merged.putAll(txSlots);
+        return merged;
     }
 }

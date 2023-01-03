@@ -9,25 +9,28 @@ import java.util.regex.Pattern;
 
 public class SlotOverridesES {
     static final Map<String, String> clocks = new HashMap<>(){{
-        put("🕐", "01:00");
-        put("🕑", "02:00");
-        put("🕒", "03:00");
-        put("🕓", "04:00");
-        put("🕔", "05:00");
-        put("🕕", "06:00");
-        put("🕖", "07:00");
-        put("🕗", "08:00");
-        put("🕘", "09:00");
         put("🕙", "10:00");
         put("🕚", "11:00");
         put("🕛", "12:00");
+        put("🕐", "13:00");
+        put("🕑", "14:00");
+        put("🕒", "15:00");
+        put("🕓", "16:00");
+        put("🕔", "17:00");
+        put("🕕", "18:00");
+        put("🕖", "19:00");
+        put("🕗", "20:00");
+        put("🕘", "21:00");
     }};
 
     static final List<SlotOverride> overrides = List.of(
             SlotOverride.of("pickupContact",
-                    "[Cc]liente:[\\s?](.*)"),
+                    "[Cc]liente:[\\s+](.*)"),
             SlotOverride.of("pickupTime",
-                    "[Hh]ora:[\\s?](\\S*)",
+                    "[Hh]ora:[\\s+](\\S*)",
+                    SlotOverridesES::parseTime),
+            SlotOverride.of("pickupTime",
+                    "(🕐|🕑|🕒|🕓|🕔|🕕|🕖|🕗|🕘|🕙|🕚|🕛)",
                     SlotOverridesES::parseTime)
             );
 
@@ -41,13 +44,13 @@ public class SlotOverridesES {
 
     public static void main(String[] args) {
             var slot = SlotOverride.of("pickupTime",
-            "[Hh]ora:[\\s?](\\S*)",
+                    "(🕐|🕑|🕒|🕓|🕔|🕕|🕖|🕗|🕘|🕙|🕚|🕛)",
             h -> switch(h){
-                case "\uD83D\uDD5B"  -> "12:00";
+                case "🕛"  -> "12:00";
                 default -> h;
             });
-            var text = "la hora: \uD83D\uDD5B en la noche";
-            var out = slot.transform(text);
-            System.out.println(out);
+            var text = "🕛 de la noche en Habana, Cuba";
+            var out = slot.transform(text, new HashMap<>());
+            System.out.println(out.outputText());
     }
 }

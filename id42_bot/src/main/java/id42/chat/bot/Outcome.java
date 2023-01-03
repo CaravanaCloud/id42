@@ -11,6 +11,7 @@ public record Outcome(Outcome.Type type,
         return EMPTY_OUT;
     }
 
+
     public enum Type {
         READY,
         PARTIAL,
@@ -27,6 +28,10 @@ public record Outcome(Outcome.Type type,
 
     public static Outcome partial(String message, Map<String, String> slots) {
         return new Outcome(Type.PARTIAL, message, slots);
+    }
+
+    public Outcome withSlots(Map<String, String> merged) {
+        return new Outcome(type, message, merged);
     }
 
 }
