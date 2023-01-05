@@ -1,15 +1,9 @@
 package id42.chat;
 
-import id42.chat.bot.LEX;
-import id42.chat.bot.Listener;
-import id42.chat.bot.Outcome;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
-
-import static id42.chat.bot.Outcome.Type.PARTIAL;
+import static id42.chat.bot.Intent.State.PARTIAL;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
@@ -18,18 +12,19 @@ public class RequestDeliveryESTest extends ChatTest {
 
     @Test
     public void testCase0() {
-        var outcome = ask("programar entrega");
-        assertNotNull(outcome);
-        assertEquals(PARTIAL, outcome.type());
+        var intent = ask("programar entrega");
+        var intentName = intent.name();
+        assertNotNull(intent);
+        assertEquals(PARTIAL, intent.state());
     }
 
     @Test
     public void testCase1() {
-        var outcome = ask("Programa " +
+        var intent = ask("Programa " +
                 "Jueves 22/12/2022 " +
                 "7:30 - Entrega Eric e Benjamin a Muntaner 321");
-        assertNotNull(outcome);
-        var slots = outcome.slots();
+        assertNotNull(intent);
+        var slots = intent.slots();
         assertNotNull(slots);
         assertEquals("07:30", slots.get("pickupTime"));
         assertEquals("2022-12-22", slots.get("pickupDate"));
@@ -40,7 +35,7 @@ public class RequestDeliveryESTest extends ChatTest {
 
     @Test
     public void testCase2() {
-        var outcome = ask("Que entregas hay para Jueves 22/12/2022");
+        var intent = ask("Que entregas hay para Jueves 22/12/2022");
         //Que entregas hay para Jueves 22/12/2022
         //cuantas entregas de Delacrem hemos hecho
         /*
@@ -61,14 +56,14 @@ public class RequestDeliveryESTest extends ChatTest {
         */
 
         //TODO: Build list deliveries intent
-        assertNotNull(outcome);
+        assertNotNull(intent);
     }
 
     @Test
     public void testCase3() {
-        var outcome = ask("Program entrega para Jueves 22/12/2022 9:30 - Entrega Frutal a Tokio");
+        var intent = ask("Program entrega para Jueves 22/12/2022 9:30 - Entrega Frutal a Tokio");
         //TODO: Build list deliveries intent
-        assertNotNull(outcome);
+        assertNotNull(intent);
     }
 
     @Test
@@ -79,15 +74,15 @@ public class RequestDeliveryESTest extends ChatTest {
         + "\nEntrega: Muntaner 331"
         + "\nDia: 2 de enero 2023"
         + "\nHora: 18:00";
-        var outcome = ask(prompt);
+        var intent = ask(prompt);
         //TODO: Build list deliveries intent
-        var slots = outcome.slots();
+        var slots = intent.slots();
         var pickupContact = slots.get("pickupContact");
         var pickupLocation = slots.get("pickupLocation");
         var dropLocation = slots.get("dropLocation");
         var pickupDate = slots.get("pickupDate");
         var pickupTime = slots.get("pickupTime");
-        assertNotNull(outcome);
+        assertNotNull(intent);
         assertFalse(pickupContact.isBlank());
         assertFalse(pickupLocation.isBlank());
         assertFalse(dropLocation.isBlank());
@@ -97,8 +92,8 @@ public class RequestDeliveryESTest extends ChatTest {
 
     @Test
     public void testCaseN() {
-        var outcome = ask("?");
-        assertNotNull(outcome);
+        var intent = ask("?");
+        assertNotNull(intent);
     }
 
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
-import static id42.chat.bot.Outcome.Type.READY;
+import static id42.chat.bot.Intent.State.READY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
@@ -19,6 +19,6 @@ public class SalveTest extends ChatTest {
         var outcome = listener.ingest(identity(),
                 sessionId(),
                 "/salve");
-        assertEquals(READY, outcome.type());
+        assertEquals(READY, outcome.state());
     }
 }

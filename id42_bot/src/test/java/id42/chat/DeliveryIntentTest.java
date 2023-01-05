@@ -1,15 +1,12 @@
 package id42.chat;
 
-import id42.chat.bot.Input;
-import id42.chat.bot.Listener;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
-import org.telegram.telegrambots.meta.api.objects.Chat;
 
 import javax.inject.Inject;
 
-import static id42.chat.bot.Outcome.Type.READY;
+import static id42.chat.bot.Intent.State.READY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -31,7 +28,7 @@ public class DeliveryIntentTest extends ChatTest {
         var message = outcome.message();
         debug(prompt, message);
         assertFalse(message.isBlank());
-        assertEquals(READY, outcome.type());
+        assertEquals(READY, outcome.state());
     }
 
     private void debug(String prompt, String outcome) {
