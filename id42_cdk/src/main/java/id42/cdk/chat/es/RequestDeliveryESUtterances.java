@@ -4,6 +4,8 @@ import java.util.List;
 
 public class RequestDeliveryESUtterances {
     private static final List<String> VALUES = List.of(
+            "Programar entrega",
+            "Programa entrega",
             "Programa una entrega",
             "Programar un pedido",
             "Programar entrega para {weekDay}",

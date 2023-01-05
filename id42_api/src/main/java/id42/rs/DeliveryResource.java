@@ -18,14 +18,6 @@ import io.quarkus.runtime.StartupEvent;
 @Path("/deliveries")
 public class DeliveryResource {
 
-    @Transactional
-    public void onStart(@Observes StartupEvent ev){
-        Delivery.of("Teste live1!",LocalDateTime.now()).persist();
-        Delivery.of("Teste live2!",LocalDateTime.now()).persist();
-        Delivery.of("Teste live3!",LocalDateTime.now()).persist();
-
-    }
-
     //TODO: request new delivery
     //TODO: update delivery status:
     
