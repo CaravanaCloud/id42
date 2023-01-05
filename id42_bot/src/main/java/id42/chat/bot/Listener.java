@@ -105,24 +105,24 @@ public class Listener extends TelegramLongPollingBot {
         return msg;
     }
 
-    private Outcome ingest(Message msg) {
+    private ChatIntent ingest(Message msg) {
         log.info("Ingesting message by bot: {}", msg);
         var isCmd = msg.isCommand();
         log.debug("Is this a command? {}", isCmd);
         var sessionId = ""+msg.getChatId();
         var inText = msg.getText();
         var identity = TelegramIdentity.of(msg.getFrom());
-        var outcome = ingest(identity, sessionId, inText);
-        var outText = outcome.message();
+        var intent = ingest(identity, sessionId, inText);
+        var outText = intent.message();
         replyChat(msg, outText);
-        replySlots(msg, outcome);
-        return outcome;
+        replySlots(msg, intent);
+        return intent;
     }
 
-    private void replySlots(Message msg, Outcome outcome) {
+    private void replySlots(Message msg, ChatIntent intent) {
         var buf = new StringBuilder();
         buf.append("--- slots ---\n");
-        for (var out: outcome.slots().entrySet()) {
+        for (var out: intent.slots().entrySet()) {
             var key = out.getKey();
             var val = out.getValue();
             buf.append(key)
@@ -134,8 +134,8 @@ public class Listener extends TelegramLongPollingBot {
         replyChat(msg, outText);
     }
 
-    private void triggerOutcome(Outcome outcome) {
-        bm.fireEvent(outcome);
+    private void triggerChatIntent(ChatIntent intent) {
+        bm.fireEvent(intent);
     }
 
 
@@ -156,7 +156,7 @@ public class Listener extends TelegramLongPollingBot {
         sendText(chatId, s);
     }
 
-    private Function<Input, Outcome> of(Input input) {
+    private Function<Input, ChatIntent> of(Input input) {
         var command = input.command();
         var prompt = input.prompt();
         log.info("command: [{}]", command);
@@ -167,19 +167,19 @@ public class Listener extends TelegramLongPollingBot {
         };
     }
 
-    public Outcome ingest(Input input) {
+    public ChatIntent ingest(Input input) {
         var fn = of(input);
-        if (fn == null) return Outcome.empty();
-        var outcome = fn.apply(input);
-        if (outcome != null) triggerOutcome(outcome);
-        return outcome;
+        if (fn == null) return ChatIntent.empty();
+        var intent = fn.apply(input);
+        if (intent != null) triggerChatIntent(intent);
+        return intent;
     }
 
-    private Outcome sorry(Input input) {
-        return Outcome.fail("Sorry, i didn't get that...");
+    private ChatIntent sorry(Input input) {
+        return ChatIntent.fail("Sorry, i didn't get that...");
     }
 
-    private Outcome ask(Input input) {
+    private ChatIntent ask(Input input) {
         var text = input.prompt();
         var sessionId = input.sessionId();
         log.trace("Asking lex@{}: [{}]", sessionId, text);
@@ -195,30 +195,30 @@ public class Listener extends TelegramLongPollingBot {
         replyFrom(message, "OK...");
     }
 
-    private Outcome salve(Input input) {
+    private ChatIntent salve(Input input) {
         //TODO add identity to input
         // var msg = "Salve!".formatted(message.identity().name());
         var message = "Salve!";
-        return Outcome.ready(message, Map.of());
+        return ChatIntent.ready("salve", message, Map.of());
     }
 
-    public void onOutcome(@Observes Outcome outcome){
-        log.debug("Outcome received: {}", outcome);
+    public void onChatIntent(@Observes ChatIntent intent){
+        log.debug("ChatIntent received: {}", intent);
     }
 
-    public Outcome ingest(Identity identity,
-                          String sessionId,
-                          String text) {
-        if (text == null || text.isBlank()) return Outcome.empty();
+    public ChatIntent ingest(Identity identity,
+                             String sessionId,
+                             String text) {
+        if (text == null || text.isBlank()) return ChatIntent.empty();
         var transform = slots.transform(text);
         var input = Input.of(identity,
                 sessionId,
                 transform.outputText());
-        var outcome = ingest(input);
-        var outSlots = outcome.slots();
+        var intent = ingest(input);
+        var outSlots = intent.slots();
         var txSlots = transform.slots();
         var merged = mergeMaps(outSlots, txSlots);
-        return outcome.withSlots(merged);
+        return intent.withSlots(merged);
     }
 
     private HashMap<String, String> mergeMaps(Map<String, String> outSlots,

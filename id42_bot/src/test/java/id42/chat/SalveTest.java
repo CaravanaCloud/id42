@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
-import static id42.chat.bot.Intent.State.READY;
+import static id42.chat.bot.ChatIntent.State.READY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest

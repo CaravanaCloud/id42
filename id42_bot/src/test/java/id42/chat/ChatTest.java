@@ -2,7 +2,7 @@ package id42.chat;
 
 import id42.Identity;
 import id42.chat.bot.Listener;
-import id42.chat.bot.Intent;
+import id42.chat.bot.ChatIntent;
 
 import javax.inject.Inject;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public abstract class ChatTest {
     }
 
 
-    protected Intent ask(String prompt) {
+    protected ChatIntent ask(String prompt) {
         return listener.ingest(identity(),
                 sessionId(),
                 "/ask "+prompt);

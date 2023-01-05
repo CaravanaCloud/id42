@@ -4,13 +4,8 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>id42</groupId>
   <artifactId>id42_bot</artifactId>
-  <version>${revision}</version>
+  <version>1.13.0</version>
   <description>Chat bot module</description>
-  <parent>
-      <groupId>id42</groupId>
-      <artifactId>id42</artifactId>
-      <version>${revision}</version>
-    </parent>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <maven.compiler.release>17</maven.compiler.release>
@@ -19,7 +14,7 @@
     <quarkus.package.type>uber-jar</quarkus.package.type>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>2.15.0.Final</quarkus.platform.version>
+    <quarkus.platform.version>2.15.2.Final</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
   </properties>
