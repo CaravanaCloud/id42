@@ -2,9 +2,10 @@
 set -ex
 
 echo "build java modules"
-mvn -f id42_core install
-mvn -f id42_api install
-mvn -f id42_bot install
+export MVN_OPTS="-DskipTests"
+mvn -f id42_core install $MVN_OPTS
+mvn -f id42_api install $MVN_OPTS
+mvn -f id42_bot install $MVN_OPTS
 mkdir -p id42_bot/target/dist
 echo "copy bot runner to dist"
 cp id42_bot/target/*-runner.jar "id42_bot/target/dist"
