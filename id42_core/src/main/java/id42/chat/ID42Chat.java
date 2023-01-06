@@ -1,10 +1,11 @@
-package id42.cdk.chat;
+package id42.chat;
 
-import id42.cdk.chat.es.RequestDeliveryESUtterances;
-import id42.cdk.chat.es.SlotTypesES;
+import id42.chat.es.RequestDeliveryESUtterances;
+import id42.chat.es.SlotTypesES;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //TODO: Map more precise slot types (Day of Week, PartialDate, LocationAlias ...)
 //TODO: Add integration
@@ -94,7 +95,9 @@ public class ID42Chat {
     private static void addRequestDeliveryESIntent(ChatLocale es, Map<String, ChatSlot> slotsMap) {
         // Request Delivery Intent - Slots
         var requestDeliveryES = ChatIntent.of("RequestDeliveryES", es);
-        requestDeliveryES.slots(slotsMap.values().stream().toList());
+        requestDeliveryES.slots(slotsMap.values()
+                .stream()
+                .collect(Collectors.toList()));
         var slotPriorities = List.of(
                 ChatSlotPriority.of("pickupDate",20),
                 ChatSlotPriority.of("pickupTime",20),

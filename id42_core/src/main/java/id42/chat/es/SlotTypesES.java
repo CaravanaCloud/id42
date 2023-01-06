@@ -1,7 +1,7 @@
-package id42.cdk.chat.es;
+package id42.chat.es;
 
-import id42.cdk.chat.ChatSlotType;
-import id42.cdk.chat.ChatValueSelectionSetting;
+import id42.chat.ChatSlotType;
+import id42.chat.ChatValueSelectionSetting;
 
 import java.util.List;
 

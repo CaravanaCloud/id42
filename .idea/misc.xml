@@ -6,6 +6,7 @@
         <option value="$PROJECT_DIR$/id42_api/pom.xml" />
         <option value="$PROJECT_DIR$/id42_cdk/pom.xml" />
         <option value="$PROJECT_DIR$/id42_bot/pom.xml" />
+        <option value="$PROJECT_DIR$/id42_entity/pom.xml" />
         <option value="$PROJECT_DIR$/id42_core/pom.xml" />
       </list>
     </option>

@@ -1,4 +1,4 @@
-package id42.cdk.chat.es;
+package id42.chat.es;
 
 import java.util.List;
 

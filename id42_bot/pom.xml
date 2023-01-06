@@ -62,7 +62,7 @@
     </dependency>
     <dependency>
       <groupId>id42</groupId>
-      <artifactId>id42_core</artifactId>
+      <artifactId>id42_entity</artifactId>
       <version>${project.version}</version>
     </dependency>
     <!--

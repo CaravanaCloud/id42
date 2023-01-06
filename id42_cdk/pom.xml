@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>id42</groupId>
   <artifactId>id42_cdk</artifactId>
-  <version>1.9.0</version>
+  <version>1.13.0</version>
   <description>Infrastructure module</description>
   <properties>
     <cdk.version>2.56.0</cdk.version>
@@ -26,6 +26,11 @@
       <artifactId>constructs</artifactId>
       <version>${constructs.version}</version>
     </dependency>
+    <dependency>
+      <groupId>id42</groupId>
+      <artifactId>id42_core</artifactId>
+      <version>${project.version}</version>
+    </dependency>    
     <dependency>
       <groupId>io.smallrye.config</groupId>
       <artifactId>smallrye-config</artifactId>
