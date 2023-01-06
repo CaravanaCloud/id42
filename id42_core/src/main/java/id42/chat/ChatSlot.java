@@ -1,4 +1,4 @@
-package id42.cdk.chat;
+package id42.chat;
 
 public class ChatSlot {
 

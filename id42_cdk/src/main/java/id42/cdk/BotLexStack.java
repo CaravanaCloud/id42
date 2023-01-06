@@ -1,6 +1,6 @@
 package id42.cdk;
 
-import id42.cdk.chat.*;
+import id42.chat.*;
 import software.amazon.awscdk.CfnOutput;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
@@ -9,7 +9,6 @@ import software.amazon.awscdk.services.iam.Role;
 import software.amazon.awscdk.services.iam.ServicePrincipal;
 import software.amazon.awscdk.services.lex.CfnBot;
 import software.amazon.awscdk.services.lex.CfnBotAlias;
-import software.amazon.awscdk.services.lex.CfnBotVersion;
 import software.constructs.Construct;
 
 import java.util.ArrayList;

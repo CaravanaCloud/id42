@@ -20,7 +20,7 @@
     </properties>
 
     <modules>
-        <module>id42_core</module>
+        <module>id42_entity</module>
         <module>id42_api</module>
         <module>id42_bot</module>
     </modules>

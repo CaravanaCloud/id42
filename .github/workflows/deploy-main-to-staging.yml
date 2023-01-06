@@ -37,7 +37,7 @@ jobs:
 
       - name: Build Core package
         run: mvn -B install
-        working-directory: id42_core
+        working-directory: id42_entity
 
       - name: Build API package
         run: mvn -B install
