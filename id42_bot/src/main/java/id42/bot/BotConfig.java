@@ -1,4 +1,4 @@
-package id42.chat.bot;
+package id42.bot;
 
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
@@ -12,7 +12,7 @@ public interface BotConfig {
     Optional<String> username();
     Optional<String> token();
 
-    List<IntentConfig> intents();
+
     @WithDefault("us-west-2")
     String regionName();
 
@@ -26,4 +26,7 @@ public interface BotConfig {
 
     @WithDefault("false")
     boolean debugMode();
+
+    //TODO: Deprecate
+    List<IntentConfig> intents();
 }

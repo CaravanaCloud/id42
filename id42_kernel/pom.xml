@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>id42</groupId>
-    <artifactId>id42_core</artifactId>
+    <artifactId>id42_kernel</artifactId>
     <version>1.13.0</version>
     <packaging>jar</packaging>
     <description>Core POJO</description>

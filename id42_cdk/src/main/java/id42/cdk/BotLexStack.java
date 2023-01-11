@@ -9,6 +9,7 @@ import software.amazon.awscdk.services.iam.Role;
 import software.amazon.awscdk.services.iam.ServicePrincipal;
 import software.amazon.awscdk.services.lex.CfnBot;
 import software.amazon.awscdk.services.lex.CfnBotAlias;
+import software.amazon.awscdk.services.lex.CfnBotVersion;
 import software.constructs.Construct;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class BotLexStack extends Stack {
                 .childDirected(false)
                 .build();
 
+        //
+
         /*
         var textLogSettings = CfnBot.TextLogSettingProperty.builder()
                 .enabled(true)
@@ -66,8 +69,9 @@ public class BotLexStack extends Stack {
         //        .testBotAliasSettings(testBotAliasSetting)
                 .build();
         this.botId = bot.getRef();
+
         // Version
-        /*
+
         var versionLocaleDetailsES = CfnBotVersion.BotVersionLocaleDetailsProperty
                 .builder()
                 .sourceBotVersion("$LATEST")
@@ -84,22 +88,27 @@ public class BotLexStack extends Stack {
                 .description("Latest version")
                 .botVersionLocaleSpecification(List.of(versionLocaleSpecES))
                 .build();
-        */
+
         // Alias
-        var aliasLocaleES = CfnBotAlias.BotAliasLocaleSettingsItemProperty.builder()
-                .localeId("es_ES")
-                .botAliasLocaleSetting(CfnBotAlias.BotAliasLocaleSettingsProperty.builder()
-                        .enabled(true)
-                        .build())
+        var botAliasLocaleSetting = CfnBotAlias.BotAliasLocaleSettingsProperty.builder()
+                .enabled(true)
                 .build();
 
+        var aliasLocaleES = CfnBotAlias.BotAliasLocaleSettingsItemProperty.builder()
+                .localeId("es_ES")
+                .botAliasLocaleSetting(botAliasLocaleSetting)
+                .build();
+
+        var botVersionId = version.getRef();
         var alias = CfnBotAlias.Builder.create(this, "id42-lex-bot-alias-latest")
                 .botAliasName("id42-bot-alias-latest")
                 .botAliasLocaleSettings(List.of(aliasLocaleES))
-                .botId(bot.getAtt("Id").toString())
+                .botVersion(botVersionId)
+                .botId(this.botId)
                 .build();
 
         alias.addDependency(bot);
+
         this.botAlias = alias.getAttrBotAliasId();
 
         var aliasIdOut = CfnOutput.Builder.create(this, "id42-lex-bot-alias-id")

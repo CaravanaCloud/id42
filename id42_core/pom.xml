@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>id42</groupId>
-    <artifactId>id42_model</artifactId>
+    <artifactId>id42_core</artifactId>
     <version>1.13.0</version>
     <packaging>jar</packaging>
     <description>Entities and services shared across modules.</description>
@@ -30,6 +30,11 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>id42</groupId>
+            <artifactId>id42_kernel</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>

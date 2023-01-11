@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/id42_api/pom.xml" />
-        <option value="$PROJECT_DIR$/id42_cdk/pom.xml" />
-        <option value="$PROJECT_DIR$/id42_bot/pom.xml" />
-        <option value="$PROJECT_DIR$/id42_entity/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.old.xml" />
         <option value="$PROJECT_DIR$/id42_core/pom.xml" />
+        <option value="$PROJECT_DIR$/id42_cdk/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_19" default="true" project-jdk-name="19" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/out" />
-  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_19" default="true" project-jdk-name="19" project-jdk-type="JavaSDK" />
 </project>

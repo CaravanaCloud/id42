@@ -1,4 +1,4 @@
-package id42.chat.bot;
+package id42.bot;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

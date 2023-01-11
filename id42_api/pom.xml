@@ -39,7 +39,7 @@
     </dependency>
     <dependency>
       <groupId>id42</groupId>
-      <artifactId>id42_entity</artifactId>
+      <artifactId>id42_core</artifactId>
       <version>1.13.0</version>
     </dependency>
     <dependency>
