@@ -74,12 +74,12 @@ public class BotLexStack extends Stack {
 
         var versionLocaleDetailsES = CfnBotVersion.BotVersionLocaleDetailsProperty
                 .builder()
-                .sourceBotVersion("$LATEST")
+                .sourceBotVersion("DRAFT")
                 .build();
 
         var versionLocaleSpecES = CfnBotVersion.BotVersionLocaleSpecificationProperty
                 .builder()
-                .localeId("es-ES")
+                .localeId("es_ES")
                 .botVersionLocaleDetails(versionLocaleDetailsES)
                 .build();
 
@@ -99,11 +99,11 @@ public class BotLexStack extends Stack {
                 .botAliasLocaleSetting(botAliasLocaleSetting)
                 .build();
 
-        var botVersionId = version.getRef();
+        var botVersion = version.getAttrBotVersion();
         var alias = CfnBotAlias.Builder.create(this, "id42-lex-bot-alias-latest")
                 .botAliasName("id42-bot-alias-latest")
                 .botAliasLocaleSettings(List.of(aliasLocaleES))
-                .botVersion(botVersionId)
+                .botVersion(botVersion)
                 .botId(this.botId)
                 .build();
 
@@ -111,12 +111,12 @@ public class BotLexStack extends Stack {
 
         this.botAlias = alias.getAttrBotAliasId();
 
-        var aliasIdOut = CfnOutput.Builder.create(this, "id42-lex-bot-alias-id")
+        var aliasIdOut = CfnOutput.Builder.create(this, "ID42LexBotAliasId")
                 .value(this.botAlias)
                 .build();
 
 
-        var botIdOut = CfnOutput.Builder.create(this, "id42-lex-bot-id")
+        var botIdOut = CfnOutput.Builder.create(this, "ID42LexBotId")
                 .value(this.botId)
                 .build();
 
