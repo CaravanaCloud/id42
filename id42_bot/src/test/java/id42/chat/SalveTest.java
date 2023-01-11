@@ -1,12 +1,12 @@
 package id42.chat;
 
-import id42.chat.bot.Listener;
+import id42.bot.Listener;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
-import static id42.chat.bot.ChatIntent.State.READY;
+import static id42.bot.ChatIntent.State.READY;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest

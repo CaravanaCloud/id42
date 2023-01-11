@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>id42</groupId>
-    <artifactId>id42_entity</artifactId>
+    <artifactId>id42_model</artifactId>
     <version>1.13.0</version>
     <packaging>jar</packaging>
     <description>Entities and services shared across modules.</description>
