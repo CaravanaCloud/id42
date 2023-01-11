@@ -1,8 +1,8 @@
 package id42.chat;
 
 import id42.Identity;
-import id42.chat.bot.Listener;
-import id42.chat.bot.ChatIntent;
+import id42.bot.Listener;
+import id42.bot.ChatIntent;
 
 import javax.inject.Inject;
 import java.util.UUID;
