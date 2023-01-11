@@ -5,6 +5,7 @@ set -ex
 #echo $BOT_BUCKET
 #aws s3 cp id42_bot/target/dist/* s3://$BOT_BUCKET/
 pushd id42_cdk
+mvn -DskipTests clean verify
 cdk deploy --require-approval=never Id42LexStack
 popd
 

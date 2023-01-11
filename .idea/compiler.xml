@@ -6,19 +6,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="id42_kernel" />
         <module name="id42_bot" />
         <module name="id42_core" />
-        <module name="id42_model" />
         <module name="id42_api" />
         <module name="id42_cdk" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="id42_model" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="id42_api" options="-parameters" />
       <module name="id42_bot" options="-parameters" />
-      <module name="id42_model" options="-parameters" />
+      <module name="id42_core" options="-parameters" />
     </option>
   </component>
 </project>
