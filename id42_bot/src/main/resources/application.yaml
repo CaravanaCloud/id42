@@ -1,6 +1,0 @@
-bot:
-  intents:
-    - name: request-delivery
-      keywords:
-        - "entrega"
-        - "programa"

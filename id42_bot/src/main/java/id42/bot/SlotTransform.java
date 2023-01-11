@@ -1,6 +1,5 @@
-package id42.chat.bot;
+package id42.bot;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public record SlotTransform(String outputText,

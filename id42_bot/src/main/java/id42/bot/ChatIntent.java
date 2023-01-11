@@ -1,4 +1,4 @@
-package id42.chat.bot;
+package id42.bot;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package id42.chat.bot;
+package id42.bot;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

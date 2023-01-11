@@ -3,8 +3,8 @@ set -ex
 
 echo "build java modules"
 export MAVEN_ARGS="-DskipTests install"
+mvn -f id42_kernel $MAVEN_ARGS
 mvn -f id42_core $MAVEN_ARGS
-mvn -f id42_entity $MAVEN_ARGS
 mvn -f id42_api $MAVEN_ARGS
 mvn -f id42_bot $MAVEN_ARGS
 mkdir -p id42_bot/target/dist

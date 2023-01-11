@@ -7,9 +7,11 @@
     <file url="file://$PROJECT_DIR$/id42_bot/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/id42_cdk/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/id42_cdk/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/id42_core/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/id42_core/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/id42_entity/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/id42_entity/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/id42_kernel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/id42_kernel/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/id42_model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/id42_model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>

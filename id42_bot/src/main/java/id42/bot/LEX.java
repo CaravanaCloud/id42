@@ -1,4 +1,4 @@
-package id42.chat.bot;
+package id42.bot;
 
 import org.slf4j.Logger;
 import software.amazon.awssdk.services.lexruntimev2.LexRuntimeV2Client;
