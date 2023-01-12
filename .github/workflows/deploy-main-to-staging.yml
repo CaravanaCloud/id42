@@ -8,8 +8,6 @@ on:
 jobs:
   all-steps:
     runs-on: ubuntu-latest
-    env:
-      MAVEN_OPTS: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
 
     steps:
       - name: Configure AWS Credentials
