@@ -105,7 +105,10 @@ public class ChatInteraction {
 
     public String getString(SlotKey slot) {
         var value = slot(slot);
-        if (value instanceof String) return (String) value;
+        if (value == null)
+            return null;
+        if (value instanceof String)
+            return (String) value;
         throw new IllegalArgumentException("Slot " + slot + " is not a string");
     }
 }
