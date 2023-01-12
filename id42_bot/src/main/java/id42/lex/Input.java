@@ -1,5 +1,6 @@
 package id42.lex;
 
+import com.google.common.base.MoreObjects;
 import id42.Identity;
 
 import java.util.Arrays;
@@ -17,7 +18,6 @@ public class Input {
         this.identity = identity;
         this.sessionId = sessionId;
         this.text = text;
-        String prompt = null;
         var tokens = text.split(" ");
         if (tokens.length > 0) {
             var head = tokens[0];
@@ -56,5 +56,16 @@ public class Input {
 
     public String prompt() {
         return prompt;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("identity", identity)
+                .add("sessionId", sessionId)
+                .add("text", text)
+                .add("_command", command)
+                .add("_prompt", prompt)
+                .toString();
     }
 }
