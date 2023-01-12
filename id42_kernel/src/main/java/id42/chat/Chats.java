@@ -10,7 +10,7 @@ public class Chats {
     private static final String REQUIRED = "Required";
     private static final Integer DEFAULT_RETRIES = 3;
 
-    private List<ChatLocale> locales = new ArrayList<>();
+    private final List<ChatLocale> locales = new ArrayList<>();
 
 
 

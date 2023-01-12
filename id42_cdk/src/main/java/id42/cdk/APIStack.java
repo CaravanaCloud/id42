@@ -18,7 +18,7 @@ import software.constructs.Construct;
 import java.util.List;
 
 public class APIStack extends Stack {
-    private Distribution distribution;
+    private final Distribution distribution;
 
     public APIStack(final Construct scope, final String id) {
         this(scope, id, null, null, null);

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatLocale {
-    private String code;
-    private String voice;
-    private Number nluConfidenceThreshold;
+    private final String code;
+    private final String voice;
+    private final Number nluConfidenceThreshold;
 
     public List<ChatIntent> intents = new ArrayList<>();
-    private List<ChatSlotType> slotTypes = new ArrayList<>();
+    private final List<ChatSlotType> slotTypes = new ArrayList<>();
 
 
     private ChatLocale(String code, double nluConfidenceThreshold, String voice) {

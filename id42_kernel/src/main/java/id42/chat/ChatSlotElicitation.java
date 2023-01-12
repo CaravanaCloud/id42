@@ -1,7 +1,7 @@
 package id42.chat;
 
 public class ChatSlotElicitation {
-    private String slotConstraint;
+    private final String slotConstraint;
     private ChatPrompt prompt;
 
     public ChatSlotElicitation(String slotConstraint, ChatPrompt prompt) {

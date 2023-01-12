@@ -14,5 +14,5 @@ public enum ID42Slots implements SlotKey {
     pickupContact,
     weekDay,
     deliveryNote,
-    dropLocation;
+    dropLocation
 }
