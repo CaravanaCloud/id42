@@ -45,5 +45,6 @@ jobs:
         env:
           ID42_BOT_TOKEN: ${{ secrets.ID42_BOT_TOKEN }}
           ID42_BOT_USERNAME: ${{ secrets.ID42_BOT_USERNAME }}
-
+          BOT_LEX_BOT_ALIAS_ID: TPQJHRB1QN
+          BOT_LEX_BOT_ID: AHADJC9MFT
 
