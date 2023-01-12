@@ -230,7 +230,7 @@ public class Listener extends TelegramLongPollingBot {
         var localSlots = transform.slots();
         var merged = mergeMaps(lexSlots, localSlots);
         chat = chat.withSlots(merged);
-        chatService.consume(chat);
+        // chatService.consume(chat);
         return chat;
     }
 
