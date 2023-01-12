@@ -7,6 +7,7 @@ import id42.chat.ChatInteraction;
 import id42.chat.SlotKey;
 import id42.intent.ID42Intents;
 import id42.intent.ID42Slots;
+import id42.service.ChatInteractionService;
 import id42.service.TelegramService;
 import org.slf4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -46,6 +47,9 @@ public class Listener extends TelegramLongPollingBot {
 
     @Inject
     SlotOverrides slots;
+
+    @Inject
+    ChatInteractionService chatService;
 
     @Override
     public String getBotUsername() {
@@ -112,8 +116,6 @@ public class Listener extends TelegramLongPollingBot {
 
     private ChatInteraction ingest(Message msg) {
         log.info("Ingesting message by bot: {}", msg);
-        var isCmd = msg.isCommand();
-        log.debug("Is this a command? {}", isCmd);
         var sessionId = ""+msg.getChatId();
         var inText = msg.getText();
         var identity = TelegramIdentity.of(msg.getFrom());
@@ -223,11 +225,13 @@ public class Listener extends TelegramLongPollingBot {
         var input = Input.of(identity,
                 sessionId,
                 transform.outputText());
-        var intent = ingest(input);
-        var lexSlots = intent.slots();
+        var chat = ingest(input);
+        var lexSlots = chat.slots();
         var localSlots = transform.slots();
         var merged = mergeMaps(lexSlots, localSlots);
-        return intent.withSlots(merged);
+        chat = chat.withSlots(merged);
+        chatService.consume(chat);
+        return chat;
     }
 
     private HashMap<SlotKey, Object> mergeMaps(Map<SlotKey, Object> outSlots,
