@@ -2,7 +2,7 @@
 set -ex
 
 echo "build java modules"
-MAVEN_ARGS="-DskipTests -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+MAVEN_ARGS="-B -DskipTests -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
 MAVEN_ARGS="$MAVEN_ARGS install"
 mvn -f id42_kernel $MAVEN_ARGS
 mvn -f id42_core $MAVEN_ARGS
