@@ -1,4 +1,4 @@
-package id42.chat.es;
+package id42.intent.es;
 
 import java.util.List;
 

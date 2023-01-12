@@ -1,11 +1,11 @@
 package id42.chat;
 
-import id42.bot.ChatIntent;
+import id42.intent.ID42Slots;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static id42.bot.ChatIntent.State.PARTIAL;
+import static id42.chat.ChatInteractionState.*;
+import static id42.intent.ID42Slots.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
@@ -15,21 +15,20 @@ public class RequestDeliveryESTest extends ChatTest {
     @Test
     public void testCase0() {
         var intent = ask("programar entrega");
-        var intentName = intent.name();
         assertNotNull(intent);
         assertEquals(PARTIAL, intent.state());
     }
 
     @Test
     public void testCase1() {
-        var intent = ask("Programa " +
+        var chat = ask("Programa " +
                 "Jueves 22/12/2022 " +
                 "7:30 - Entrega Eric e Benjamin a Muntaner 321");
-        assertNotNull(intent);
-        var slots = intent.slots();
+        assertNotNull(chat);
+        var slots = chat.slots();
         assertNotNull(slots);
-        assertEquals("07:30", slots.get("pickupTime"));
-        assertEquals("2022-12-22", slots.get("pickupDate"));
+        assertEquals("07:30", chat.getString(pickupTime));
+        assertEquals("2022-12-22", chat.getString(pickupDate));
         //TODO: assertEquals("Eric & Benjamin", slots.get("pickupContact"));
         //TODO: assertEquals("Jueves", slots.get("weekDay"));
         //TODO: assertEquals("Muntaner 321", slots.get("pickupLocation"));
@@ -79,17 +78,17 @@ public class RequestDeliveryESTest extends ChatTest {
         var intent = ask(prompt);
         //TODO: Build list deliveries intent
         var slots = intent.slots();
-        var pickupContact = slots.get("pickupContact");
-        var pickupLocation = slots.get("pickupLocation");
-        var dropLocation = slots.get("dropLocation");
-        var pickupDate = slots.get("pickupDate");
-        var pickupTime = slots.get("pickupTime");
+        var pickupContactVal = intent.getString(pickupContact);
+        var pickupLocationVal = intent.getString(pickupLocation);
+        var dropLocationVal = intent.getString(dropLocation);
+        var pickupDateVal = intent.getString(pickupDate);
+        var pickupTimeVal = intent.getString(pickupTime);
         assertNotNull(intent);
-        assertFalse(pickupContact.isBlank());
-        assertFalse(pickupLocation.isBlank());
-        assertFalse(dropLocation.isBlank());
-        assertFalse(pickupDate.isBlank());
-        assertFalse(pickupTime.isBlank());
+        assertFalse(pickupContactVal.isBlank());
+        assertFalse(pickupLocationVal.isBlank());
+        assertFalse(dropLocationVal.isBlank());
+        assertFalse(pickupDateVal.isBlank());
+        assertFalse(pickupTimeVal.isBlank());
     }
 
     @Test

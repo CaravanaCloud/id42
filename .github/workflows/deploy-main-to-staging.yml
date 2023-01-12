@@ -31,25 +31,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build Flutter webapp
-        run: flutter build web --release
-        working-directory: id42_app
+      - name: Build All
+        run: ./install.sh
 
-      - name: Build Core package
-        run: mvn -B install
-        working-directory: id42_entity
 
-      - name: Build API package
-        run: mvn -B install
-        working-directory: id42_api
-
-      - name: Build bot package
-        run: mvn -B install
-        working-directory: id42_bot
-
-      - name: Deploy CDK infrastructure
-        run: cdk deploy --context envName=staging --require-approval=never
-        working-directory: id42_cdk
+      - name: Deploy All
+        run: ./deploy.sh
         env:
           ID42_BOT_TOKEN: ${{ secrets.ID42_BOT_TOKEN }}
           ID42_BOT_USERNAME: ${{ secrets.ID42_BOT_USERNAME }}

@@ -1,4 +1,10 @@
-package id42.bot;
+package id42.lex;
+
+import id42.chat.ChatInteraction;
+import id42.chat.ChatInteractionState;
+import id42.chat.IntentKey;
+import id42.chat.SlotKey;
+import id42.intent.ID42Slots;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +38,10 @@ public class SlotOverride{
         return new SlotOverride(slotName, slotPattern, transform);
     }
 
-    public SlotTransform transform(String text, Map<String, String> slots){
+    public ChatInteraction transform(String text, Map<SlotKey, Object> slots){
         var newSlots = new HashMap<String, String>();
+        var intent = (IntentKey) null;
+        var state = (ChatInteractionState) null;
         var matcher = pattern.matcher(text);
         var found = matcher.find();
         if(found && matcher.groupCount() > 0) {
@@ -47,8 +55,9 @@ public class SlotOverride{
             var skip = value.length();
             var suffix = text.substring(start+skip);
             var result = prefix + newValue + suffix;
-            return SlotTransform.of(result, Map.of(slotName, newValue));
+            var slotKey = ID42Slots.valueOf(slotName);
+            return ChatInteraction.of(result, intent, Map.of(slotKey, newValue), state);
         }
-        return SlotTransform.of(text, Map.of());
+        return ChatInteraction.of(text, intent, Map.of(), state);
     }
 }

@@ -31,6 +31,11 @@
   </dependencyManagement>
   <dependencies>
     <dependency>
+      <groupId>id42</groupId>
+      <artifactId>id42_core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
@@ -60,11 +65,7 @@
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>id42</groupId>
-      <artifactId>id42_core</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+
     <!--
     <dependency>
       <groupId>software.amazon.awssdk</groupId>

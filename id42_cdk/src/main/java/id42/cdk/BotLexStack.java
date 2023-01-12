@@ -1,6 +1,7 @@
 package id42.cdk;
 
 import id42.chat.*;
+import id42.intent.ID42Chat;
 import software.amazon.awscdk.CfnOutput;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
