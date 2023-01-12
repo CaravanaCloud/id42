@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class BotLexStack extends Stack {
-    private String botId;
-    private String botAlias;
+    private final String botId;
+    private final String botAlias;
 
     public BotLexStack(final Construct scope, final String id) {
         this(scope, id, null);

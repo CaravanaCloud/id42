@@ -11,7 +11,7 @@ public class CDKStacks {
 
     public int run(String... args) throws Exception {
         System.out.println("Starting CDK Synth...");
-        System.out.println("Config version: %s".formatted(StaticConfig.version.getString()));
+        System.out.printf("Config version: %s%n", StaticConfig.version.getString());
         App app = new App();
         var props = StackProps.builder().build();
         var network = new NetworkStack(app, "Id42NetworkStack", props);

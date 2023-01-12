@@ -1,7 +1,7 @@
 package id42.chat;
 
 public class ChatPromptMessage {
-    private String message;
+    private final String message;
 
     public ChatPromptMessage(String message) {
         this.message = message;

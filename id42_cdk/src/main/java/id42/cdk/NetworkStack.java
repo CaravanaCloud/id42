@@ -11,7 +11,7 @@ import java.util.List;
 public class NetworkStack extends Stack {
     private final SubnetSelection privateNets;
     private final Vpc vpc;
-    private SubnetSelection publicNets;
+    private final SubnetSelection publicNets;
 
     public NetworkStack(final Construct scope, final String id) {
         this(scope, id, null);

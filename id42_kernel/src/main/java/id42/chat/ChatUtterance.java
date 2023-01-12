@@ -2,7 +2,7 @@ package id42.chat;
 
 public class ChatUtterance {
 
-    private String value;
+    private final String value;
 
     public ChatUtterance(String utterance) {
         this.value = utterance;

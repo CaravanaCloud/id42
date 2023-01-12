@@ -1,7 +1,7 @@
 package id42.chat;
 
 public class ChatPromptMessageGroup {
-    private ChatPromptMessage message;
+    private final ChatPromptMessage message;
 
     public ChatPromptMessageGroup(ChatPromptMessage message) {
         this.message = message;
