@@ -164,10 +164,7 @@ public class Listener extends TelegramLongPollingBot {
     }
 
     private Function<Input, ChatInteraction> of(Input input) {
-        var command = input.command();
-        var prompt = input.prompt();
-        log.info("command: [{}]", command);
-        log.info("prompt: [{}][{}]", prompt, prompt );
+        log.info("Input: {}", input);
         return switch (input.command()) {
             case "/salve" -> this::salve;
             default -> this::ask;
@@ -198,13 +195,6 @@ public class Listener extends TelegramLongPollingBot {
         return response;
     }
 
-    private void misunderstood(Message message) {
-        replyChat(message, "Sorry, i didn't understand that.");
-    }
-
-    private void ok(Message message) {
-        replyFrom(message, "OK...");
-    }
 
     private ChatInteraction salve(Input input) {
         //TODO add identity to input
