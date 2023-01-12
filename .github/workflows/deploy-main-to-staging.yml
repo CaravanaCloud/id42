@@ -8,6 +8,11 @@ on:
 jobs:
   all-steps:
     runs-on: ubuntu-latest
+    env:
+      ID42_BOT_TOKEN: ${{ secrets.ID42_BOT_TOKEN }}
+      ID42_BOT_USERNAME: ${{ secrets.ID42_BOT_USERNAME }}
+      BOT_LEX_BOT_ALIAS_ID: TPQJHRB1QN
+      BOT_LEX_BOT_ID: AHADJC9MFT
 
     steps:
       - name: Configure AWS Credentials
@@ -41,11 +46,13 @@ jobs:
 
       - name: Deploy All
         run: ./deploy.sh
-        env:
-          ID42_BOT_TOKEN: ${{ secrets.ID42_BOT_TOKEN }}
-          ID42_BOT_USERNAME: ${{ secrets.ID42_BOT_USERNAME }}
-          BOT_LEX_BOT_ALIAS_ID: TPQJHRB1QN
-          BOT_LEX_BOT_ID: AHADJC9MFT
+
+      - name: Store build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: core_jacoco
+          path: |
+            id42_core/target/jacoco-report
 
       - name: Store build artifacts
         uses: actions/upload-artifact@v2
