@@ -1,4 +1,4 @@
-package id42.bot;
+package id42.lex;
 
 import id42.Identity;
 import org.telegram.telegrambots.meta.api.objects.User;

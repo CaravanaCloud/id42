@@ -1,8 +1,12 @@
-package id42.bot;
+package id42.lex;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id42.Identity;
+import id42.chat.ChatInteraction;
+import id42.chat.SlotKey;
+import id42.intent.ID42Intents;
+import id42.intent.ID42Slots;
 import id42.service.TelegramService;
 import org.slf4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -18,6 +22,7 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class Listener extends TelegramLongPollingBot {
@@ -105,21 +110,21 @@ public class Listener extends TelegramLongPollingBot {
         return msg;
     }
 
-    private ChatIntent ingest(Message msg) {
+    private ChatInteraction ingest(Message msg) {
         log.info("Ingesting message by bot: {}", msg);
         var isCmd = msg.isCommand();
         log.debug("Is this a command? {}", isCmd);
         var sessionId = ""+msg.getChatId();
         var inText = msg.getText();
         var identity = TelegramIdentity.of(msg.getFrom());
-        var intent = ingest(identity, sessionId, inText);
-        var outText = intent.message();
+        var interaction = ingest(identity, sessionId, inText);
+        var outText = interaction.outputText();
         replyChat(msg, outText);
-        replySlots(msg, intent);
-        return intent;
+        replySlots(msg, interaction);
+        return interaction;
     }
 
-    private void replySlots(Message msg, ChatIntent intent) {
+    private void replySlots(Message msg, ChatInteraction intent) {
         var buf = new StringBuilder();
         buf.append("--- slots ---\n");
         for (var out: intent.slots().entrySet()) {
@@ -134,8 +139,8 @@ public class Listener extends TelegramLongPollingBot {
         replyChat(msg, outText);
     }
 
-    private void triggerChatIntent(ChatIntent intent) {
-        bm.fireEvent(intent);
+    private void triggerChatInteraction(ChatInteraction interaction) {
+        bm.fireEvent(interaction);
     }
 
 
@@ -156,7 +161,7 @@ public class Listener extends TelegramLongPollingBot {
         sendText(chatId, s);
     }
 
-    private Function<Input, ChatIntent> of(Input input) {
+    private Function<Input, ChatInteraction> of(Input input) {
         var command = input.command();
         var prompt = input.prompt();
         log.info("command: [{}]", command);
@@ -167,19 +172,23 @@ public class Listener extends TelegramLongPollingBot {
         };
     }
 
-    public ChatIntent ingest(Input input) {
+    public ChatInteraction ingest(Input input) {
         var fn = of(input);
-        if (fn == null) return ChatIntent.empty();
-        var intent = fn.apply(input);
-        if (intent != null) triggerChatIntent(intent);
-        return intent;
+        if (fn == null) {
+            log.warn("No function found for input: {}", input);
+            return ChatInteraction.empty();
+        }
+        var chat = fn.apply(input);
+        if (chat != null) triggerChatInteraction(chat);
+        return chat;
     }
 
-    private ChatIntent sorry(Input input) {
-        return ChatIntent.fail("Sorry, i didn't get that...");
+
+    private ChatInteraction sorry(Input input) {
+        return ChatInteraction.fail("Sorry, i didn't get that...");
     }
 
-    private ChatIntent ask(Input input) {
+    private ChatInteraction ask(Input input) {
         var text = input.prompt();
         var sessionId = input.sessionId();
         log.trace("Asking lex@{}: [{}]", sessionId, text);
@@ -195,35 +204,35 @@ public class Listener extends TelegramLongPollingBot {
         replyFrom(message, "OK...");
     }
 
-    private ChatIntent salve(Input input) {
+    private ChatInteraction salve(Input input) {
         //TODO add identity to input
         // var msg = "Salve!".formatted(message.identity().name());
         var message = "Salve!";
-        return ChatIntent.ready("salve", message, Map.of());
+        return ChatInteraction.ready("salve", message, null);
     }
 
-    public void onChatIntent(@Observes ChatIntent intent){
-        log.debug("ChatIntent received: {}", intent);
+    public void onChatInteraction(@Observes ChatInteraction intent){
+        log.debug("ChatInteraction received: {}", intent);
     }
 
-    public ChatIntent ingest(Identity identity,
+    public ChatInteraction ingest(Identity identity,
                              String sessionId,
                              String text) {
-        if (text == null || text.isBlank()) return ChatIntent.empty();
+        if (text == null || text.isBlank()) return ChatInteraction.empty();
         var transform = slots.transform(text);
         var input = Input.of(identity,
                 sessionId,
                 transform.outputText());
         var intent = ingest(input);
-        var outSlots = intent.slots();
-        var txSlots = transform.slots();
-        var merged = mergeMaps(outSlots, txSlots);
+        var lexSlots = intent.slots();
+        var localSlots = transform.slots();
+        var merged = mergeMaps(lexSlots, localSlots);
         return intent.withSlots(merged);
     }
 
-    private HashMap<String, String> mergeMaps(Map<String, String> outSlots,
-                                              Map<String, String> txSlots) {
-        var merged = new HashMap<String, String>();
+    private HashMap<SlotKey, Object> mergeMaps(Map<SlotKey, Object> outSlots,
+                                              Map<SlotKey, Object> txSlots) {
+        var merged = new HashMap<SlotKey, Object>();
         merged.putAll(outSlots);
         merged.putAll(txSlots);
         return merged;

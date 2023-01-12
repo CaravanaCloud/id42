@@ -14,6 +14,7 @@ public class Delivery extends PanacheEntity {
     LocalDateTime scheduledTime;
     LocalDateTime pickupTime;
     LocalDateTime deliveryTime;
+    LocalDateTime updateTime;
 
     public static Delivery of(String pickupTime, String pickupLocation, String pickupContact) {
         var createT = LocalDateTime.now();
@@ -44,6 +45,10 @@ public class Delivery extends PanacheEntity {
         d1.setCreateTime(createTime);
 		return d1;
 	}
+
+    public void touch() {
+        this.updateTime = LocalDateTime.now();
+    }
 
 
 

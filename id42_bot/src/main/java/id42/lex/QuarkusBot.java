@@ -1,4 +1,4 @@
-package id42.bot;
+package id42.lex;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;

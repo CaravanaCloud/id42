@@ -1,7 +1,8 @@
-package id42.chat;
+package id42.intent;
 
-import id42.chat.es.RequestDeliveryESUtterances;
-import id42.chat.es.SlotTypesES;
+import id42.chat.*;
+import id42.intent.es.RequestDeliveryESUtterances;
+import id42.intent.es.SlotTypesES;
 
 import java.util.List;
 import java.util.Map;
@@ -62,8 +63,8 @@ public class ID42Chat {
                 "¿Que dia da semana seria?",
                 0);
 
-        var deliveryNotesSlot = chats.slot("deliveryNote",
-                "Notas para el rider",
+        var deliveryNoteSlot = chats.slot("deliveryNote",
+                "Comentarios para el rider",
                 "AMAZON.AlphaNumeric",
                 "Optional",
                 "¿Algo más?",
@@ -76,7 +77,7 @@ public class ID42Chat {
                 "pickupContact", pickupContactSlot,
                 "dropLocation", dropLocationSlot,
                 "weekDay", weekdaySlot,
-                "deliveryNote", deliveryNotesSlot
+                "deliveryNote", deliveryNoteSlot
         );
 
         var requestDeliveryESSlots = List.of(
@@ -85,7 +86,7 @@ public class ID42Chat {
                 pickupLocationSlot,
                 pickupContactSlot,
                 weekdaySlot,
-                deliveryNotesSlot,
+                deliveryNoteSlot,
                 dropLocationSlot);
 
         addRequestDeliveryESIntent(es, slotsMap);

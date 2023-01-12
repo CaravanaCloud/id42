@@ -1,5 +1,6 @@
-package id42.bot;
+package id42.lex;
 
+import id42.chat.ChatInteraction;
 import org.slf4j.Logger;
 import software.amazon.awssdk.services.lexruntimev2.LexRuntimeV2Client;
 import software.amazon.awssdk.services.lexruntimev2.model.IntentState;
@@ -27,7 +28,7 @@ public class LEX {
         return lex;
     }
 
-    public ChatIntent ask(Input input) {
+    public ChatInteraction ask(Input input) {
         try(var lex = lex()){
             var userInput = input.text();
             var sessionId = input.sessionId();
@@ -37,11 +38,11 @@ public class LEX {
             return outcome;
         }catch (Exception e){
             e.printStackTrace();
-            return ChatIntent.fail("Ops, something went wrong (%s)".formatted(e.getMessage()));
+            return ChatInteraction.fail("Ops, something went wrong (%s)".formatted(e.getMessage()));
         }
     }
 
-    private ChatIntent parseResponse(RecognizeTextResponse resp) {
+    private ChatInteraction parseResponse(RecognizeTextResponse resp) {
         var responseText = new StringBuilder();
         var logMap = new HashMap<>();
         var sessionState = resp.sessionState();
@@ -97,15 +98,15 @@ public class LEX {
         }
         log.info("lex resp: \n {}", logMap);
         if (intentState == null)
-            return ChatIntent.empty();
+            return ChatInteraction.empty();
         var outcome = switch(intentState){
-            case READY_FOR_FULFILLMENT -> ChatIntent.ready(intentName, responseStr, slotsOut);
-            case IN_PROGRESS -> ChatIntent.partial(intentName, responseStr, slotsOut);
-            case WAITING -> ChatIntent.partial(intentName,"Waiting...", slotsOut);
-            case FULFILLED -> ChatIntent.ready(intentName,"Fulfilled...", slotsOut);
-            case UNKNOWN_TO_SDK_VERSION -> ChatIntent.fail("Unknown to sdk version");
-            case FULFILLMENT_IN_PROGRESS -> ChatIntent.partial(intentName,"Fulfillment in progress...", slotsOut);
-            case FAILED -> ChatIntent.fail(responseStr);
+            case READY_FOR_FULFILLMENT -> ChatInteraction.ready(intentName, responseStr, slotsOut);
+            case IN_PROGRESS -> ChatInteraction.partial(intentName, responseStr, slotsOut);
+            case WAITING -> ChatInteraction.partial(intentName,"Waiting...", slotsOut);
+            case FULFILLED -> ChatInteraction.ready(intentName,"Fulfilled...", slotsOut);
+            case UNKNOWN_TO_SDK_VERSION -> ChatInteraction.fail("Unknown to sdk version");
+            case FULFILLMENT_IN_PROGRESS -> ChatInteraction.partial(intentName,"Fulfillment in progress...", slotsOut);
+            case FAILED -> ChatInteraction.fail(responseStr);
         };
         return outcome;
     }

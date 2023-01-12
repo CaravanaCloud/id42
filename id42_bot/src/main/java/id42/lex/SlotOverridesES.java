@@ -1,4 +1,4 @@
-package id42.bot;
+package id42.lex;
 
 import java.util.HashMap;
 import java.util.List;
