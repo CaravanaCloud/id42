@@ -62,17 +62,14 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jacoco</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <!--
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>lexmodelsv2</artifactId>
-      <version>2.19.4</version>
-    </dependency>
-    -->
     <dependency>
       <groupId>software.amazon.awssdk</groupId>
       <artifactId>lexruntimev2</artifactId>

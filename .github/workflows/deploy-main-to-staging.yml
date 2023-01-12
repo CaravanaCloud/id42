@@ -39,7 +39,6 @@ jobs:
       - name: Build All
         run: ./install.sh
 
-
       - name: Deploy All
         run: ./deploy.sh
         env:
@@ -48,3 +47,9 @@ jobs:
           BOT_LEX_BOT_ALIAS_ID: TPQJHRB1QN
           BOT_LEX_BOT_ID: AHADJC9MFT
 
+      - name: Store build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            id42_bot/target/jacoco-report
