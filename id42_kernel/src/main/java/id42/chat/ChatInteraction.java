@@ -75,6 +75,8 @@ public class ChatInteraction {
 
     public <T> List<T> slotList(Class<T> type, SlotKey key) {
         var object = slot(key);
+        if(object == null)
+            return List.of();
         if(object instanceof List)
             return (List<T>) object;
         throw new IllegalArgumentException("Slot " + key + " is not a list");
