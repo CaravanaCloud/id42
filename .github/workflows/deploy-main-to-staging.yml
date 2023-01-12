@@ -50,6 +50,6 @@ jobs:
       - name: Store build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build
+          name: bot_jacoco
           path: |
             id42_bot/target/jacoco-report
