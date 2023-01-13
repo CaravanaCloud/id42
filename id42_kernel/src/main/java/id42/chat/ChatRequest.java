@@ -34,7 +34,7 @@ public class ChatRequest {
             IntentKey intent,
             Map<SlotKey, Object> slots,
             ChatRequestState state,
-            String sessionId){
+            String sessionId) {
         return new ChatRequest(outputText, intent, slots, state, sessionId);
     }
 
@@ -93,9 +93,9 @@ public class ChatRequest {
 
     public <T> List<T> slotList(Class<T> type, SlotKey key) {
         var object = slot(key);
-        if(object == null)
+        if (object == null)
             return List.of();
-        if(object instanceof List)
+        if (object instanceof List)
             return (List<T>) object;
         throw new IllegalArgumentException("Slot " + key + " is not a list");
     }
@@ -137,5 +137,9 @@ public class ChatRequest {
     public ChatRequest put(SlotKey slotKey, String value) {
         this.slots.put(slotKey, value);
         return this;
+    }
+
+    public Object get(SlotKey key) {
+        return slots.get(key);
     }
 }

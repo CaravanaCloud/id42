@@ -61,7 +61,7 @@ public class Listener extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         log.info("Update received.");
-        try{
+        try {
             var json = toJson(update);
             log.info("JSON update");
             log.info(json);
@@ -70,7 +70,7 @@ public class Listener extends TelegramLongPollingBot {
             var msg = message(update);
             if (msg != null) handleRequest(msg);
             log.info("Update completed.");
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error processing update.", e);
         }
     }
@@ -85,7 +85,7 @@ public class Listener extends TelegramLongPollingBot {
         return json;
     }
 
-    public void sendText(Long who, String what){
+    public void sendText(Long who, String what) {
         if (who == null) {
             log.warn("Destination not set for message");
             return;
@@ -104,7 +104,7 @@ public class Listener extends TelegramLongPollingBot {
         }
     }
 
-    public Message message(Update update){
+    public Message message(Update update) {
         var msg = update.getMessage();
         if (msg != null) return msg;
         msg = update.getEditedMessage();
@@ -113,7 +113,7 @@ public class Listener extends TelegramLongPollingBot {
 
     private void handleRequest(Message msg) {
         log.info("Ingesting message {} by bot: {}", msg.getMessageId(), msg);
-        var sessionId = ""+msg.getChatId();
+        var sessionId = "" + msg.getChatId();
         var inText = msg.getText();
         var identity = TelegramIdentity.of(msg.getFrom());
         var response = handleRequest(identity, sessionId, inText);
@@ -125,7 +125,7 @@ public class Listener extends TelegramLongPollingBot {
     private void replySlots(Message msg, ChatRequest intent) {
         var buf = new StringBuilder();
         buf.append("--- slots ---\n");
-        for (var out: intent.slots().entrySet()) {
+        for (var out : intent.slots().entrySet()) {
             var key = out.getKey();
             var val = out.getValue();
             buf.append(key)
@@ -199,13 +199,13 @@ public class Listener extends TelegramLongPollingBot {
         return ChatRequest.ready("salve", message, Map.of(), input.sessionId());
     }
 
-    public void onChatInteraction(@Observes ChatRequest intent){
+    public void onChatInteraction(@Observes ChatRequest intent) {
         log.debug("ChatInteraction received: {}", intent);
     }
 
     public ChatRequest handleRequest(Identity identity,
-                                      String sessionId,
-                                      String text) {
+                                     String sessionId,
+                                     String text) {
         if (text == null || text.isBlank()) return null;
         var transform = slots.transform(text);
         var input = Input.of(identity,
@@ -221,7 +221,7 @@ public class Listener extends TelegramLongPollingBot {
     }
 
     private HashMap<SlotKey, Object> mergeMaps(Map<SlotKey, Object> outSlots,
-                                              Map<SlotKey, Object> txSlots) {
+                                               Map<SlotKey, Object> txSlots) {
         var merged = new HashMap<SlotKey, Object>();
         merged.putAll(outSlots);
         merged.putAll(txSlots);

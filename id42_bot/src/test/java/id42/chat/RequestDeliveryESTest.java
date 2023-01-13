@@ -4,7 +4,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import static id42.chat.ChatRequestState.*;
-import static id42.intent.ID42Slots.*;
+import static id42.intent.DeliverySlot.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
@@ -26,11 +26,11 @@ public class RequestDeliveryESTest extends ChatTest {
         assertNotNull(chat);
         var slots = chat.slots();
         assertNotNull(slots);
-        assertEquals("07:30", chat.getString(pickupTime));
-        assertEquals("2022-12-22", chat.getString(pickupDate));
-        //TODO: assertEquals("Eric & Benjamin", slots.get("pickupContact"));
+        assertEquals("07:30", chat.getString(pickTime));
+        assertEquals("2022-12-22", chat.getString(pickDate));
+        //TODO: assertEquals("Eric & Benjamin", slots.get("pickContact"));
         //TODO: assertEquals("Jueves", slots.get("weekDay"));
-        //TODO: assertEquals("Muntaner 321", slots.get("pickupLocation"));
+        //TODO: assertEquals("Muntaner 321", slots.get("pickLocation"));
     }
 
     @Test
@@ -77,17 +77,17 @@ public class RequestDeliveryESTest extends ChatTest {
         var intent = ask(prompt);
         //TODO: Build list deliveries intent
         var slots = intent.slots();
-        var pickupContactVal = intent.getString(pickupContact);
-        var pickupLocationVal = intent.getString(pickupLocation);
+        var pickContactVal = intent.getString(pickContact);
+        var pickLocationVal = intent.getString(pickLocation);
         var dropLocationVal = intent.getString(dropLocation);
-        var pickupDateVal = intent.getString(pickupDate);
-        var pickupTimeVal = intent.getString(pickupTime);
+        var pickDateVal = intent.getString(pickDate);
+        var pickTimeVal = intent.getString(pickTime);
         assertNotNull(intent);
-        assertFalse(pickupContactVal.isBlank());
-        assertFalse(pickupLocationVal.isBlank());
+        assertFalse(pickContactVal.isBlank());
+        assertFalse(pickLocationVal.isBlank());
         assertFalse(dropLocationVal.isBlank());
-        assertFalse(pickupDateVal.isBlank());
-        assertFalse(pickupTimeVal.isBlank());
+        assertFalse(pickDateVal.isBlank());
+        assertFalse(pickTimeVal.isBlank());
     }
 
     @Test

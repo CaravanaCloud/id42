@@ -9,8 +9,8 @@ import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 @NamedQueries({
-    @NamedQuery(name="ChatSession.bySessionId",
-        query = "SELECT c FROM ChatSession c WHERE c.sessionId = :sessionId")
+        @NamedQuery(name = "ChatSession.bySessionId",
+                query = "SELECT c FROM ChatSession c WHERE c.sessionId = :sessionId")
 })
 @Entity
 public class ChatSession extends PanacheEntity {
@@ -19,12 +19,22 @@ public class ChatSession extends PanacheEntity {
     @OneToOne
     DeliveriesRequest deliveriesRequest;
 
-    public ChatSession() {}
+    public ChatSession() {
+    }
+
     public ChatSession(String sessionId) {
         this.sessionId = sessionId;
     }
 
     public void touch() {
         this.updateTime = LocalDateTime.now();
+    }
+
+    public DeliveriesRequest deliveriesRequest() {
+        return deliveriesRequest;
+    }
+
+    public void deliveriesRequest(DeliveriesRequest deliveriesRequest) {
+        this.deliveriesRequest = deliveriesRequest;
     }
 }

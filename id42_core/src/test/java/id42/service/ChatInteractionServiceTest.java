@@ -37,9 +37,9 @@ public class ChatInteractionServiceTest {
         var delivery = deliveryService.findByLocator(code);
         delivery.ifPresentOrElse(
                 d -> {
-                    assertEquals("2020-01-01", d.pickupDateFmt());
-                    assertEquals("08:00", d.pickupTimeFmt());
-                    assertEquals("Av. Diagonal 123", d.pickupLocation());
+                    assertEquals("2020-01-01", d.pickDateFmt());
+                    assertEquals("08:00", d.pickTimeFmt());
+                    assertEquals("Av. Diagonal 123", d.pickLocation());
 
                 },
                 () -> fail("Delivery not found"));
