@@ -7,13 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="id42_kernel" />
-        <module name="id42_bot" />
         <module name="id42_core" />
-        <module name="id42_api" />
         <module name="id42_cdk" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="id42" target="1.6" />
+      <module name="id42_api" target="11" />
+      <module name="id42_bot" target="17" />
       <module name="id42_model" target="1.5" />
     </bytecodeTargetLevel>
   </component>
