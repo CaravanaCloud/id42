@@ -15,9 +15,9 @@ public class SalveTest extends ChatTest {
 
     @Test
     public void testSalve() {
-        var outcome = listener.ingest(identity(),
+        var outcome = listener.handleRequest(identity(),
                 sessionId(),
                 "/salve");
-        assertEquals(ChatInteractionState.READY, outcome.state());
+        assertEquals(ChatRequestState.READY, outcome.state());
     }
 }

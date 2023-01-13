@@ -8,46 +8,56 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ChatInteraction {
-    ChatInteractionState state;
+public class ChatRequest {
+    ChatRequestState state;
     IntentKey intent;
     String locale;
     String text;
     Map<SlotKey, Object> slots;
 
-    public ChatInteraction(String outputText,
-                           IntentKey intent,
-                           Map<SlotKey, Object> slots,
-                           ChatInteractionState state) {
+    String sessionId;
+
+    public ChatRequest(String outputText,
+                       IntentKey intent,
+                       Map<SlotKey, Object> slots,
+                       ChatRequestState state,
+                       String sessionId) {
         this.slots = slots;
         this.text = outputText;
         this.intent = intent;
         this.state = state;
+        this.sessionId = sessionId;
     }
 
-    public static ChatInteraction of(
+    public static ChatRequest of(
             String outputText,
             IntentKey intent,
             Map<SlotKey, Object> slots,
-            ChatInteractionState state){
-        return new ChatInteraction(outputText, intent, slots, state);
+            ChatRequestState state,
+            String sessionId){
+        return new ChatRequest(outputText, intent, slots, state, sessionId);
     }
 
-    public static ChatInteraction empty() {
-        return new ChatInteraction("", null, Map.of(), ChatInteractionState.EMPTY);
+    public static ChatRequest empty() {
+        return new ChatRequest("",
+                null,
+                Map.of(),
+                ChatRequestState.EMPTY,
+                null);
     }
 
-    public static ChatInteraction fail(String text) {
-        return of(text, null, Map.of(), ChatInteractionState.FAIL);
+    public static ChatRequest fail(String text) {
+        return of(text, null, Map.of(), ChatRequestState.FAIL, null);
     }
 
-    public static ChatInteraction ready(String intentName,
-                                        String responseStr,
-                                        HashMap<String, String> slotsOut) {
-        return of(responseStr, intentByName(intentName), slotsByName(slotsOut), ChatInteractionState.READY);
+    public static ChatRequest ready(String intentName,
+                                    String responseStr,
+                                    Map<String, String> slotsOut,
+                                    String sessionId) {
+        return of(responseStr, intentByName(intentName), slotsByName(slotsOut), ChatRequestState.READY, sessionId);
     }
 
-    private static Map<SlotKey, Object> slotsByName(HashMap<String, String> slots) {
+    private static Map<SlotKey, Object> slotsByName(Map<String, String> slots) {
         if (slots == null) return Map.of();
         return slots.entrySet()
                 .stream()
@@ -60,8 +70,8 @@ public class ChatInteraction {
         return ID42Intents.byName(intentName);
     }
 
-    public static ChatInteraction partial(String intentName, String responseStr, HashMap<String, String> slotsOut) {
-        return of(responseStr, intentByName(intentName), slotsByName(slotsOut), ChatInteractionState.PARTIAL);
+    public static ChatRequest partial(String intentName, String responseStr, HashMap<String, String> slotsOut, String sessionId) {
+        return of(responseStr, intentByName(intentName), slotsByName(slotsOut), ChatRequestState.PARTIAL, sessionId);
     }
 
 
@@ -90,12 +100,12 @@ public class ChatInteraction {
         return text;
     }
 
-    public ChatInteraction withSlots(HashMap<SlotKey, Object> merged) {
+    public ChatRequest withSlots(HashMap<SlotKey, Object> merged) {
         this.slots = merged;
         return this;
     }
 
-    public ChatInteractionState state() {
+    public ChatRequestState state() {
         return state;
     }
 
@@ -110,5 +120,9 @@ public class ChatInteraction {
         if (value instanceof String)
             return (String) value;
         throw new IllegalArgumentException("Slot " + slot + " is not a string");
+    }
+
+    public String sessionId() {
+        return this.sessionId;
     }
 }

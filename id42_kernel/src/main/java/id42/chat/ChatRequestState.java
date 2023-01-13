@@ -1,6 +1,6 @@
 package id42.chat;
 
-public enum ChatInteractionState {
+public enum ChatRequestState {
         READY,
         PARTIAL,
         FAIL,
