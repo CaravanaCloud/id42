@@ -1,7 +1,7 @@
 package id42.lex;
 
-import id42.chat.ChatInteraction;
-import id42.chat.ChatInteractionState;
+import id42.chat.ChatRequest;
+import id42.chat.ChatRequestState;
 import id42.chat.IntentKey;
 import id42.chat.SlotKey;
 import id42.intent.ID42Slots;
@@ -38,10 +38,11 @@ public class SlotOverride{
         return new SlotOverride(slotName, slotPattern, transform);
     }
 
-    public ChatInteraction transform(String text, Map<SlotKey, Object> slots){
+    public ChatRequest transform(String text, Map<SlotKey, Object> slots){
         var newSlots = new HashMap<String, String>();
         var intent = (IntentKey) null;
-        var state = (ChatInteractionState) null;
+        var state = (ChatRequestState) null;
+        var sessionId = (String) null;
         var matcher = pattern.matcher(text);
         var found = matcher.find();
         if(found && matcher.groupCount() > 0) {
@@ -56,8 +57,8 @@ public class SlotOverride{
             var suffix = text.substring(start+skip);
             var result = prefix + newValue + suffix;
             var slotKey = ID42Slots.valueOf(slotName);
-            return ChatInteraction.of(result, intent, Map.of(slotKey, newValue), state);
+            return ChatRequest.of(result, intent, Map.of(slotKey, newValue), state, sessionId);
         }
-        return ChatInteraction.of(text, intent, Map.of(), state);
+        return ChatRequest.of(text, intent, Map.of(), state, sessionId);
     }
 }

@@ -1,10 +1,9 @@
 package id42.chat;
 
-import id42.intent.ID42Slots;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
-import static id42.chat.ChatInteractionState.*;
+import static id42.chat.ChatRequestState.*;
 import static id42.intent.ID42Slots.*;
 import static org.junit.jupiter.api.Assertions.*;
 

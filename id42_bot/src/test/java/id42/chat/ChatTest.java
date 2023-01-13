@@ -14,8 +14,8 @@ public abstract class ChatTest {
     }
 
 
-    protected ChatInteraction ask(String prompt) {
-        return listener.ingest(identity(),
+    protected ChatRequest ask(String prompt) {
+        return listener.handleRequest(identity(),
                 sessionId(),
                 "/ask "+prompt);
     }
