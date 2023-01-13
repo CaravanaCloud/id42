@@ -74,6 +74,14 @@ public class ChatRequest {
         return of(responseStr, intentByName(intentName), slotsByName(slotsOut), ChatRequestState.PARTIAL, sessionId);
     }
 
+    public static ChatRequest of(IntentKey intent) {
+        return of("", intent, map(), ChatRequestState.EMPTY, null);
+    }
+
+    private static Map<SlotKey, Object> map() {
+        return new HashMap<>();
+    }
+
 
     public IntentKey intent() {
         return intent;
@@ -124,5 +132,10 @@ public class ChatRequest {
 
     public String sessionId() {
         return this.sessionId;
+    }
+
+    public ChatRequest put(SlotKey slotKey, String value) {
+        this.slots.put(slotKey, value);
+        return this;
     }
 }

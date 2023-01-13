@@ -5,7 +5,6 @@ import id42.chat.IntentKey;
 import id42.entity.ChatSession;
 import id42.entity.Delivery;
 import id42.intent.ID42Intents;
-import id42.intent.ID42Slots;
 import io.quarkus.runtime.StartupEvent;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -16,7 +15,8 @@ import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Function;
+
+import static id42.intent.DeliverySlot.*;
 
 @ApplicationScoped
 public class ChatInteractionService extends Service {
@@ -59,10 +59,27 @@ public class ChatInteractionService extends Service {
 
     private ChatRequest requestDeliveries(ChatRequest chat) {
         var sessionId = chat.sessionId();
-        log.info("Requesting deliveries for session {}", sessionId);
-        var deliveries = chat.slotList(Delivery.class, ID42Slots.deliveries);
-        log.info("Found " + deliveries.size() + " deliveries");
+        var delivery = deliveryOf(chat);
         return chat;
+    }
+
+    private Delivery deliveryOf(ChatRequest chat) {
+        var _locator = chat.getString(locator);
+        var _pickupDate = chat.getString(pickDate);
+        var _pickupTime = chat.getString(pickTime);
+        var _pickupLocation = chat.getString(pickLocation);
+        var _pickupContact = chat.getString(pickContact);
+        var _dropLocation = chat.getString(dropLocation);
+        var _deliveryNote = chat.getString(deliveryNote);
+        var delivery = Delivery.of(_locator,
+                _pickupDate,
+                _pickupTime,
+                _pickupLocation,
+                _pickupContact,
+                _dropLocation,
+                _deliveryNote);
+        delivery.persist();
+        return delivery;
     }
 
 }

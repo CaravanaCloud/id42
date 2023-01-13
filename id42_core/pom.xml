@@ -8,6 +8,7 @@
     <packaging>jar</packaging>
     <description>Entities and services shared across modules.</description>
     <properties>
+        <hashid.version>1.0.3</hashid.version>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,6 +35,11 @@
             <groupId>id42</groupId>
             <artifactId>id42_kernel</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hashids</groupId>
+            <artifactId>hashids</artifactId>
+            <version>${hashid.version}</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
