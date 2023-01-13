@@ -53,6 +53,7 @@ public class ChatInteractionService extends Service {
             em.persist(newSession);
             return newSession;
         });
+        session.touch();
         return session;
     }
 
