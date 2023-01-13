@@ -1,6 +1,7 @@
 package id42.entity;
 
-public enum DeliveryRequestState {
+public enum DeliveryState {
+    created,
     requested,
     approved,
     done,

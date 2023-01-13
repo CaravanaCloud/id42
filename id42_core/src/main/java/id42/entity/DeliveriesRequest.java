@@ -3,13 +3,18 @@ package id42.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-import static javax.persistence.EnumType.STRING;
+import java.time.LocalDateTime;
 
 @Entity
 public class DeliveriesRequest extends PanacheEntity {
-    @Enumerated(STRING)
-    DeliveryRequestState state;
+
+    LocalDateTime createTime;
+
+    public DeliveriesRequest() {
+        this.createTime = LocalDateTime.now();
+    }
+
+    public static DeliveriesRequest of() {
+        return new DeliveriesRequest();
+    }
 }
