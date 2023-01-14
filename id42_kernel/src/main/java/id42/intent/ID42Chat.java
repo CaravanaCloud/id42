@@ -29,17 +29,17 @@ public class ID42Chat {
     }
     private static void addEsEsIntents(Chats chats, ChatLocale es) {
         // Slots
-        var pickupDateSlot = chats.requiredSlot("pickupDate",
+        var pickDateSlot = chats.requiredSlot("pickDate",
                 "Fecha de recogida",
                 "AMAZON.Date",
                 "¿Que dia lo recogemos?");
 
-        var pickupTimeSlot = chats.requiredSlot("pickupTime",
+        var pickTimeSlot = chats.requiredSlot("pickTime",
                 "Hora de recogida",
                 "AMAZON.Time",
                 "¿A que horas recogemos?");
 
-        var pickupLocationSlot = chats.requiredSlot("pickupLocation",
+        var pickLocationSlot = chats.requiredSlot("pickLocation",
                 "Local de recogida",
                 "ID42_LOCATION",
                 "¿Dónde recogemos?");
@@ -49,7 +49,7 @@ public class ID42Chat {
                 "ID42_LOCATION",
                 "¿Dónde entregamos?");
 
-        var pickupContactSlot = chats.slot("pickupContact",
+        var pickContactSlot = chats.slot("pickContact",
                 "Contacto para recoger el pedido",
                 "AMAZON.AlphaNumeric",
                 "Optional",
@@ -71,20 +71,20 @@ public class ID42Chat {
                 1);
 
         var slotsMap = Map.of(
-                "pickupTime", pickupTimeSlot,
-                "pickupDate", pickupDateSlot,
-                "pickupLocation", pickupLocationSlot,
-                "pickupContact", pickupContactSlot,
+                "pickTime", pickTimeSlot,
+                "pickDate", pickDateSlot,
+                "pickLocation", pickLocationSlot,
+                "pickContact", pickContactSlot,
                 "dropLocation", dropLocationSlot,
                 "weekDay", weekdaySlot,
                 "deliveryNote", deliveryNoteSlot
         );
 
         var requestDeliveryESSlots = List.of(
-                pickupDateSlot,
-                pickupTimeSlot,
-                pickupLocationSlot,
-                pickupContactSlot,
+                pickDateSlot,
+                pickTimeSlot,
+                pickLocationSlot,
+                pickContactSlot,
                 weekdaySlot,
                 deliveryNoteSlot,
                 dropLocationSlot);
@@ -100,10 +100,10 @@ public class ID42Chat {
                 .stream()
                 .collect(Collectors.toList()));
         var slotPriorities = List.of(
-                ChatSlotPriority.of("pickupDate",20),
-                ChatSlotPriority.of("pickupTime",20),
-                ChatSlotPriority.of("pickupLocation",20),
-                ChatSlotPriority.of("pickupContact",20),
+                ChatSlotPriority.of("pickDate",20),
+                ChatSlotPriority.of("pickTime",20),
+                ChatSlotPriority.of("pickLocation",20),
+                ChatSlotPriority.of("pickContact",20),
                 ChatSlotPriority.of("dropLocation",30),
                 ChatSlotPriority.of("deliveryNote",40),
                 ChatSlotPriority.of("weekDay",50)

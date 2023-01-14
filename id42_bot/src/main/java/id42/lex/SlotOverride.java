@@ -4,6 +4,7 @@ import id42.chat.ChatRequest;
 import id42.chat.ChatRequestState;
 import id42.chat.IntentKey;
 import id42.chat.SlotKey;
+import id42.intent.DeliverySlot;
 import id42.intent.ID42Slots;
 
 import java.util.HashMap;
@@ -56,7 +57,7 @@ public class SlotOverride{
             var skip = value.length();
             var suffix = text.substring(start+skip);
             var result = prefix + newValue + suffix;
-            var slotKey = ID42Slots.valueOf(slotName);
+            var slotKey = DeliverySlot.valueOf(slotName);
             return ChatRequest.of(result, intent, Map.of(slotKey, newValue), state, sessionId);
         }
         return ChatRequest.of(text, intent, Map.of(), state, sessionId);

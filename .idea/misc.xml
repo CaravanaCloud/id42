@@ -6,8 +6,8 @@
       <list>
         <option value="$PROJECT_DIR$/pom.old.xml" />
         <option value="$PROJECT_DIR$/id42_kernel/pom.xml" />
+        <option value="$PROJECT_DIR$/id42_bot/pom.xml" />
         <option value="$PROJECT_DIR$/id42_core/pom.xml" />
-        <option value="$PROJECT_DIR$/id42_cdk/pom.xml" />
       </list>
     </option>
   </component>

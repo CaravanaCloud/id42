@@ -9,8 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 public class RequestDeliveryESTest extends ChatTest {
-
-
     @Test
     public void testCase0() {
         var intent = ask("programar entrega");

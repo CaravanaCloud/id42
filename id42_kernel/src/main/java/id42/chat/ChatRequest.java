@@ -59,11 +59,12 @@ public class ChatRequest {
 
     private static Map<SlotKey, Object> slotsByName(Map<String, String> slots) {
         if (slots == null) return Map.of();
-        return slots.entrySet()
+        var slotsMap = slots.entrySet()
                 .stream()
                 .collect(Collectors.toMap(
                         e -> ID42Slots.valueOf(e.getKey()),
-                        e -> e.getValue()));
+                        e -> (Object) e.getValue()));
+        return slotsMap;
     }
 
     private static IntentKey intentByName(String intentName) {

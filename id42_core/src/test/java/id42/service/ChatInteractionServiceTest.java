@@ -40,8 +40,13 @@ public class ChatInteractionServiceTest {
                     assertEquals("2020-01-01", d.pickDateFmt());
                     assertEquals("08:00", d.pickTimeFmt());
                     assertEquals("Av. Diagonal 123", d.pickLocation());
-
                 },
-                () -> fail("Delivery not found"));
+                this::failDeliveryNotFound);
+    }
+
+
+
+    void failDeliveryNotFound(){
+        fail("Delivery not found");
     }
 }
