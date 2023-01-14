@@ -33,12 +33,12 @@ public class SlotOverridesES {
     }};
 
     static final List<SlotOverride> overrides = List.of(
-            SlotOverride.of("pickupContact",
+            SlotOverride.of("pickContact",
                     "[Cc]liente:[\\s+](.*)"),
-            SlotOverride.of("pickupTime",
+            SlotOverride.of("pickTime",
                     "[Hh]ora:[\\s+](\\S*)",
                     SlotOverridesES::parseTime),
-            SlotOverride.of("pickupTime",
+            SlotOverride.of("pickTime",
                     "(🕛|🕧|🕐|🕜|🕑|🕝|🕒|🕞|🕓|🕟|🕔|🕠|🕕|🕡|🕖|🕢|🕗|🕣|🕘|🕤|🕙|🕥|🕚|🕦)",
                     SlotOverridesES::parseTime)
             );
@@ -52,7 +52,7 @@ public class SlotOverridesES {
     }
 
     public static void main(String[] args) {
-            var slot = SlotOverride.of("pickupTime",
+            var slot = SlotOverride.of("pickTime",
                     "(🕐|🕑|🕒|🕓|🕔|🕕|🕖|🕗|🕘|🕙|🕚|🕛)",
             h -> switch(h){
                 case "🕛"  -> "12:00";
