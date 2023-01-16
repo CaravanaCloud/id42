@@ -1,8 +1,9 @@
 image:
   file: .gitpod.Dockerfile
+
 tasks:
-  - name: say hello
-    command: echo hello
+  - name: Load variables
+    command: eval $(direnv hook bash)
     
 ports:
   - port: 5900
@@ -23,3 +24,9 @@ ports:
 vscode:
   extensions:
     - dart-code.flutter
+    - vscjava.vscode-java-pack
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-dependency
+    - vscjava.vscode-java-test
+    - vscjava.vscode-maven
+    - redhat.java
