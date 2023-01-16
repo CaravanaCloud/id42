@@ -23,6 +23,6 @@ public class ID42Slots implements SlotKey {
     }
 
     private static void warn(String s) {
-        System.out.println();
+        System.out.println(s);
     }
 }
