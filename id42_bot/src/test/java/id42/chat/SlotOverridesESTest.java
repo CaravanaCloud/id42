@@ -1,7 +1,7 @@
 package id42.chat;
 
+import id42.bot.lex.SlotOverrides;
 import id42.intent.ID42Slots;
-import id42.lex.SlotOverrides;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 

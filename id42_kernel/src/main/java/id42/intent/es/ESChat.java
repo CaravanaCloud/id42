@@ -1,4 +1,4 @@
-package id42.intent;
+package id42.intent.es;
 
 import id42.chat.*;
 import id42.intent.es.RequestDeliveryESUtterances;
