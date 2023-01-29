@@ -1,5 +1,6 @@
 package id42.intent.es;
 
+import id42.chat.ChatLocale;
 import id42.chat.ChatSlotType;
 import id42.chat.ChatValueSelectionSetting;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 public class SlotTypesES {
 
-    public static List<ChatSlotType> of() {
+    public static void of(ChatLocale locale) {
         var contactSlotType = ChatSlotType.of("ID42_CONTACT",
                 "Contact",
                 ChatValueSelectionSetting.of("ORIGINAL_VALUE"),
@@ -23,8 +24,9 @@ public class SlotTypesES {
                 ChatValueSelectionSetting.of("TOP_RESOLUTION"),
                 List.of("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"));
 
-        return List.of(locationSlotType,
+        var slotTypes = List.of(locationSlotType,
                 contactSlotType,
                 weekdaySlotType);
+        locale.slotTypes().addAll(slotTypes);
     }
 }
