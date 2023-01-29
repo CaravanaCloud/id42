@@ -1,12 +1,13 @@
-package id42.lex;
+package id42.bot.lex;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id42.Identity;
 import id42.chat.ChatRequest;
 import id42.chat.SlotKey;
-import id42.service.ChatInteractionService;
 import id42.service.TelegramService;
+import id42.service.chat.ChatInteractionService;
+
 import org.slf4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

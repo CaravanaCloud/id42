@@ -1,7 +1,7 @@
 package id42.chat;
 
 import id42.Identity;
-import id42.lex.Listener;
+import id42.bot.lex.Listener;
 
 import javax.inject.Inject;
 import java.util.UUID;

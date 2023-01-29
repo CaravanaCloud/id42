@@ -16,16 +16,24 @@ import static javax.persistence.EnumType.STRING;
 })
 public class Delivery extends PanacheEntity {
     String locator;
+
     @Enumerated(STRING)
     DeliveryState state;
+    
     LocalDateTime createTime;
+    
     LocalDateTime pickTime;
-    String pickLocation;
-
+    
+    String pickAddress;
+    String pickAddressDetail;
     String pickSpot;
-
     String pickContact;
-    String dropLocation;
+
+    String dropAddress;
+    String dropAddressDetail;
+    String dropSpot;
+    String dropContact;
+
     String deliveryNote;
 
     LocalDateTime updateTime;

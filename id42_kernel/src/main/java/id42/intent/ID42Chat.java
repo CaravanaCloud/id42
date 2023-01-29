@@ -1,12 +1,7 @@
 package id42.intent;
 
 import id42.chat.*;
-import id42.intent.es.RequestDeliveryESUtterances;
-import id42.intent.es.SlotTypesES;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import id42.intent.es.ESChat;
 
 //TODO: Map more precise slot types (Day of Week, PartialDate, LocationAlias ...)
 //TODO: Add integration

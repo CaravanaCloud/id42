@@ -1,4 +1,4 @@
-package id42.lex;
+package id42.bot.lex;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

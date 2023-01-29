@@ -1,8 +1,9 @@
 package id42.chat;
 
-import id42.lex.Listener;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
+
+import id42.bot.lex.Listener;
 
 import javax.inject.Inject;
 

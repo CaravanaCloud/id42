@@ -1,4 +1,4 @@
-package id42.lex;
+package id42.bot.lex;
 
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.WithDefault;
