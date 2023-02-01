@@ -33,12 +33,14 @@ public class Delivery extends PanacheEntity {
     String pickAddress;
     String pickAddressDetail;
     String pickSpot;
-    String pickContact;
+    String pickContactName;
+    String pickContactPhone;
 
     String dropAddress;
     String dropAddressDetail;
     String dropSpot;
-    String dropContact;
+    String dropContactName;
+    String dropContactPhone;
 
     String deliveryNote;
 

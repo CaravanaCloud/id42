@@ -2,8 +2,10 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Load variables
-    command: eval $(direnv hook bash)
+  - name: Build
+    command: echo "Build Run"
+    init: |
+      ./build.sh
     
 ports:
   - port: 5900
