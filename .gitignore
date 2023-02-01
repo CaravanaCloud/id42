@@ -23,6 +23,8 @@
 hs_err_pid*
 
 .envrc*
+.env*
+
 
 .idea/**/workspace.xml
 .idea/workspace.xml
