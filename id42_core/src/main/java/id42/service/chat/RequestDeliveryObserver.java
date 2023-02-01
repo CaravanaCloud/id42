@@ -54,11 +54,11 @@ public class RequestDeliveryObserver extends Observer {
         tryUpdate(chat, pickAddress, delivery::pickAddress);
         tryUpdate(chat, pickAddressDetail, delivery::pickAddressDetail);
         tryUpdate(chat, pickSpot, delivery::pickSpot);
-        tryUpdate(chat, pickContact, delivery::pickContact);
+        //TODO: Replace with Contact entity  tryUpdate(chat, pickContact, delivery::pickContact);
         tryUpdate(chat, dropAddress, delivery::dropAddress);
         tryUpdate(chat, dropAddressDetail, delivery::dropAddressDetail);
         tryUpdate(chat, dropSpot, delivery::dropSpot);
-        tryUpdate(chat, dropContact, delivery::dropContact);
+        //TODO: Replace with Contact entity tryUpdate(chat, dropContact, delivery::dropContact);
         tryUpdate(chat, deliveryNote, delivery::deliveryNote);
         var _pickTime = chat.getString(pickTime);
         var _pickDate = chat.getString(pickDate);

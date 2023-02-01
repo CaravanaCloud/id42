@@ -2,8 +2,9 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Load variables
-    command: eval $(direnv hook bash)
+  - name: Run tests
+    command: echo "Workspace test command at $(date)"
+    init: ./test.sh
     
 ports:
   - port: 5900
