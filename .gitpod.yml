@@ -2,10 +2,9 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: Build
-    command: echo "Build Run"
-    init: |
-      ./build.sh
+  - name: Run tests
+    command: echo "Workspace test command at $(date)"
+    init: ./test.sh
     
 ports:
   - port: 5900
