@@ -1,11 +1,9 @@
 package id42.entity;
 
 import id42.Strings;
-import id42.intent.DeliveryRequestSlots;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -33,14 +31,14 @@ public class Delivery extends PanacheEntity {
     String pickAddress;
     String pickAddressDetail;
     String pickSpot;
-    String pickContactName;
-    String pickContactPhone;
+    @ManyToOne
+    Contact pickContact;
 
     String dropAddress;
     String dropAddressDetail;
     String dropSpot;
-    String dropContactName;
-    String dropContactPhone;
+    @ManyToOne
+    Contact dropContact;
 
     String deliveryNote;
 
@@ -166,9 +164,6 @@ public class Delivery extends PanacheEntity {
         this.pickSpot = s;
     }
 
-    public void pickContact(String s) {
-        this.pickContact = s;
-    }
 
     public void deliveryNote(String s) {
         this.deliveryNote = s;
@@ -194,9 +189,6 @@ public class Delivery extends PanacheEntity {
         this.dropSpot = s;
     }
 
-    public void dropContact(String s) {
-        this.dropContact = s;
-    }
 
     public String pickAddress() {
         return pickAddress;
