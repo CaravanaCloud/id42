@@ -18,7 +18,7 @@ public class CDKStacks {
         var database = new DatabaseStack(app, "Id42DatabaseStack", props, network);
         var api = new APIStack(app, "Id42APIStack", props, network, database);
         var botApp = new BotApplicationStack(app, "Id42BotAppStack", props, database);
-        var bastion = new BastionStack(app, "Id42BastionStack", props, network);
+        // var bastion = new BastionStack(app, "Id42BastionStack", props, network);
         var lex = new BotLexStack(app, "Id42LexStack", props);
         var botEnv = new BotEnvironmentStack(app, "Id42BotEnvironmentStack", props,  network, database, botApp, lex);
         app.synth();

@@ -10,7 +10,7 @@
     <cdk.version>2.56.0</cdk.version>
     <constructs.version>[10.0.0,11.0.0)</constructs.version>
     <junit.version>5.7.1</junit.version>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <smallrye.version>3.1.1</smallrye.version>
   </properties>

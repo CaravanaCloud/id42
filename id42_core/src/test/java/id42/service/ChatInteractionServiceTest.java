@@ -31,7 +31,7 @@ public class ChatInteractionServiceTest {
                 .put(locator, code)
                 .put(pickDate, "2020-01-01")
                 .put(pickTime, "08:00")
-                .put(pickLocation, "Av. Diagonal 123")
+                .put(pickAddress, "Av. Diagonal 123")
                 .put(dropLocation, "Av. Diagonal 321");
         chatService.accept(chat);
         // then
@@ -40,7 +40,7 @@ public class ChatInteractionServiceTest {
                 d -> {
                     assertEquals("2020-01-01", d.pickDateFmt());
                     assertEquals("08:00", d.pickTimeFmt());
-                    assertEquals("Av. Diagonal 123", d.pickLocation());
+                    assertEquals("Av. Diagonal 123", d.pickAddress());
                 },
                 this::failDeliveryNotFound);
     }

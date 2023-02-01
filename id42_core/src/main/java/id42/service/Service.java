@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 
 
-public abstract class Service {
-    @Inject
-    Logger log;
+public abstract class Service extends Thing {
+
 }

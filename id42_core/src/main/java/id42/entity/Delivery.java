@@ -1,9 +1,11 @@
 package id42.entity;
 
 import id42.Strings;
+import id42.intent.DeliveryRequestSlots;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,15 +17,19 @@ import static javax.persistence.EnumType.STRING;
                 query = "SELECT d FROM Delivery d WHERE d.locator = :locator"),
 })
 public class Delivery extends PanacheEntity {
+    @Column(unique = true)
     String locator;
+
+    @ManyToOne
+    DeliveriesRequest request;
 
     @Enumerated(STRING)
     DeliveryState state;
-    
+
     LocalDateTime createTime;
-    
+
     LocalDateTime pickTime;
-    
+
     String pickAddress;
     String pickAddressDetail;
     String pickSpot;
@@ -38,51 +44,89 @@ public class Delivery extends PanacheEntity {
 
     LocalDateTime updateTime;
 
-    @ManyToOne
-    DeliveriesRequest request;
 
-    public Delivery() {
-    }
+    public Delivery() {}
 
-    public Delivery(DeliveriesRequest request,
-                    String locator,
-                    LocalDateTime pickTime,
-                    String pickLocation,
-                    String pickContact,
-                    String dropLocation,
-                    String deliveryNote) {
-        this.createTime = LocalDateTime.now();
-        this.pickTime = pickTime;
-        this.pickLocation = pickLocation;
-        this.pickContact = pickContact;
-        this.dropLocation = dropLocation;
-        this.deliveryNote = deliveryNote;
-        this.locator = locator;
-        this.state = DeliveryState.created;
-        this.request = request;
+    private Delivery(String locator,
+                     DeliveriesRequest request,
+                     LocalDateTime pickTime,
+                     String pickAddress,
+                     String pickAddressDetail,
+                     String pickSpot,
+                     String pickContact,
+                     String dropAddress,
+                     String dropAddressDetail,
+                     String dropSpot,
+                     String dropContact,
+                     String deliveryNote,
+                     String updateTime) {
+        this.state=DeliveryState.created;
+        this.createTime= LocalDateTime.now();
+
+        this.locator=null;
+        this.request=null;
+        this.pickTime=null;
+        this.pickAddress=null;
+        this.pickAddressDetail=null;
+        this.pickSpot=null;
+        this.pickContact=null;
+        this.dropAddress=null;
+        this.dropAddressDetail=null;
+        this.dropSpot=null;
+        this.dropContact=null;
+        this.deliveryNote=null;
+        this.updateTime=null;
     }
 
     //TODO: Review factory methos
-    public static Delivery of(DeliveriesRequest request,
-                              String locator,
+    public static Delivery of(String locator,
+                              DeliveriesRequest request,
                               String pickDate,
                               String pickTime,
-                              String pickLocation,
+                              String pickAddress,
+                              String pickAddressDetail,
+                              String pickSpot,
                               String pickContact,
-                              String dropLocation,
-                              String deliveryNote) {
+                              String dropAddress,
+                              String dropAddressDetail,
+                              String dropSpot,
+                              String dropContact,
+                              String deliveryNote,
+                              String updateTime) {
         var pickT = (LocalDateTime) null;
         if (pickDate != null && pickTime != null) {
             pickT = Strings.parseTime(pickDate, pickTime);
         }
-        var delivery = new Delivery(request,
-                locator,
+        var delivery = new Delivery(locator,
+                request,
                 pickT,
-                pickLocation,
+                pickAddress,
+                pickAddressDetail,
+                pickSpot,
                 pickContact,
-                dropLocation,
-                deliveryNote);
+                dropAddress,
+                dropAddressDetail,
+                dropSpot,
+                dropContact,
+                deliveryNote,
+                updateTime);
         return delivery;
+    }
+
+    public static Delivery of(DeliveriesRequest request) {
+        return new Delivery(null,
+                request,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     public String pickDateFmt() {
@@ -106,13 +150,6 @@ public class Delivery extends PanacheEntity {
         return Strings.formatTime(pickTime);
     }
 
-    public String pickLocation() {
-        return pickLocation;
-    }
-
-    public void pickLocation(String pickLocation) {
-        this.pickLocation = pickLocation;
-    }
 
 
     public void locator(String locator) {
@@ -131,11 +168,35 @@ public class Delivery extends PanacheEntity {
         this.pickContact = s;
     }
 
-    public void dropLocation(String s) {
-        this.dropLocation = s;
-    }
-
     public void deliveryNote(String s) {
         this.deliveryNote = s;
+    }
+
+    public void pickAddress(String s) {
+        this.pickAddress = s;
+    }
+
+    public void pickAddressDetail(String s) {
+        this.pickAddress = s;
+    }
+
+    public void dropAddress(String s) {
+        this.dropAddress = s;
+    }
+
+    public void dropAddressDetail(String s) {
+        this.pickAddress = s;
+    }
+
+    public void dropSpot(String s) {
+        this.dropSpot = s;
+    }
+
+    public void dropContact(String s) {
+        this.dropContact = s;
+    }
+
+    public String pickAddress() {
+        return pickAddress;
     }
 }
