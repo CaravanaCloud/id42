@@ -38,7 +38,7 @@ public class LEX {
             return outcome;
         }catch (Exception e){
             e.printStackTrace();
-            return ChatRequest.fail("Ops, something went wrong (%s)".formatted(e.getMessage()));
+            return ChatRequest.fail("Ops, something went wrong: " +e.getMessage());
         }
     }
 
@@ -99,15 +99,32 @@ public class LEX {
         log.info("lex resp: \n {}", logMap);
         if (intentState == null)
             return ChatRequest.empty();
-        var outcome = switch(intentState){
-            case READY_FOR_FULFILLMENT -> ChatRequest.ready(intentName, responseStr, slotsOut, sessionId);
-            case IN_PROGRESS -> ChatRequest.partial(intentName, responseStr, slotsOut, sessionId);
-            case WAITING -> ChatRequest.partial(intentName,"Waiting...", slotsOut, sessionId);
-            case FULFILLED -> ChatRequest.ready(intentName,"Fulfilled...", slotsOut, sessionId);
-            case UNKNOWN_TO_SDK_VERSION -> ChatRequest.fail("Unknown to sdk version");
-            case FULFILLMENT_IN_PROGRESS -> ChatRequest.partial(intentName,"Fulfillment in progress...", slotsOut, sessionId);
-            case FAILED -> ChatRequest.fail(responseStr);
-        };
+        ChatRequest outcome;
+        switch (intentState) {
+            case READY_FOR_FULFILLMENT:
+                outcome = ChatRequest.ready(intentName, responseStr, slotsOut, sessionId);
+                break;
+            case IN_PROGRESS:
+                outcome = ChatRequest.partial(intentName, responseStr, slotsOut, sessionId);
+                break;
+            case WAITING:
+                outcome = ChatRequest.partial(intentName, "Waiting...", slotsOut, sessionId);
+                break;
+            case FULFILLED:
+                outcome = ChatRequest.ready(intentName, "Fulfilled...", slotsOut, sessionId);
+                break;
+            case UNKNOWN_TO_SDK_VERSION:
+                outcome = ChatRequest.fail("Unknown to sdk version");
+                break;
+            case FULFILLMENT_IN_PROGRESS:
+                outcome = ChatRequest.partial(intentName, "Fulfillment in progress...", slotsOut, sessionId);
+                break;
+            case FAILED:
+                outcome = ChatRequest.fail(responseStr);
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
         return outcome;
     }
 

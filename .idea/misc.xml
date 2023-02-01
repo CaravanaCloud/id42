@@ -8,10 +8,11 @@
         <option value="$PROJECT_DIR$/id42_kernel/pom.xml" />
         <option value="$PROJECT_DIR$/id42_bot/pom.xml" />
         <option value="$PROJECT_DIR$/id42_core/pom.xml" />
+        <option value="$PROJECT_DIR$/id42_cdk/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="zulu-11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="zulu-11" project-jdk-type="JavaSDK" />
   <component name="SuppressKotlinCodeStyleNotification">
     <option name="disableForAll" value="true" />
   </component>

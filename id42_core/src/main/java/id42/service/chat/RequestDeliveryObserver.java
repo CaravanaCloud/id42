@@ -3,25 +3,31 @@ package id42.service.chat;
 import java.util.function.Consumer;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import id42.chat.ChatRequest;
 import id42.chat.SlotKey;
 import id42.entity.ChatSession;
 import id42.entity.DeliveriesRequest;
 import id42.entity.Delivery;
+import id42.service.Observer;
 import id42.service.DeliveryService;
 
+import static id42.intent.DeliverySlot.*;
+import static id42.intent.DeliverySlot.dropContact;
+
+
 @ApplicationScoped
-public class RequestDeliveryObserver {
-    @Inject
-    EntityManager em;
+public class RequestDeliveryObserver extends Observer {
 
     @Inject
     DeliveryService deliveryService;
 
-    
+    private void onChat(@Observes ChatEvent chat){
+        log().info("Chat event received: {}", chat);
+        requestDeliveries(chat.session(), chat.request());
+    }
 
     private ChatRequest requestDeliveries(ChatSession session,
             ChatRequest chat) {
@@ -45,10 +51,14 @@ public class RequestDeliveryObserver {
 
     private void updateDelivery(Delivery delivery, ChatRequest chat) {
         tryUpdate(chat, locator, delivery::locator);
-        tryUpdate(chat, pickLocation, delivery::pickLocation);
+        tryUpdate(chat, pickAddress, delivery::pickAddress);
+        tryUpdate(chat, pickAddressDetail, delivery::pickAddressDetail);
         tryUpdate(chat, pickSpot, delivery::pickSpot);
         tryUpdate(chat, pickContact, delivery::pickContact);
-        tryUpdate(chat, dropLocation, delivery::dropLocation);
+        tryUpdate(chat, dropAddress, delivery::dropAddress);
+        tryUpdate(chat, dropAddressDetail, delivery::dropAddressDetail);
+        tryUpdate(chat, dropSpot, delivery::dropSpot);
+        tryUpdate(chat, dropContact, delivery::dropContact);
         tryUpdate(chat, deliveryNote, delivery::deliveryNote);
         var _pickTime = chat.getString(pickTime);
         var _pickDate = chat.getString(pickDate);
@@ -67,7 +77,7 @@ public class RequestDeliveryObserver {
     }
 
     private Delivery deliveryOf(DeliveriesRequest request, ChatRequest chat) {
-        var delivery = Delivery.of(request, null, null, null, null, null, null, null);
+        var delivery = Delivery.of(request);
         return delivery;
     }
 

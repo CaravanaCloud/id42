@@ -12,6 +12,7 @@ import id42.service.Service;
 import io.quarkus.runtime.StartupEvent;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
@@ -27,33 +28,24 @@ import static id42.intent.DeliverySlot.locator;
 
 @ApplicationScoped
 public class ChatInteractionService extends Service {
-
     @Inject
-    BeanManager bm;
-
-
-    public void init(@Observes StartupEvent evt) {
-        intentConsumers.put(ID42Intents.RequestDeliveries, this::requestDeliveries);
-    }
+    EntityManager em;
+    @Inject
+    Event<ChatEvent> chatEvent;
 
     @Transactional
     public void accept(ChatRequest chat) {
         var sessionId = chat.sessionId();
         var intent = chat.intent();
-        log.info("Accepting chat on session [{}] witn intent [{}]", sessionId, intent);
+        log().info("Accepting chat on session [{}] witn intent [{}]", sessionId, intent);
         var session = getSession(sessionId);
-        var consumer = intentConsumers.get(intent);
-        if (consumer != null) {
-            log.trace("Consumer found.");
-            consumer.accept(session, chat);
-            bm.fireEvent(chat, null);
-        } else {
-            log.warn("Consumer not found");
-        }
+        var event = ChatEvent.of(session, chat);
+        chatEvent.fire(event);
+        log().trace("Chat event fired: {}", event);
     }
 
     private ChatSession getSession(String sessionId) {
-        log.info("Loading session: {}", sessionId);
+        log().info("Loading session: {}", sessionId);
         var sessions = em.createNamedQuery("ChatSession.bySessionId", ChatSession.class)
                 .setParameter("sessionId", sessionId)
                 .getResultStream()

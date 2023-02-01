@@ -84,7 +84,7 @@ public class ESChat {
                 "¿Con quien recogemos?",
                 0);
 
-        var dropContactSlot = chats.slot("pickContact",
+        var dropContactSlot = chats.slot("dropContact",
                 "Contacto para dejar la entrega",
                 "AMAZON.AlphaNumeric",
                 "Optional",
@@ -137,10 +137,11 @@ public class ESChat {
                 ChatSlotPriority.of("pickAddress", 20),
                 ChatSlotPriority.of("pickAddressDetail", 20),
                 ChatSlotPriority.of("pickSpot", 20),
+                ChatSlotPriority.of("pickContact", 20),
                 ChatSlotPriority.of("dropAddress", 20),
                 ChatSlotPriority.of("dropAddressDetail", 20),
                 ChatSlotPriority.of("dropSpot", 20),
-                ChatSlotPriority.of("pickContact", 20),
+                ChatSlotPriority.of("dropContact", 20),
                 ChatSlotPriority.of("dropLocation", 30),
                 ChatSlotPriority.of("deliveryNote", 40),
                 ChatSlotPriority.of("weekDay", 50)

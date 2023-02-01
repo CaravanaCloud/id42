@@ -51,15 +51,5 @@ public class SlotOverridesES {
         return overrides;
     }
 
-    public static void main(String[] args) {
-            var slot = SlotOverride.of("pickTime",
-                    "(🕐|🕑|🕒|🕓|🕔|🕕|🕖|🕗|🕘|🕙|🕚|🕛)",
-            h -> switch(h){
-                case "🕛"  -> "12:00";
-                default -> h;
-            });
-            var text = "🕛 de la noche en Habana, Cuba";
-            var out = slot.transform(text, new HashMap<>());
-            System.out.println(out.outputText());
-    }
+
 }

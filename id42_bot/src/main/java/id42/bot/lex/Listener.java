@@ -162,10 +162,12 @@ public class Listener extends TelegramLongPollingBot {
 
     private Function<Input, ChatRequest> of(Input input) {
         log.info("Input: {}", input);
-        return switch (input.command()) {
-            case "/salve" -> this::salve;
-            default -> this::ask;
-        };
+        switch (input.command()) {
+            case "/salve":
+                return this::salve;
+            default:
+                return this::ask;
+        }
     }
 
     public ChatRequest handleRequest(Input input) {

@@ -76,13 +76,11 @@ public class RequestDeliveryESTest extends ChatTest {
         //TODO: Build list deliveries intent
         var slots = intent.slots();
         var pickContactVal = intent.getString(pickContact);
-        var pickLocationVal = intent.getString(pickLocation);
         var dropLocationVal = intent.getString(dropLocation);
         var pickDateVal = intent.getString(pickDate);
         var pickTimeVal = intent.getString(pickTime);
         assertNotNull(intent);
         assertFalse(pickContactVal.isBlank());
-        assertFalse(pickLocationVal.isBlank());
         assertFalse(dropLocationVal.isBlank());
         assertFalse(pickDateVal.isBlank());
         assertFalse(pickTimeVal.isBlank());

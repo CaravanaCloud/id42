@@ -9,6 +9,7 @@
         <module name="id42_kernel" />
         <module name="id42_bot" />
         <module name="id42_core" />
+        <module name="id42_cdk" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
