@@ -76,7 +76,7 @@ public class Listener extends TelegramLongPollingBot {
         }
     }
 
-    private String toJson(Update update) {
+    String toJson(Update update) {
         String json = null;
         try {
             json = mapper.writeValueAsString(update);
