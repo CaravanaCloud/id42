@@ -45,8 +45,6 @@ public class ChatInteractionServiceTest {
                 this::failDeliveryNotFound);
     }
 
-
-
     void failDeliveryNotFound(){
         fail("Delivery not found");
     }

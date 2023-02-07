@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RequestDeliveryESTest extends ChatTest {
     @Test
     public void testCase0() {
-        var intent = ask("programar entrega");
+        var intent = ask("programar entrega" + "");
         assertNotNull(intent);
         assertEquals(PARTIAL, intent.state());
     }
@@ -26,6 +26,8 @@ public class RequestDeliveryESTest extends ChatTest {
         assertNotNull(slots);
         assertEquals("07:30", chat.getString(pickTime));
         assertEquals("2022-12-22", chat.getString(pickDate));
+
+        assertEquals(PARTIAL, chat.state());
         //TODO: assertEquals("Eric & Benjamin", slots.get("pickContact"));
         //TODO: assertEquals("Jueves", slots.get("weekDay"));
         //TODO: assertEquals("Muntaner 321", slots.get("pickLocation"));
@@ -73,6 +75,8 @@ public class RequestDeliveryESTest extends ChatTest {
         + "\nDia: 2 de enero 2023"
         + "\nHora: 18:00";
         var intent = ask(prompt);
+        
+
         //TODO: Build list deliveries intent
         var slots = intent.slots();
         var pickContactVal = intent.getString(pickContact);

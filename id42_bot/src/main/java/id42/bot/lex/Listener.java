@@ -76,7 +76,7 @@ public class Listener extends TelegramLongPollingBot {
         }
     }
 
-    String toJson(Update update) {
+    public String toJson(Update update) {
         String json = null;
         try {
             json = mapper.writeValueAsString(update);
@@ -112,7 +112,7 @@ public class Listener extends TelegramLongPollingBot {
         return msg;
     }
 
-    private void handleRequest(Message msg) {
+    public void handleRequest(Message msg) {
         log.info("Ingesting message {} by bot: {}", msg.getMessageId(), msg);
         var sessionId = "" + msg.getChatId();
         var inText = msg.getText();
