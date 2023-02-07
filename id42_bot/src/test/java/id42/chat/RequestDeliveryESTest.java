@@ -86,9 +86,9 @@ public class RequestDeliveryESTest extends ChatTest {
         var pickTimeVal = intent.getString(pickTime);
         assertNotNull(intent);
         assertFalse(pickContactVal.isBlank());
-        //TODO: Fix drop location assertFalse(dropLocationVal.isBlank());
-        //TODO: fix pick date assertFalse(pickDateVal.isBlank());
-        //TODO: fix pick time assertFalse(pickTimeVal.isBlank());
+        assertFalse(dropLocationVal.isBlank());
+        assertFalse(pickDateVal.isBlank());
+        assertFalse(pickTimeVal.isBlank());
     }
 
     @Test
