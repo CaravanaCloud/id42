@@ -24,6 +24,9 @@ public class Delivery extends PanacheEntity {
     @Enumerated(STRING)
     DeliveryState state;
 
+    @Enumerated(STRING)
+    ValidationState validationState;
+
     LocalDateTime createTime;
 
     LocalDateTime pickTime;
@@ -31,6 +34,7 @@ public class Delivery extends PanacheEntity {
     String pickAddress;
     String pickAddressDetail;
     String pickSpot;
+
     @ManyToOne
     Contact pickContact;
 
