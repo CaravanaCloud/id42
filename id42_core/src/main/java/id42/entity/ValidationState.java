@@ -1,7 +1,7 @@
 package id42.entity;
 
 public enum ValidationState {
+    NEW,
     VALID,
-    MISSING_PARAMETERS
-
+    INVALID
 }

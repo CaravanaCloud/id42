@@ -80,6 +80,8 @@ public class Delivery extends PanacheEntity {
         this.dropContact=null;
         this.deliveryNote=null;
         this.updateTime=null;
+        this.validationState  = ValidationState.NEW;
+        this.state = DeliveryState.created;
     }
 
     //TODO: Review factory methos

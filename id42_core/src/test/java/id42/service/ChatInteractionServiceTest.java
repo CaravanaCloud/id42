@@ -2,6 +2,7 @@ package id42.service;
 
 import id42.chat.ChatRequest;
 import id42.entity.DeliveryState;
+import id42.entity.ValidationState;
 import id42.service.chat.ChatInteractionService;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
@@ -88,11 +89,11 @@ public class ChatInteractionServiceTest {
         var msgN = (ChatRequest) null; // "consultar entrega con localizador 1234"; //TODO: converter pra ChatRequest correspondete
         var delivery = (Object) null; // chatService.accept(msg0); //TODO: Julio: Refactor accept() to return data
         var state = (Object) null;
-        var validaton = (ValidationState) null;
-        
+        var validation = (ValidationState) null;
+
         //then
         assertEquals(DeliveryState.created, state);
-        assertEquals(ValidateionState.MISSING_PARAMETERS, validation);
+        assertEquals(ValidationState.INVALID, validation);
     }
 
     void failDeliveryNotFound(){

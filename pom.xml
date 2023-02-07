@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>id42</groupId>
+    <artifactId>id42</artifactId>
+    <version>1.13.0</version>
+    <packaging>pom</packaging>
+
+    <name>ID42</name>
+    <description>Next-gen delivery app</description>
+
+    <modules>
+        <module>id42_kernel</module>
+        <module>id42_core</module>
+        <module>id42_bot</module>
+        <module>id42_cdk</module>
+    </modules>
+
+    <dependencies>
+        <!-- Add common dependencies for all modules -->
+    </dependencies>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+        <plugins>
+            <!-- Add build plugins common to all modules -->
+        </plugins>
+    </build>
+</project>
