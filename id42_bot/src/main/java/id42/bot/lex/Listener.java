@@ -6,7 +6,7 @@ import id42.Identity;
 import id42.chat.ChatRequest;
 import id42.chat.SlotKey;
 import id42.service.TelegramService;
-import id42.service.chat.ChatInteractionService;
+import id42.service.chat.ChatService;
 
 import org.slf4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -47,7 +47,7 @@ public class Listener extends TelegramLongPollingBot {
     SlotOverrides slots;
 
     @Inject
-    ChatInteractionService chatService;
+    ChatService chatService;
 
     @Override
     public String getBotUsername() {

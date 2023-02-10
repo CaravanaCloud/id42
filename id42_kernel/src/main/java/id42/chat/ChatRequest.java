@@ -140,7 +140,11 @@ public class ChatRequest {
         return this;
     }
 
-    public Object get(SlotKey key) {
-        return slots.get(key);
+    public <T> T get(SlotKey key, Class<T> type) {
+        var val = slots.get(key);
+        if (! type.isInstance(val)){
+            throw new IllegalArgumentException("Slot " + key + " is not a " + type.getName());
+        }
+        return (T) val;
     }
 }

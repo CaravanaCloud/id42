@@ -1,9 +1,11 @@
 package id42.service;
 
 import id42.chat.ChatRequest;
+import id42.chat.Slots;
+import id42.entity.Delivery;
 import id42.entity.DeliveryState;
 import id42.entity.ValidationState;
-import id42.service.chat.ChatInteractionService;
+import id42.service.chat.ChatService;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @QuarkusTest
 public class ChatInteractionServiceTest {
     @Inject
-    ChatInteractionService chatService;
+    ChatService chatService;
 
     @Inject
     DeliveryService deliveryService;
@@ -64,12 +66,20 @@ public class ChatInteractionServiceTest {
         chatService.accept(msg0);
 
         //when
-        var msgN = (ChatRequest) null; // "consultar entrega con localizador 1234"; //TODO: converter pra ChatRequest correspondete
-        var delivery = (Object) null; // chatService.accept(msg0); //TODO: Julio: Refactor accept() to return data
-        var state = (Object) null;
+        var request = (ChatRequest) ChatRequest.of(RequestDeliveries)
+                .put(locator, UUID.randomUUID().toString())
+                .put(pickDate, "2020-01-01")
+                .put(pickTime, "08:00")
+                .put(pickAddress, "Av. Diagonal 123")
+                .put(dropAddress, "Av. Diagonal 321");
+        var response = chatService.accept(request);
+        var delivery = response.get(Slots.delivery, Delivery.class);
+        var state = delivery.state();
+        var validation = delivery.validation();
         
         //then
         assertEquals(DeliveryState.requested, state);
+        assertEquals(ValidationState.valid, validation);
     }
 
     public void testRequestDeliveryChatWithInsufficientData(){
@@ -93,7 +103,7 @@ public class ChatInteractionServiceTest {
 
         //then
         assertEquals(DeliveryState.created, state);
-        assertEquals(ValidationState.INVALID, validation);
+        assertEquals(ValidationState.invalid, validation);
     }
 
     void failDeliveryNotFound(){

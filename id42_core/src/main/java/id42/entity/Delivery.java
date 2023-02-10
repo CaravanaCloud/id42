@@ -80,7 +80,7 @@ public class Delivery extends PanacheEntity {
         this.dropContact=null;
         this.deliveryNote=null;
         this.updateTime=null;
-        this.validationState  = ValidationState.NEW;
+        this.validationState  = ValidationState.nil;
         this.state = DeliveryState.created;
     }
 
@@ -198,5 +198,13 @@ public class Delivery extends PanacheEntity {
 
     public String pickAddress() {
         return pickAddress;
+    }
+
+    public DeliveryState state() {
+        return state;
+    }
+
+    public ValidationState validation() {
+        return validationState;
     }
 }
