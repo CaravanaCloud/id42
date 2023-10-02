@@ -1,1 +1,0 @@
-# export DOCKER_HOST='unix:///home/faermanj/.local/share/containers/podman/machine/podman-machine-default/podman.sock'

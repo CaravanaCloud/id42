@@ -1,0 +1,78 @@
+# sam deploy --resolve-s3 --stack-name id42-api --capabilities CAPABILITY_IAM
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Quarkus HTTP
+
+Globals:
+  Function:
+    Runtime: java11
+    Timeout: 180
+    Environment:
+      Variables:
+        QUARKUS_DATASOURCE_USERNAME: !Sub "{{resolve:ssm:/${DatabaseStackName}-DBMasterUsername}}"
+        QUARKUS_DATASOURCE_PASSWORD: !Sub "{{resolve:ssm:/${DatabaseStackName}-DBMasterPassword}}"
+        QUARKUS_DATASOURCE_JDBC_URL: !Sub "{{resolve:ssm:/${DatabaseStackName}-JDBCURL}}"
+        QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION: "update"
+
+  Api:
+    EndpointConfiguration: REGIONAL
+    BinaryMediaTypes:
+      - "application/*"
+      - "image/*"
+
+Parameters:
+  NetworkStackName:
+    Type: String
+    Default: "network-stack"
+  DatabaseStackName:
+    Type: String
+    Default: "database-stack"
+
+Resources:
+  FunctionSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security Group for Function"
+      VpcId:
+        Fn::ImportValue:
+          !Sub "${NetworkStackName}-VPC"
+      Tags:
+        - Key: Name
+          Value: !Sub '${AWS::StackName}-FunctionSecurityGroup'
+
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
+      MemorySize: 1024
+      CodeUri: target/function.zip
+      Policies: AWSLambdaBasicExecutionRole
+      SnapStart:
+        ApplyOn : PublishedVersions
+      Events:
+        HttpApiEvent:
+          Type: HttpApi
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref FunctionSecurityGroup
+        SubnetIds:
+          - Fn::ImportValue:
+              !Sub "${NetworkStackName}-PrivateSubnet0"
+          - Fn::ImportValue:
+              !Sub "${NetworkStackName}-PrivateSubnet1"
+          - Fn::ImportValue:
+              !Sub "${NetworkStackName}-PrivateSubnet2"
+
+Outputs:
+  FunctionApi:
+    Description: URL for application
+    Value:
+      Fn::Join:
+        - ''
+        - - 'https://'
+          - Ref: 'ServerlessHttpApi'
+          - '.execute-api.'
+          - Ref: 'AWS::Region'
+          - '.amazonaws.com/'
+    Export:
+      Name: FunctionApi

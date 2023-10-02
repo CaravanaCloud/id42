@@ -1,6 +1,16 @@
-# id42
+# ID42
 
-Next-gen delivery app
-happy new year :)
-Join the fun!
- 
+App for bicycle messengers and urban cyclists, featuring:
+
+* Show friends on map
+  /get-map (get)
+  /list-friends (get)
+  /... 
+  
+* Ask for help 
+  /request-help (post)
+
+* Plan route?
+* ?
+
+

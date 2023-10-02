@@ -1,78 +1,63 @@
-# sam deploy --resolve-s3 --stack-name id42-api --capabilities CAPABILITY_IAM
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: AWS Serverless Quarkus HTTP
+Description: >
+  id42_api
 
-Globals:
+  Powertools example
+
+Globals: # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-template-anatomy-globals.html
   Function:
-    Runtime: java11
-    Timeout: 180
-    Environment:
-      Variables:
-        QUARKUS_DATASOURCE_USERNAME: !Sub "{{resolve:ssm:/${DatabaseStackName}-DBMasterUsername}}"
-        QUARKUS_DATASOURCE_PASSWORD: !Sub "{{resolve:ssm:/${DatabaseStackName}-DBMasterPassword}}"
-        QUARKUS_DATASOURCE_JDBC_URL: !Sub "{{resolve:ssm:/${DatabaseStackName}-JDBCURL}}"
-        QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION: "update"
-
+    Timeout: 5
+    MemorySize: 128
+    Runtime: python3.11
+    Tracing: Active
   Api:
-    EndpointConfiguration: REGIONAL
-    BinaryMediaTypes:
-      - "application/*"
-      - "image/*"
-
-Parameters:
-  NetworkStackName:
-    Type: String
-    Default: "network-stack"
-  DatabaseStackName:
-    Type: String
-    Default: "database-stack"
+    TracingEnabled: true
 
 Resources:
-  FunctionSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function     # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
     Properties:
-      GroupDescription: "Security Group for Function"
-      VpcId:
-        Fn::ImportValue:
-          !Sub "${NetworkStackName}-VPC"
-      Tags:
-        - Key: Name
-          Value: !Sub '${AWS::StackName}-FunctionSecurityGroup'
-
-  Function:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: io.quarkus.amazon.lambda.runtime.QuarkusStreamHandler::handleRequest
-      MemorySize: 1024
-      CodeUri: target/function.zip
-      Policies: AWSLambdaBasicExecutionRole
-      SnapStart:
-        ApplyOn : PublishedVersions
+      Handler: app.lambda_handler
+      CodeUri: id42
+      Description: Hello World function
+      Architectures:
+      - x86_64
+      Tracing: Active
       Events:
-        HttpApiEvent:
-          Type: HttpApi
-      VpcConfig:
-        SecurityGroupIds:
-          - !Ref FunctionSecurityGroup
-        SubnetIds:
-          - Fn::ImportValue:
-              !Sub "${NetworkStackName}-PrivateSubnet0"
-          - Fn::ImportValue:
-              !Sub "${NetworkStackName}-PrivateSubnet1"
-          - Fn::ImportValue:
-              !Sub "${NetworkStackName}-PrivateSubnet2"
+        HelloPath:
+          Type: Api           # More info about API Event Source: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-function-api.html
+          Properties:
+            Path: /hello
+            Method: GET
+             # Powertools env vars: https://awslabs.github.io/aws-lambda-powertools-python/#environment-variables
+      Environment:
+        Variables:
+          POWERTOOLS_SERVICE_NAME: PowertoolsHelloWorld
+          POWERTOOLS_METRICS_NAMESPACE: Powertools
+          LOG_LEVEL: INFO
+      Tags:
+        LambdaPowertools: python
 
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
 Outputs:
-  FunctionApi:
-    Description: URL for application
-    Value:
-      Fn::Join:
-        - ''
-        - - 'https://'
-          - Ref: 'ServerlessHttpApi'
-          - '.execute-api.'
-          - Ref: 'AWS::Region'
-          - '.amazonaws.com/'
-    Export:
-      Name: FunctionApi
+  HelloWorldApi:
+    Description: API Gateway endpoint URL for Prod environment for Hello World Function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello"
+
+  HelloWorldFunction:
+    Description: Hello World Lambda Function ARN
+    Value: !GetAtt HelloWorldFunction.Arn
+

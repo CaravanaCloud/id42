@@ -1,0 +1,9 @@
+[
+ {
+  "op": "add",
+  "path": "/ValueTypes/AWS::GameLift::Fleet.EC2InstanceType/AllowedValues",
+  "value": [
+   "c3.large"
+  ]
+ }
+]
